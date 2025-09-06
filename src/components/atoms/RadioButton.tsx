@@ -66,11 +66,7 @@ export default function RadioButton({
   };
 
   return (
-    <Pressable
-      hitSlop={{ top: 15, left: 15, right: 15, bottom: 15 }}
-      style={styles.pressable}
-      onPress={handlePress}
-    >
+    <Pressable hitSlop={15} style={styles.pressable} onPress={handlePress}>
       <View style={[styles.container, containerStyle]}>
         <View
           style={[
@@ -101,7 +97,7 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderRadius: 50,
-    borderWidth: 1,
+    borderWidth: 1.5,
     justifyContent: "center",
     alignItems: "center",
   },

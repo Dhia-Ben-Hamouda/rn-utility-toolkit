@@ -30,3 +30,8 @@ export declare const SCREEN_WIDTH: number;
 export declare const SCREEN_HEIGHT: number;
 export declare const isIos: boolean;
 export declare const isAndroid: boolean;
+export declare enum Languages {
+    EN = "en",
+    FR = "fr",
+    AR = "ar"
+}

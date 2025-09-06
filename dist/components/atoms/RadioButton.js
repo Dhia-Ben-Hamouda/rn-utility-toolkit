@@ -56,7 +56,7 @@ function RadioButton({ label, onChange, value, activeValue, labelStyle, color = 
     const handlePress = () => {
         onChange && onChange(value);
     };
-    return (<react_native_1.Pressable hitSlop={{ top: 15, left: 15, right: 15, bottom: 15 }} style={styles.pressable} onPress={handlePress}>
+    return (<react_native_1.Pressable hitSlop={15} style={styles.pressable} onPress={handlePress}>
       <react_native_1.View style={[styles.container, containerStyle]}>
         <react_native_1.View style={[
             styles.radioContainer,
@@ -83,7 +83,7 @@ const styles = react_native_1.StyleSheet.create({
         width: 20,
         height: 20,
         borderRadius: 50,
-        borderWidth: 1,
+        borderWidth: 1.5,
         justifyContent: "center",
         alignItems: "center",
     },

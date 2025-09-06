@@ -5,8 +5,6 @@ import {
   ViewStyle,
 } from "react-native";
 import { WithTimingConfig } from "react-native-reanimated";
-import { sizes } from "../theme/sizes";
-import { colors } from "../theme/colors";
 
 export interface CheckboxProps {
   isChecked: boolean;
@@ -181,72 +179,3 @@ export interface FlipCardProps {
   backCard: React.ReactNode;
   containerStyle?: StyleProp<ViewStyle>;
 }
-
-export type Size = (typeof sizes)[number];
-export type Direction =
-  | "Top"
-  | "Right"
-  | "Bottom"
-  | "Left"
-  | "Horizontal"
-  | "Vertical"
-  | "Start"
-  | "End"
-  | "";
-export type Property = "margin" | "padding";
-
-export type GutterKey = `${Property}${Direction}${Size}`;
-export type GutterValue = {
-  [key in `${Property}${Direction}`]: number;
-};
-
-export type Gutters = {
-  [key in GutterKey]: GutterValue;
-};
-
-export type Color = keyof typeof colors;
-
-export type Weight = "Thin" | "Regular" | "Light" | "Bold" | "Black";
-export type FontKeys =
-  | `${Color}`
-  | `size${Size}`
-  | `line${Size}`
-  | `lato${Weight}`;
-
-export type Fonts = {
-  center: TextStyle;
-  left: TextStyle;
-  right: TextStyle;
-  justify: TextStyle;
-  underline: TextStyle;
-} & {
-  [key in FontKeys]: TextStyle;
-};
-
-export type Backgrounds = {
-  [key in Color]: {
-    backgroundColor: string;
-  };
-};
-
-export type Corners =
-  | "TopRight"
-  | "BottomRight"
-  | "BottomLeft"
-  | "TopLeft"
-  | "";
-
-export type BorderKey =
-  | `${"rounded"}${Corners}${Size}`
-  | `${Color}`
-  | `width${Size}`;
-
-export type Borders = {
-  [key in BorderKey]: ViewStyle;
-};
-
-export type GapKeys = "gap" | "columnGap" | "rowGap";
-
-export type Gaps = {
-  [key in `${GapKeys}${Size}`]: ViewStyle;
-};
