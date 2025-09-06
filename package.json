@@ -1,10 +1,9 @@
 {
   "name": "rn-utility-toolkit",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "commit": "npx git-cz",
     "build": "tsc"
   },
@@ -34,5 +33,9 @@
   ],
   "author": "Dhia Ben Hamouda",
   "license": "MIT",
-  "description": "a package which contains utilities for both react native and react js"
+  "description": "a package which contains utilities for both react native and react js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit"
+  }
 }

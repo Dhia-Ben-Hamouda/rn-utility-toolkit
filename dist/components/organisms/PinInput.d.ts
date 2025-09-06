@@ -13,5 +13,9 @@ interface IPinInput {
     secureTextEntry?: boolean;
     shouldOnlyAcceptNumbers?: boolean;
 }
-export default function PinInput({ pinLength, blinkingSpeed, onChange, value, cursorColor, activePinStyle, pinStyle, containerStyle, secureTextEntry, shouldOnlyAcceptNumbers, }: IPinInput): React.JSX.Element;
-export {};
+interface IPinInputRef {
+    focus: () => void;
+    blur: () => void;
+}
+declare const _default: React.ForwardRefExoticComponent<IPinInput & React.RefAttributes<IPinInputRef>>;
+export default _default;

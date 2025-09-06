@@ -1,4 +1,4 @@
-import { Platform } from "react-native";
+import { Dimensions, Platform } from "react-native";
 
 export function hexToRgba(hex: string, opacity: number) {
   hex = hex?.replace(/^#/, "");
@@ -50,3 +50,9 @@ export function formatAmountByCurrency(amount: number, currency: string) {
     maximumFractionDigits: 0,
   }).format(amount);
 }
+
+export const SCREEN_WIDTH = Dimensions.get("screen").width;
+export const SCREEN_HEIGHT = Dimensions.get("screen").height;
+
+export const isIos = Platform.OS === "ios";
+export const isAndroid = Platform.OS === "android";

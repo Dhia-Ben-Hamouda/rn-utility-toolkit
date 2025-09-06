@@ -33,20 +33,30 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = PinInput;
 const react_1 = __importStar(require("react"));
+const react_2 = require("react");
 const react_native_1 = require("react-native");
 const react_native_reanimated_1 = __importStar(require("react-native-reanimated"));
 const DEFAULT_PIN_LENGTH = 6;
 const DEFAULT_BLINKING_SPEED = 500;
 const DEFAULT_CURSOR_COLOR = "#555";
 const DEFAULT_FOCUSED_PIN_BORDER_COLOR = "#555";
-function PinInput({ pinLength = DEFAULT_PIN_LENGTH, blinkingSpeed = DEFAULT_BLINKING_SPEED, onChange, value, cursorColor, activePinStyle, pinStyle, containerStyle, secureTextEntry = false, shouldOnlyAcceptNumbers = true, }) {
+exports.default = react_1.default.forwardRef(({ pinLength = DEFAULT_PIN_LENGTH, blinkingSpeed = DEFAULT_BLINKING_SPEED, onChange, value, cursorColor, activePinStyle, pinStyle, containerStyle, secureTextEntry = false, shouldOnlyAcceptNumbers = true, }, ref) => {
     var _a;
-    const textInputRef = (0, react_1.useRef)(null);
+    const textInputRef = (0, react_2.useRef)(null);
     const isCursorBlinking = (0, react_native_reanimated_1.useSharedValue)(0);
-    const [isFocused, setIsFocused] = (0, react_1.useState)(false);
-    (0, react_1.useEffect)(() => {
+    const [isFocused, setIsFocused] = (0, react_2.useState)(false);
+    (0, react_1.useImperativeHandle)(ref, () => ({
+        blur: () => {
+            var _a;
+            (_a = textInputRef === null || textInputRef === void 0 ? void 0 : textInputRef.current) === null || _a === void 0 ? void 0 : _a.blur();
+        },
+        focus: () => {
+            var _a;
+            (_a = textInputRef === null || textInputRef === void 0 ? void 0 : textInputRef.current) === null || _a === void 0 ? void 0 : _a.focus();
+        },
+    }));
+    (0, react_2.useEffect)(() => {
         const interval = setInterval(() => {
             isCursorBlinking.value = (0, react_native_reanimated_1.withTiming)(isCursorBlinking.value ? 0 : 1);
         }, blinkingSpeed);
@@ -67,7 +77,7 @@ function PinInput({ pinLength = DEFAULT_PIN_LENGTH, blinkingSpeed = DEFAULT_BLIN
             var _a;
             (_a = textInputRef.current) === null || _a === void 0 ? void 0 : _a.focus();
         }}>
-      <react_native_1.TextInput autoFocus={false} keyboardType="number-pad" maxLength={pinLength} value={value} style={[styles.input]} ref={textInputRef} onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)} onChangeText={(newValue) => {
+        <react_native_1.TextInput autoFocus={false} keyboardType="number-pad" maxLength={pinLength} value={value} style={[styles.input]} ref={textInputRef} onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)} onChangeText={(newValue) => {
             if ((newValue === null || newValue === void 0 ? void 0 : newValue.length) > pinLength) {
                 return;
             }
@@ -76,8 +86,8 @@ function PinInput({ pinLength = DEFAULT_PIN_LENGTH, blinkingSpeed = DEFAULT_BLIN
             }
             onChange && onChange(newValue);
         }}/>
-      <react_native_1.View style={[styles.container, containerStyle]}>
-        {(_a = Array.from({ length: pinLength })) === null || _a === void 0 ? void 0 : _a.map((_, index) => {
+        <react_native_1.View style={[styles.container, containerStyle]}>
+          {(_a = Array.from({ length: pinLength })) === null || _a === void 0 ? void 0 : _a.map((_, index) => {
             const isActivePin = index === (value === null || value === void 0 ? void 0 : value.length);
             return (<react_native_1.View key={index} style={[
                     styles.pinItem,
@@ -85,12 +95,12 @@ function PinInput({ pinLength = DEFAULT_PIN_LENGTH, blinkingSpeed = DEFAULT_BLIN
                     isActivePin &&
                         isFocused && Object.assign({ borderColor: DEFAULT_FOCUSED_PIN_BORDER_COLOR, borderWidth: 1 }, activePinStyle),
                 ]}>
-              {value[index] ? (secureTextEntry ? (<react_native_1.View style={[styles.dot]}/>) : (<react_native_1.Text style={[styles.pinText]}>{value[index]}</react_native_1.Text>)) : isActivePin && isFocused ? (<react_native_reanimated_1.default.View style={[animatedCursorStyle]}/>) : null}
-            </react_native_1.View>);
+                {value[index] ? (secureTextEntry ? (<react_native_1.View style={[styles.dot]}/>) : (<react_native_1.Text style={[styles.pinText]}>{value[index]}</react_native_1.Text>)) : isActivePin && isFocused ? (<react_native_reanimated_1.default.View style={[animatedCursorStyle]}/>) : null}
+              </react_native_1.View>);
         })}
-      </react_native_1.View>
-    </react_native_1.Pressable>);
-}
+        </react_native_1.View>
+      </react_native_1.Pressable>);
+});
 const styles = react_native_1.StyleSheet.create({
     container: {
         flexDirection: "row",
