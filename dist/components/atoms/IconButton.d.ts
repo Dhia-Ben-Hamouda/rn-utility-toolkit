@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleProp, ViewStyle } from "react-native";
-interface IIconButon {
+interface IIconButton {
     icon?: React.ReactNode;
     containerStyle?: StyleProp<ViewStyle>;
     onPress?: () => void;
@@ -8,5 +8,5 @@ interface IIconButon {
     customHitSlop?: number;
     color?: string;
 }
-export default function IconButton({ icon, onPress, containerStyle, customHitSlop, isOutlined, color, }: IIconButon): React.JSX.Element;
+export default function IconButton({ icon, onPress, containerStyle, customHitSlop, isOutlined, color, }: IIconButton): React.JSX.Element;
 export {};

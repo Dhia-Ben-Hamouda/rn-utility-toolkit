@@ -8,7 +8,7 @@ import {
 
 const DEFAULT_BUTTON_COLOR = "#555";
 
-interface IIconButon {
+interface IIconButton {
   icon?: React.ReactNode;
   containerStyle?: StyleProp<ViewStyle>;
   onPress?: () => void;
@@ -24,7 +24,7 @@ export default function IconButton({
   customHitSlop,
   isOutlined,
   color = DEFAULT_BUTTON_COLOR,
-}: IIconButon) {
+}: IIconButton) {
   return (
     <>
       <TouchableOpacity

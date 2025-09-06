@@ -134,7 +134,7 @@ export default function Carousel<T>({
   });
 
   return (
-    <View style={[outerContainerStyle]}>
+    <View style={outerContainerStyle}>
       <Animated.FlatList
         onScroll={onScroll}
         showsHorizontalScrollIndicator={false}

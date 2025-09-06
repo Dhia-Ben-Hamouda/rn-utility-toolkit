@@ -96,7 +96,7 @@ function Carousel(_a) {
             }
         },
     });
-    return (<react_native_1.View style={[outerContainerStyle]}>
+    return (<react_native_1.View style={outerContainerStyle}>
       <react_native_reanimated_1.default.FlatList onScroll={onScroll} showsHorizontalScrollIndicator={false} pagingEnabled horizontal data={data} renderItem={renderItem} viewabilityConfigCallbackPairs={viewabilitConfigCallbackPairsRef.current} {...rest}/>
       {showDots && offset && (<react_native_1.View style={[styles.dotsContainer, dotsContainerStyle]}>
           {data === null || data === void 0 ? void 0 : data.map((_, index) => (<AnimatedDot key={index} dotColor={dotColor} activeDotColor={activeDotColor} index={index} offset={offset} activeDotWidth={activeDotWidth} dotStyle={dotStyle} dotWidth={dotWidth}/>))}

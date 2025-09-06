@@ -1,10 +1,16 @@
+import { PropsWithChildren, SetStateAction } from "react";
 import {
   ImageSourcePropType,
+  ListRenderItem,
+  ModalProps as NativeModalProps,
   StyleProp,
   TextStyle,
   ViewStyle,
 } from "react-native";
-import { WithTimingConfig } from "react-native-reanimated";
+import Animated, {
+  SharedValue,
+  WithTimingConfig,
+} from "react-native-reanimated";
 
 export interface CheckboxProps {
   isChecked: boolean;
@@ -178,4 +184,56 @@ export interface FlipCardProps {
   frontCard: React.ReactNode;
   backCard: React.ReactNode;
   containerStyle?: StyleProp<ViewStyle>;
+}
+
+export interface IconButtonProps {
+  icon?: React.ReactNode;
+  containerStyle?: StyleProp<ViewStyle>;
+  onPress?: () => void;
+  isOutlined?: boolean;
+  customHitSlop?: number;
+  color?: string;
+}
+
+export interface ChipProps {
+  value: string;
+  activeValue: string;
+  setActiveValue: React.Dispatch<SetStateAction<string>>;
+  containerStyle?: StyleProp<ViewStyle>;
+  labelStyle?: StyleProp<TextStyle>;
+  startPicture?: ImageSourcePropType;
+  activeChipBackgroundColor?: string;
+  chipBackgroundColor?: string;
+  activeChipTextColor?: string;
+  chipTextColor?: string;
+}
+
+export interface ModalProps extends PropsWithChildren, NativeModalProps {
+  isOpen: boolean;
+  setIsOpen?: React.Dispatch<SetStateAction<boolean>>;
+}
+
+export interface CarouselProps<T> extends Partial<Animated.FlatList<T>> {
+  data: Array<T>;
+  renderItem: ListRenderItem<T>;
+  offset?: SharedValue<number>;
+  outerContainerStyle?: StyleProp<ViewStyle>;
+  dotsContainerStyle?: StyleProp<ViewStyle>;
+  activeDotColor?: string;
+  dotColor?: string;
+  activeDotWidth?: number;
+  dotStyle?: StyleProp<ViewStyle>;
+  dotWidth?: number;
+  showDots?: boolean;
+  onChange?: (newIndex: number) => void;
+}
+
+export interface SwipeableAction {
+  icon: React.ReactNode;
+  onPress: () => void;
+}
+
+export interface SwipeableProps extends PropsWithChildren {
+  containerStyle?: StyleProp<ViewStyle>;
+  actions?: Array<SwipeableAction>;
 }
