@@ -1,5 +1,5 @@
 import { PropsWithChildren, SetStateAction } from "react";
-import { ImageSourcePropType, ModalProps as NativeModalProps, StyleProp, TextStyle, ViewStyle } from "react-native";
+import { ImageSourcePropType, StyleProp, TextStyle, ViewStyle } from "react-native";
 import Animated, { SharedValue, WithTimingConfig } from "react-native-reanimated";
 export interface CheckboxProps {
     isChecked: boolean;
@@ -128,8 +128,11 @@ export interface PinInputProps {
     blinkingSpeed?: number;
     cursorColor?: string;
     containerStyle?: StyleProp<ViewStyle>;
-    pinStyle?: StyleProp<ViewStyle>;
-    activePinStyle?: ViewStyle;
+    pinContainerStyle?: StyleProp<ViewStyle>;
+    activePinContainerStyle?: ViewStyle;
+    cursorStyle?: StyleProp<ViewStyle>;
+    pinTextStyle?: StyleProp<TextStyle>;
+    secureDotStyle?: StyleProp<ViewStyle>;
     showCursor?: boolean;
     secureTextEntry?: boolean;
     shouldOnlyAcceptNumbers?: boolean;
@@ -180,9 +183,11 @@ export interface ChipProps {
     activeChipTextColor?: string;
     chipTextColor?: string;
 }
-export interface ModalProps extends PropsWithChildren, NativeModalProps {
+export interface ModalProps extends PropsWithChildren {
     isOpen: boolean;
     setIsOpen?: React.Dispatch<SetStateAction<boolean>>;
+    overlayStyle?: StyleProp<ViewStyle>;
+    containerStyle?: StyleProp<ViewStyle>;
 }
 export interface CarouselProps<T> extends Partial<Animated.FlatList<T>> {
     data: Array<T>;
@@ -200,6 +205,7 @@ export interface CarouselProps<T> extends Partial<Animated.FlatList<T>> {
     dotWidth?: number;
     showDots?: boolean;
     onChange?: (newIndex: number) => void;
+    dotOffsetMultiplier: number;
 }
 export interface SwipeableAction {
     icon: React.ReactNode;

@@ -47,7 +47,7 @@ export default function Checkbox({
   onChange,
   size = 20,
   label,
-  color = "#555",
+  color = "#333",
   checkColor = "#fff",
   customCheckIcon,
   containerStyle,
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   label: {
     marginLeft: 8,
     fontSize: 16,
-    color: "#555",
+    color: "#333",
   },
   pressable: {
     alignSelf: "flex-start",

@@ -17,6 +17,7 @@ interface ICarousel<T> extends Partial<Animated.FlatList<T>> {
     dotWidth?: number;
     showDots?: boolean;
     onChange?: (newIndex: number) => void;
+    dotOffsetMultiplier?: number;
 }
-export default function Carousel<T>({ data, renderItem: customRenderItem, containerStyle, dotsContainerStyle, activeDotColor, dotColor, activeDotWidth, dotWidth, dotStyle, showDots, onChange, ...rest }: ICarousel<T>): React.JSX.Element;
+export default function Carousel<T>({ data, renderItem: customRenderItem, containerStyle, dotsContainerStyle, activeDotColor, dotColor, activeDotWidth, dotWidth, dotStyle, showDots, onChange, dotOffsetMultiplier, ...rest }: ICarousel<T>): React.JSX.Element;
 export {};

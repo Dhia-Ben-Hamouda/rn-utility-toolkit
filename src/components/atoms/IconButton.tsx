@@ -6,7 +6,7 @@ import {
   ViewStyle,
 } from "react-native";
 
-const DEFAULT_BUTTON_COLOR = "#555";
+const DEFAULT_BUTTON_COLOR = "#333";
 
 interface IIconButton {
   icon?: React.ReactNode;

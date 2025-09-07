@@ -1,27 +1,31 @@
 import React, { PropsWithChildren, SetStateAction } from "react";
 import {
-  ModalProps,
   Modal as NativeModal,
   Platform,
   Pressable,
+  StyleProp,
   StyleSheet,
+  ViewStyle,
 } from "react-native";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../utils";
 
-interface IModal extends PropsWithChildren, ModalProps {
+interface IModal extends PropsWithChildren {
   isOpen: boolean;
   setIsOpen?: React.Dispatch<SetStateAction<boolean>>;
+  overlayStyle?: StyleProp<ViewStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
 }
 
 export default function Modal({
   isOpen,
   setIsOpen,
+  containerStyle,
+  overlayStyle,
   children,
-  ...rest
 }: IModal) {
   return (
     <>
-      <NativeModal transparent animationType="fade" visible={isOpen} {...rest}>
+      <NativeModal transparent animationType="fade" visible={isOpen}>
         <Pressable
           onPress={() => {
             if (Platform.OS === "android") {
@@ -35,13 +39,13 @@ export default function Modal({
                 setIsOpen && setIsOpen(false);
               }
             }}
-            style={styles.overlay}
+            style={[styles.overlay, overlayStyle]}
           >
             <Pressable
               onPress={(e) => {
                 e.stopPropagation();
               }}
-              style={styles.container}
+              style={[styles.container, containerStyle]}
             >
               {children}
             </Pressable>

@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = IconButton;
 const react_1 = __importDefault(require("react"));
 const react_native_1 = require("react-native");
-const DEFAULT_BUTTON_COLOR = "#555";
+const DEFAULT_BUTTON_COLOR = "#333";
 function IconButton({ icon, onPress, containerStyle, customHitSlop, isOutlined, color = DEFAULT_BUTTON_COLOR, }) {
     return (<>
       <react_native_1.TouchableOpacity onPress={onPress} hitSlop={customHitSlop} style={[

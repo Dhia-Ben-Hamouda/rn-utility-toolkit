@@ -24,7 +24,7 @@ function Button({ children, containerStyle, gradientWrapperStyle, textStyle, isD
             ]} onPress={handlePress} disabled={isLoading || (isDisabled !== null && isDisabled !== void 0 ? isDisabled : false)}>
           {isLoading && <react_native_1.ActivityIndicator color={activityIndicatorColor}/>}
           {startIcon}
-          <react_native_1.Text style={[styles.label, isOutlined && { color: "#555" }, textStyle]}>
+          <react_native_1.Text style={[styles.label, isOutlined && { color: "#333" }, textStyle]}>
             {children}
           </react_native_1.Text>
           {endIcon}
@@ -44,7 +44,7 @@ function Button({ children, containerStyle, gradientWrapperStyle, textStyle, isD
         ]}>
       {startIcon}
       {isLoading && <react_native_1.ActivityIndicator color={activityIndicatorColor}/>}
-      <react_native_1.Text style={[styles.label, isOutlined && { color: "#555" }, textStyle]}>
+      <react_native_1.Text style={[styles.label, isOutlined && { color: "#333" }, textStyle]}>
         {children}
       </react_native_1.Text>
       {endIcon}
@@ -55,7 +55,7 @@ const styles = react_native_1.StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#555",
+        backgroundColor: "#333",
         padding: 16,
         borderRadius: 5,
         gap: 8,

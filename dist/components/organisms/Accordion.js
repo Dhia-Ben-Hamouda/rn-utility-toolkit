@@ -133,7 +133,7 @@ const styles = react_native_1.StyleSheet.create({
         color: "#fff",
     },
     header: {
-        backgroundColor: "#555",
+        backgroundColor: "#333",
         paddingHorizontal: 16,
         paddingVertical: 12,
         flexDirection: "row",

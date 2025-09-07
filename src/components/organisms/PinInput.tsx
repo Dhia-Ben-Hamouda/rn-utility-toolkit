@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TextStyle,
   View,
   ViewStyle,
 } from "react-native";
@@ -29,8 +30,11 @@ interface IPinInput {
   blinkingSpeed?: number;
   cursorColor?: string;
   containerStyle?: StyleProp<ViewStyle>;
-  pinStyle?: StyleProp<ViewStyle>;
-  activePinStyle?: ViewStyle;
+  pinContainerStyle?: StyleProp<ViewStyle>;
+  activePinContainerStyle?: ViewStyle;
+  cursorStyle?: StyleProp<ViewStyle>;
+  pinTextStyle?: StyleProp<TextStyle>;
+  secureDotStyle?: StyleProp<ViewStyle>;
   showCursor?: boolean;
   secureTextEntry?: boolean;
   shouldOnlyAcceptNumbers?: boolean;
@@ -49,11 +53,15 @@ export default React.forwardRef<IPinInputRef, IPinInput>(
       onChange,
       value,
       cursorColor,
-      activePinStyle,
-      pinStyle,
+      activePinContainerStyle,
+      pinContainerStyle,
+      cursorStyle,
+      pinTextStyle,
+      secureDotStyle,
       containerStyle,
       secureTextEntry = false,
       shouldOnlyAcceptNumbers = true,
+      showCursor = true,
     },
     ref
   ) => {
@@ -131,23 +139,25 @@ export default React.forwardRef<IPinInputRef, IPinInput>(
                 key={index}
                 style={[
                   styles.pinItem,
-                  pinStyle,
+                  pinContainerStyle,
                   isActivePin &&
                     isFocused && {
                       borderColor: DEFAULT_FOCUSED_PIN_BORDER_COLOR,
-                      borderWidth: 1,
-                      ...activePinStyle,
+                      borderWidth: 2,
+                      ...activePinContainerStyle,
                     },
                 ]}
               >
                 {value[index] ? (
                   secureTextEntry ? (
-                    <View style={[styles.dot]} />
+                    <View style={[styles.dot, secureDotStyle]} />
                   ) : (
-                    <Text style={[styles.pinText]}>{value[index]}</Text>
+                    <Text style={[styles.pinText, pinTextStyle]}>
+                      {value[index]}
+                    </Text>
                   )
-                ) : isActivePin && isFocused ? (
-                  <Animated.View style={[animatedCursorStyle]} />
+                ) : isActivePin && showCursor && isFocused ? (
+                  <Animated.View style={[animatedCursorStyle, cursorStyle]} />
                 ) : null}
               </View>
             );

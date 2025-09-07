@@ -17,10 +17,10 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-const DEFAULT_ACTIVE_CHIP_BACKGROUND_COLOR = "#555";
+const DEFAULT_ACTIVE_CHIP_BACKGROUND_COLOR = "#333";
 const DEFAULT_CHIP_BACKGROUND_COLOR = "#fff";
 const DEFAULT_ACTIVE_CHIP_TEXT_COLOR = "#fff";
-const DEFAULT_CHIP_TEXT_COLOR = "#555";
+const DEFAULT_CHIP_TEXT_COLOR = "#333";
 
 interface IChip {
   value: string;

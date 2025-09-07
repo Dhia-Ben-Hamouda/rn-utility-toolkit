@@ -56,9 +56,3 @@ export const SCREEN_HEIGHT = Dimensions.get("screen").height;
 
 export const isIos = Platform.OS === "ios";
 export const isAndroid = Platform.OS === "android";
-
-export enum Languages {
-  EN = "en",
-  FR = "fr",
-  AR = "ar",
-}

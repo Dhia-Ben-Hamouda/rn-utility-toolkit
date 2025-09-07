@@ -15,7 +15,7 @@ const styles = react_native_1.StyleSheet.create({
     container: {
         backgroundColor: "#d4d4d4",
         width: "100%",
-        height: 6,
+        height: 8,
         borderRadius: 50,
         position: "relative",
     },

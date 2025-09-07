@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleProp, ViewStyle } from "react-native";
+import { StyleProp, TextStyle, ViewStyle } from "react-native";
 interface IPinInput {
     pinLength?: number;
     value: string;
@@ -7,8 +7,11 @@ interface IPinInput {
     blinkingSpeed?: number;
     cursorColor?: string;
     containerStyle?: StyleProp<ViewStyle>;
-    pinStyle?: StyleProp<ViewStyle>;
-    activePinStyle?: ViewStyle;
+    pinContainerStyle?: StyleProp<ViewStyle>;
+    activePinContainerStyle?: ViewStyle;
+    cursorStyle?: StyleProp<ViewStyle>;
+    pinTextStyle?: StyleProp<TextStyle>;
+    secureDotStyle?: StyleProp<ViewStyle>;
     showCursor?: boolean;
     secureTextEntry?: boolean;
     shouldOnlyAcceptNumbers?: boolean;

@@ -80,7 +80,7 @@ export default function Button({
           {isLoading && <ActivityIndicator color={activityIndicatorColor} />}
           {startIcon}
           <Text
-            style={[styles.label, isOutlined && { color: "#555" }, textStyle]}
+            style={[styles.label, isOutlined && { color: "#333" }, textStyle]}
           >
             {children}
           </Text>
@@ -108,7 +108,7 @@ export default function Button({
     >
       {startIcon}
       {isLoading && <ActivityIndicator color={activityIndicatorColor} />}
-      <Text style={[styles.label, isOutlined && { color: "#555" }, textStyle]}>
+      <Text style={[styles.label, isOutlined && { color: "#333" }, textStyle]}>
         {children}
       </Text>
       {endIcon}
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#555",
+    backgroundColor: "#333",
     padding: 16,
     borderRadius: 5,
     gap: 8,

@@ -43,7 +43,7 @@ function Check({ size = 20, color }) {
       <react_native_svg_1.Path fill={color} d="M173.9 439.4l-166.4-166.4c-10-10-10-26.2 0-36.2l36.2-36.2c10-10 26.2-10 36.2 0L192 312.7 432.1 72.6c10-10 26.2-10 36.2 0l36.2 36.2c10 10 10 26.2 0 36.2l-294.4 294.4c-10 10-26.2 10-36.2 0z"/>
     </react_native_svg_1.default>);
 }
-function Checkbox({ isChecked, onChange, size = 20, label, color = "#555", checkColor = "#fff", customCheckIcon, containerStyle, boxStyle, labelStyle, }) {
+function Checkbox({ isChecked, onChange, size = 20, label, color = "#333", checkColor = "#fff", customCheckIcon, containerStyle, boxStyle, labelStyle, }) {
     const scale = (0, react_native_reanimated_1.useSharedValue)(1);
     const animatedIsChecked = (0, react_native_reanimated_1.useSharedValue)(0);
     (0, react_1.useEffect)(() => {
@@ -96,7 +96,7 @@ const styles = react_native_1.StyleSheet.create({
     label: {
         marginLeft: 8,
         fontSize: 16,
-        color: "#555",
+        color: "#333",
     },
     pressable: {
         alignSelf: "flex-start",

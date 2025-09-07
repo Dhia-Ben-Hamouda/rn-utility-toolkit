@@ -150,8 +150,11 @@ export interface PinInputProps {
   blinkingSpeed?: number;
   cursorColor?: string;
   containerStyle?: StyleProp<ViewStyle>;
-  pinStyle?: StyleProp<ViewStyle>;
-  activePinStyle?: ViewStyle;
+  pinContainerStyle?: StyleProp<ViewStyle>;
+  activePinContainerStyle?: ViewStyle;
+  cursorStyle?: StyleProp<ViewStyle>;
+  pinTextStyle?: StyleProp<TextStyle>;
+  secureDotStyle?: StyleProp<ViewStyle>;
   showCursor?: boolean;
   secureTextEntry?: boolean;
   shouldOnlyAcceptNumbers?: boolean;
@@ -208,9 +211,11 @@ export interface ChipProps {
   chipTextColor?: string;
 }
 
-export interface ModalProps extends PropsWithChildren, NativeModalProps {
+export interface ModalProps extends PropsWithChildren {
   isOpen: boolean;
   setIsOpen?: React.Dispatch<SetStateAction<boolean>>;
+  overlayStyle?: StyleProp<ViewStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
 }
 
 export interface CarouselProps<T> extends Partial<Animated.FlatList<T>> {

@@ -37,10 +37,10 @@ exports.default = Chip;
 const react_1 = __importStar(require("react"));
 const react_native_1 = require("react-native");
 const react_native_reanimated_1 = __importStar(require("react-native-reanimated"));
-const DEFAULT_ACTIVE_CHIP_BACKGROUND_COLOR = "#555";
+const DEFAULT_ACTIVE_CHIP_BACKGROUND_COLOR = "#333";
 const DEFAULT_CHIP_BACKGROUND_COLOR = "#fff";
 const DEFAULT_ACTIVE_CHIP_TEXT_COLOR = "#fff";
-const DEFAULT_CHIP_TEXT_COLOR = "#555";
+const DEFAULT_CHIP_TEXT_COLOR = "#333";
 function Chip({ value, activeValue, onChipPress, containerStyle, labelStyle, startPicture, activeChipBackgroundColor = DEFAULT_ACTIVE_CHIP_BACKGROUND_COLOR, chipBackgroundColor = DEFAULT_CHIP_BACKGROUND_COLOR, activeChipTextColor = DEFAULT_ACTIVE_CHIP_TEXT_COLOR, chipTextColor = DEFAULT_CHIP_TEXT_COLOR, }) {
     const isEqaul = (0, react_native_reanimated_1.useSharedValue)(value === activeValue);
     const derivedIsEqaul = (0, react_native_reanimated_1.useDerivedValue)(() => isEqaul.value ? (0, react_native_reanimated_1.withTiming)(1) : (0, react_native_reanimated_1.withTiming)(0));

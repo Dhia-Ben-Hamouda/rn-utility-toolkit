@@ -25,6 +25,7 @@ interface ISwitch {
   value: boolean;
   activeSwitchColor?: string;
   inactiveSwitchColor?: string;
+  isDisabled?: boolean;
 }
 
 export default function Switch({
@@ -35,6 +36,7 @@ export default function Switch({
   customThumbTranslation,
   activeSwitchColor = DEFAULT_ACTIVE_COLOR,
   inactiveSwitchColor = DEFAULT_INACTIVE_COLOR,
+  isDisabled = false,
 }: ISwitch) {
   const isToggled = useSharedValue(0);
 
@@ -75,10 +77,21 @@ export default function Switch({
   });
 
   return (
-    <Pressable style={{ alignSelf: "flex-start" }} onPress={handleThumbPress}>
+    <Pressable
+      disabled={isDisabled}
+      style={{ alignSelf: "flex-start" }}
+      onPress={handleThumbPress}
+    >
       <Animated.View
         hitSlop={25}
-        style={[styles.container, containerStyle, animatedContainerStyle]}
+        style={[
+          styles.container,
+          containerStyle,
+          animatedContainerStyle,
+          isDisabled && {
+            backgroundColor: DEFAULT_INACTIVE_COLOR,
+          },
+        ]}
       >
         <Animated.View style={[styles.thumb, thumbStyle, animatedThumbStyle]} />
       </Animated.View>
@@ -88,7 +101,7 @@ export default function Switch({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#555",
+    backgroundColor: "#333",
     padding: 4,
     borderRadius: 50,
     width: 46,

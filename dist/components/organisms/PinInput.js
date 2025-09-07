@@ -41,7 +41,7 @@ const DEFAULT_PIN_LENGTH = 6;
 const DEFAULT_BLINKING_SPEED = 500;
 const DEFAULT_CURSOR_COLOR = "#555";
 const DEFAULT_FOCUSED_PIN_BORDER_COLOR = "#555";
-exports.default = react_1.default.forwardRef(({ pinLength = DEFAULT_PIN_LENGTH, blinkingSpeed = DEFAULT_BLINKING_SPEED, onChange, value, cursorColor, activePinStyle, pinStyle, containerStyle, secureTextEntry = false, shouldOnlyAcceptNumbers = true, }, ref) => {
+exports.default = react_1.default.forwardRef(({ pinLength = DEFAULT_PIN_LENGTH, blinkingSpeed = DEFAULT_BLINKING_SPEED, onChange, value, cursorColor, activePinContainerStyle, pinContainerStyle, cursorStyle, pinTextStyle, secureDotStyle, containerStyle, secureTextEntry = false, shouldOnlyAcceptNumbers = true, showCursor = true, }, ref) => {
     var _a;
     const textInputRef = (0, react_2.useRef)(null);
     const isCursorBlinking = (0, react_native_reanimated_1.useSharedValue)(0);
@@ -91,11 +91,13 @@ exports.default = react_1.default.forwardRef(({ pinLength = DEFAULT_PIN_LENGTH, 
             const isActivePin = index === (value === null || value === void 0 ? void 0 : value.length);
             return (<react_native_1.View key={index} style={[
                     styles.pinItem,
-                    pinStyle,
+                    pinContainerStyle,
                     isActivePin &&
-                        isFocused && Object.assign({ borderColor: DEFAULT_FOCUSED_PIN_BORDER_COLOR, borderWidth: 1 }, activePinStyle),
+                        isFocused && Object.assign({ borderColor: DEFAULT_FOCUSED_PIN_BORDER_COLOR, borderWidth: 2 }, activePinContainerStyle),
                 ]}>
-                {value[index] ? (secureTextEntry ? (<react_native_1.View style={[styles.dot]}/>) : (<react_native_1.Text style={[styles.pinText]}>{value[index]}</react_native_1.Text>)) : isActivePin && isFocused ? (<react_native_reanimated_1.default.View style={[animatedCursorStyle]}/>) : null}
+                {value[index] ? (secureTextEntry ? (<react_native_1.View style={[styles.dot, secureDotStyle]}/>) : (<react_native_1.Text style={[styles.pinText, pinTextStyle]}>
+                      {value[index]}
+                    </react_native_1.Text>)) : isActivePin && showCursor && isFocused ? (<react_native_reanimated_1.default.View style={[animatedCursorStyle, cursorStyle]}/>) : null}
               </react_native_1.View>);
         })}
         </react_native_1.View>

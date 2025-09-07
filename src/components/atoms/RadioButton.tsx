@@ -33,7 +33,7 @@ export default function RadioButton({
   value,
   activeValue,
   labelStyle,
-  color = "#555",
+  color = "#333",
   containerStyle,
   radioContainerStyle,
   customDotSize = 10,
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
-    color: "#555",
+    color: "#333",
   },
   radioContainer: {
     width: 20,

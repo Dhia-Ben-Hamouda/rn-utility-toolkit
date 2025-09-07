@@ -7,6 +7,7 @@ interface ISwitch {
     value: boolean;
     activeSwitchColor?: string;
     inactiveSwitchColor?: string;
+    isDisabled?: boolean;
 }
-export default function Switch({ onChange, value, containerStyle, thumbStyle, customThumbTranslation, activeSwitchColor, inactiveSwitchColor, }: ISwitch): import("react").JSX.Element;
+export default function Switch({ onChange, value, containerStyle, thumbStyle, customThumbTranslation, activeSwitchColor, inactiveSwitchColor, isDisabled, }: ISwitch): import("react").JSX.Element;
 export {};

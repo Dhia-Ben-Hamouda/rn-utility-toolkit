@@ -37,7 +37,7 @@ exports.default = RadioButton;
 const react_1 = require("react");
 const react_native_1 = require("react-native");
 const react_native_reanimated_1 = __importStar(require("react-native-reanimated"));
-function RadioButton({ label, onChange, value, activeValue, labelStyle, color = "#555", containerStyle, radioContainerStyle, customDotSize = 10, }) {
+function RadioButton({ label, onChange, value, activeValue, labelStyle, color = "#333", containerStyle, radioContainerStyle, customDotSize = 10, }) {
     const isRadioChecked = (0, react_native_reanimated_1.useSharedValue)(0);
     (0, react_1.useEffect)(() => {
         isRadioChecked.value = (0, react_native_reanimated_1.withTiming)(activeValue === value ? 1 : 0, {
@@ -77,7 +77,7 @@ const styles = react_native_1.StyleSheet.create({
     },
     label: {
         fontSize: 16,
-        color: "#555",
+        color: "#333",
     },
     radioContainer: {
         width: 20,
