@@ -15,6 +15,7 @@ import Animated, {
   SharedValue,
   useAnimatedScrollHandler,
   useAnimatedStyle,
+  useSharedValue,
 } from "react-native-reanimated";
 import { SCREEN_WIDTH } from "../../utils";
 
@@ -79,9 +80,12 @@ function AnimatedDot({
 }
 interface ICarousel<T> extends Partial<Animated.FlatList<T>> {
   data: Array<T>;
-  renderItem: ListRenderItem<T>;
-  offset?: SharedValue<number>;
-  outerContainerStyle?: StyleProp<ViewStyle>;
+  renderItem: (payload: {
+    item: T;
+    index: number;
+    offset: SharedValue<number>;
+  }) => React.ReactElement | null;
+  containerStyle?: StyleProp<ViewStyle>;
   dotsContainerStyle?: StyleProp<ViewStyle>;
   activeDotColor?: string;
   dotColor?: string;
@@ -94,10 +98,9 @@ interface ICarousel<T> extends Partial<Animated.FlatList<T>> {
 
 export default function Carousel<T>({
   data = [],
-  renderItem,
-  outerContainerStyle,
+  renderItem: customRenderItem,
+  containerStyle,
   dotsContainerStyle,
-  offset,
   activeDotColor = DEFAULT_ACTIVE_DOT_COLOR,
   dotColor = DEFAULT_DOT_COLOR,
   activeDotWidth = DEFAULT_ACTIVE_DOT_WIDTH,
@@ -107,6 +110,8 @@ export default function Carousel<T>({
   onChange,
   ...rest
 }: ICarousel<T>) {
+  const offset = useSharedValue(0);
+
   const viewabilitConfigCallbackPairsRef =
     useRef<ViewabilityConfigCallbackPairs>([
       {
@@ -134,20 +139,26 @@ export default function Carousel<T>({
   });
 
   return (
-    <View style={outerContainerStyle}>
+    <View style={containerStyle}>
       <Animated.FlatList
         onScroll={onScroll}
         showsHorizontalScrollIndicator={false}
         pagingEnabled
         horizontal
         data={data}
-        renderItem={renderItem}
+        renderItem={({ item, index }) => {
+          return customRenderItem({
+            item,
+            index,
+            offset,
+          });
+        }}
         viewabilityConfigCallbackPairs={
           viewabilitConfigCallbackPairsRef.current
         }
         {...rest}
       />
-      {showDots && offset && (
+      {showDots && (
         <View style={[styles.dotsContainer, dotsContainerStyle]}>
           {data?.map((_, index) => (
             <AnimatedDot

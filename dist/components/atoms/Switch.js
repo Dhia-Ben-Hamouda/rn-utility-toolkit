@@ -64,7 +64,7 @@ function Switch({ onChange, value, containerStyle, thumbStyle, customThumbTransl
         };
     });
     return (<react_native_1.Pressable style={{ alignSelf: "flex-start" }} onPress={handleThumbPress}>
-      <react_native_reanimated_1.default.View hitSlop={{ bottom: 25, top: 25, left: 25, right: 25 }} style={[styles.container, containerStyle, animatedContainerStyle]}>
+      <react_native_reanimated_1.default.View hitSlop={25} style={[styles.container, containerStyle, animatedContainerStyle]}>
         <react_native_reanimated_1.default.View style={[styles.thumb, thumbStyle, animatedThumbStyle]}/>
       </react_native_reanimated_1.default.View>
     </react_native_1.Pressable>);

@@ -52,7 +52,7 @@ function Checkbox({ isChecked, onChange, size = 20, label, color = "#555", check
     const toggle = () => {
         scale.value = 1.2;
         scale.value = (0, react_native_reanimated_1.withSpring)(1, { damping: 40 });
-        onChange(!isChecked);
+        onChange && onChange(!isChecked);
     };
     const animatedStyle = (0, react_native_reanimated_1.useAnimatedStyle)(() => {
         const backgroundColor = (0, react_native_reanimated_1.interpolateColor)(animatedIsChecked.value, [0, 1], ["transparent", color]);

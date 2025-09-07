@@ -1,5 +1,5 @@
 import { PropsWithChildren, SetStateAction } from "react";
-import { ImageSourcePropType, ListRenderItem, ModalProps as NativeModalProps, StyleProp, TextStyle, ViewStyle } from "react-native";
+import { ImageSourcePropType, ModalProps as NativeModalProps, StyleProp, TextStyle, ViewStyle } from "react-native";
 import Animated, { SharedValue, WithTimingConfig } from "react-native-reanimated";
 export interface CheckboxProps {
     isChecked: boolean;
@@ -171,7 +171,7 @@ export interface IconButtonProps {
 export interface ChipProps {
     value: string;
     activeValue: string;
-    setActiveValue: React.Dispatch<SetStateAction<string>>;
+    onChipPress?: (value: string) => void;
     containerStyle?: StyleProp<ViewStyle>;
     labelStyle?: StyleProp<TextStyle>;
     startPicture?: ImageSourcePropType;
@@ -186,9 +186,12 @@ export interface ModalProps extends PropsWithChildren, NativeModalProps {
 }
 export interface CarouselProps<T> extends Partial<Animated.FlatList<T>> {
     data: Array<T>;
-    renderItem: ListRenderItem<T>;
-    offset?: SharedValue<number>;
-    outerContainerStyle?: StyleProp<ViewStyle>;
+    renderItem: (payload: {
+        item: T;
+        index: number;
+        offset: SharedValue<number>;
+    }) => React.ReactElement | null;
+    containerStyle?: StyleProp<ViewStyle>;
     dotsContainerStyle?: StyleProp<ViewStyle>;
     activeDotColor?: string;
     dotColor?: string;

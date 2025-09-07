@@ -64,7 +64,7 @@ export default function Checkbox({
   const toggle = () => {
     scale.value = 1.2;
     scale.value = withSpring(1, { damping: 40 });
-    onChange(!isChecked);
+    onChange && onChange(!isChecked);
   };
 
   const animatedStyle = useAnimatedStyle(() => {

@@ -77,7 +77,7 @@ export default function Switch({
   return (
     <Pressable style={{ alignSelf: "flex-start" }} onPress={handleThumbPress}>
       <Animated.View
-        hitSlop={{ bottom: 25, top: 25, left: 25, right: 25 }}
+        hitSlop={25}
         style={[styles.container, containerStyle, animatedContainerStyle]}
       >
         <Animated.View style={[styles.thumb, thumbStyle, animatedThumbStyle]} />

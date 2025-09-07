@@ -76,7 +76,8 @@ function AnimatedDot({ index, offset, activeDotColor, dotColor, activeDotWidth, 
     return <react_native_reanimated_1.default.View style={[styles.dot, dotStyle, animatedDotStyle]}/>;
 }
 function Carousel(_a) {
-    var { data = [], renderItem, outerContainerStyle, dotsContainerStyle, offset, activeDotColor = DEFAULT_ACTIVE_DOT_COLOR, dotColor = DEFAULT_DOT_COLOR, activeDotWidth = DEFAULT_ACTIVE_DOT_WIDTH, dotWidth = DEFAULT_DOT_WIDTH, dotStyle, showDots = true, onChange } = _a, rest = __rest(_a, ["data", "renderItem", "outerContainerStyle", "dotsContainerStyle", "offset", "activeDotColor", "dotColor", "activeDotWidth", "dotWidth", "dotStyle", "showDots", "onChange"]);
+    var { data = [], renderItem: customRenderItem, containerStyle, dotsContainerStyle, activeDotColor = DEFAULT_ACTIVE_DOT_COLOR, dotColor = DEFAULT_DOT_COLOR, activeDotWidth = DEFAULT_ACTIVE_DOT_WIDTH, dotWidth = DEFAULT_DOT_WIDTH, dotStyle, showDots = true, onChange } = _a, rest = __rest(_a, ["data", "renderItem", "containerStyle", "dotsContainerStyle", "activeDotColor", "dotColor", "activeDotWidth", "dotWidth", "dotStyle", "showDots", "onChange"]);
+    const offset = (0, react_native_reanimated_1.useSharedValue)(0);
     const viewabilitConfigCallbackPairsRef = (0, react_1.useRef)([
         {
             onViewableItemsChanged,
@@ -96,9 +97,15 @@ function Carousel(_a) {
             }
         },
     });
-    return (<react_native_1.View style={outerContainerStyle}>
-      <react_native_reanimated_1.default.FlatList onScroll={onScroll} showsHorizontalScrollIndicator={false} pagingEnabled horizontal data={data} renderItem={renderItem} viewabilityConfigCallbackPairs={viewabilitConfigCallbackPairsRef.current} {...rest}/>
-      {showDots && offset && (<react_native_1.View style={[styles.dotsContainer, dotsContainerStyle]}>
+    return (<react_native_1.View style={containerStyle}>
+      <react_native_reanimated_1.default.FlatList onScroll={onScroll} showsHorizontalScrollIndicator={false} pagingEnabled horizontal data={data} renderItem={({ item, index }) => {
+            return customRenderItem({
+                item,
+                index,
+                offset,
+            });
+        }} viewabilityConfigCallbackPairs={viewabilitConfigCallbackPairsRef.current} {...rest}/>
+      {showDots && (<react_native_1.View style={[styles.dotsContainer, dotsContainerStyle]}>
           {data === null || data === void 0 ? void 0 : data.map((_, index) => (<AnimatedDot key={index} dotColor={dotColor} activeDotColor={activeDotColor} index={index} offset={offset} activeDotWidth={activeDotWidth} dotStyle={dotStyle} dotWidth={dotWidth}/>))}
         </react_native_1.View>)}
     </react_native_1.View>);

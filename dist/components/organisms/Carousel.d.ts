@@ -1,11 +1,14 @@
 import React from "react";
-import { ListRenderItem, StyleProp, ViewStyle } from "react-native";
+import { StyleProp, ViewStyle } from "react-native";
 import Animated, { SharedValue } from "react-native-reanimated";
 interface ICarousel<T> extends Partial<Animated.FlatList<T>> {
     data: Array<T>;
-    renderItem: ListRenderItem<T>;
-    offset?: SharedValue<number>;
-    outerContainerStyle?: StyleProp<ViewStyle>;
+    renderItem: (payload: {
+        item: T;
+        index: number;
+        offset: SharedValue<number>;
+    }) => React.ReactElement | null;
+    containerStyle?: StyleProp<ViewStyle>;
     dotsContainerStyle?: StyleProp<ViewStyle>;
     activeDotColor?: string;
     dotColor?: string;
@@ -15,5 +18,5 @@ interface ICarousel<T> extends Partial<Animated.FlatList<T>> {
     showDots?: boolean;
     onChange?: (newIndex: number) => void;
 }
-export default function Carousel<T>({ data, renderItem, outerContainerStyle, dotsContainerStyle, offset, activeDotColor, dotColor, activeDotWidth, dotWidth, dotStyle, showDots, onChange, ...rest }: ICarousel<T>): React.JSX.Element;
+export default function Carousel<T>({ data, renderItem: customRenderItem, containerStyle, dotsContainerStyle, activeDotColor, dotColor, activeDotWidth, dotWidth, dotStyle, showDots, onChange, ...rest }: ICarousel<T>): React.JSX.Element;
 export {};

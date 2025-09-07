@@ -1,9 +1,9 @@
-import React, { SetStateAction } from "react";
+import React from "react";
 import { ImageSourcePropType, StyleProp, TextStyle, ViewStyle } from "react-native";
 interface IChip {
     value: string;
     activeValue: string;
-    setActiveValue: React.Dispatch<SetStateAction<string>>;
+    onChipPress?: (value: string) => void;
     containerStyle?: StyleProp<ViewStyle>;
     labelStyle?: StyleProp<TextStyle>;
     startPicture?: ImageSourcePropType;
@@ -12,5 +12,5 @@ interface IChip {
     activeChipTextColor?: string;
     chipTextColor?: string;
 }
-export default function Chip({ value, activeValue, setActiveValue, containerStyle, labelStyle, startPicture, activeChipBackgroundColor, chipBackgroundColor, activeChipTextColor, chipTextColor, }: IChip): React.JSX.Element;
+export default function Chip({ value, activeValue, onChipPress, containerStyle, labelStyle, startPicture, activeChipBackgroundColor, chipBackgroundColor, activeChipTextColor, chipTextColor, }: IChip): React.JSX.Element;
 export {};

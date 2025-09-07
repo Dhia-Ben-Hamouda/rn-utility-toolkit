@@ -41,7 +41,7 @@ const DEFAULT_ACTIVE_CHIP_BACKGROUND_COLOR = "#555";
 const DEFAULT_CHIP_BACKGROUND_COLOR = "#fff";
 const DEFAULT_ACTIVE_CHIP_TEXT_COLOR = "#fff";
 const DEFAULT_CHIP_TEXT_COLOR = "#555";
-function Chip({ value, activeValue, setActiveValue, containerStyle, labelStyle, startPicture, activeChipBackgroundColor = DEFAULT_ACTIVE_CHIP_BACKGROUND_COLOR, chipBackgroundColor = DEFAULT_CHIP_BACKGROUND_COLOR, activeChipTextColor = DEFAULT_ACTIVE_CHIP_TEXT_COLOR, chipTextColor = DEFAULT_CHIP_TEXT_COLOR, }) {
+function Chip({ value, activeValue, onChipPress, containerStyle, labelStyle, startPicture, activeChipBackgroundColor = DEFAULT_ACTIVE_CHIP_BACKGROUND_COLOR, chipBackgroundColor = DEFAULT_CHIP_BACKGROUND_COLOR, activeChipTextColor = DEFAULT_ACTIVE_CHIP_TEXT_COLOR, chipTextColor = DEFAULT_CHIP_TEXT_COLOR, }) {
     const isEqaul = (0, react_native_reanimated_1.useSharedValue)(value === activeValue);
     const derivedIsEqaul = (0, react_native_reanimated_1.useDerivedValue)(() => isEqaul.value ? (0, react_native_reanimated_1.withTiming)(1) : (0, react_native_reanimated_1.withTiming)(0));
     (0, react_1.useEffect)(() => {
@@ -60,7 +60,7 @@ function Chip({ value, activeValue, setActiveValue, containerStyle, labelStyle, 
         };
     });
     return (<react_native_1.TouchableOpacity hitSlop={{ bottom: 5, top: 5, left: 5, right: 5 }} onPress={() => {
-            setActiveValue(value);
+            onChipPress && onChipPress(value);
         }}>
       <react_native_reanimated_1.default.View style={[styles.chip, containerStyle, animatedBackgroundColor]}>
         {startPicture && (<react_native_1.Image resizeMode="contain" style={{ width: 16, height: 20 }} source={startPicture}/>)}

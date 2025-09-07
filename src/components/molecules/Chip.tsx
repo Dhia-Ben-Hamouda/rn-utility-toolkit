@@ -25,7 +25,7 @@ const DEFAULT_CHIP_TEXT_COLOR = "#555";
 interface IChip {
   value: string;
   activeValue: string;
-  setActiveValue: React.Dispatch<SetStateAction<string>>;
+  onChipPress?: (value: string) => void;
   containerStyle?: StyleProp<ViewStyle>;
   labelStyle?: StyleProp<TextStyle>;
   startPicture?: ImageSourcePropType;
@@ -38,7 +38,7 @@ interface IChip {
 export default function Chip({
   value,
   activeValue,
-  setActiveValue,
+  onChipPress,
   containerStyle,
   labelStyle,
   startPicture,
@@ -84,7 +84,7 @@ export default function Chip({
     <TouchableOpacity
       hitSlop={{ bottom: 5, top: 5, left: 5, right: 5 }}
       onPress={() => {
-        setActiveValue(value);
+        onChipPress && onChipPress(value);
       }}
     >
       <Animated.View
