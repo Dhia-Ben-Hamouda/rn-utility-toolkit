@@ -16,55 +16,6 @@ import Animated, {
   WithTimingConfig,
 } from "react-native-reanimated";
 
-function Tab({
-  option,
-  selectedValue,
-  onChange,
-  tabStyle,
-  labelStyle,
-  activeTabLabelColor,
-  tabLabelColor,
-}: {
-  option: ITabOption;
-  selectedValue: string;
-  onChange?: (newValue: ITabOption) => void;
-  tabStyle: StyleProp<ViewStyle>;
-  labelStyle: StyleProp<TextStyle>;
-  activeTabLabelColor: string;
-  tabLabelColor: string;
-}) {
-  const isActiveTab = useSharedValue(0);
-
-  useEffect(() => {
-    isActiveTab.value = withTiming(selectedValue === option.value ? 1 : 0);
-  }, [selectedValue, option, isActiveTab]);
-
-  const animatedTabTextStyle = useAnimatedStyle(() => {
-    const color = interpolateColor(
-      isActiveTab.value,
-      [0, 1],
-      [tabLabelColor, activeTabLabelColor]
-    );
-
-    return {
-      color,
-    };
-  });
-
-  return (
-    <TouchableOpacity
-      style={[styles.tab, tabStyle]}
-      onPress={() => {
-        onChange && onChange(option);
-      }}
-    >
-      <Animated.Text style={[styles.label, labelStyle, animatedTabTextStyle]}>
-        {option.label}
-      </Animated.Text>
-    </TouchableOpacity>
-  );
-}
-
 const DEFAULT_INNER_PADDING = 8;
 
 export interface ITabOption {
@@ -95,6 +46,51 @@ interface ITabs {
   animationConfig?: WithTimingConfig;
 }
 
+function Tab({
+  option,
+  selectedValue,
+  onChange,
+  tabStyle,
+  labelStyle,
+  activeTabLabelColor,
+  tabLabelColor,
+}: {
+  option: ITabOption;
+  selectedValue: string;
+  onChange?: (newValue: ITabOption) => void;
+  tabStyle?: StyleProp<ViewStyle>;
+  labelStyle?: StyleProp<TextStyle>;
+  activeTabLabelColor: string;
+  tabLabelColor: string;
+}) {
+  const progress = useSharedValue(0);
+
+  useEffect(() => {
+    progress.value = withTiming(selectedValue === option.value ? 1 : 0);
+  }, [selectedValue, option.value]);
+
+  const animatedTabTextStyle = useAnimatedStyle(() => {
+    const color = interpolateColor(
+      progress.value,
+      [0, 1],
+      [tabLabelColor, activeTabLabelColor]
+    );
+
+    return { color };
+  });
+
+  return (
+    <TouchableOpacity
+      style={[styles.tab, tabStyle]}
+      onPress={() => onChange?.(option)}
+    >
+      <Animated.Text style={[styles.label, labelStyle, animatedTabTextStyle]}>
+        {option.label}
+      </Animated.Text>
+    </TouchableOpacity>
+  );
+}
+
 export default function Tabs({
   options,
   selectedValue,
@@ -119,29 +115,23 @@ export default function Tabs({
   });
 
   useEffect(() => {
+    const selectedIndex = options.findIndex(
+      (opt) => opt.value === selectedValue.value
+    );
     offset.value = withTiming(
-      options?.indexOf(selectedValue) ?? 0,
+      selectedIndex >= 0 ? selectedIndex : 0,
       animationConfig
     );
-  }, [selectedValue, offset, options, animationConfig]);
+  }, [selectedValue, options]);
 
   const itemWidth = useMemo(() => {
-    if (!containerDimensions.width) {
-      return 0;
-    }
-
+    if (!containerDimensions.width) return 0;
     return (containerDimensions.width - innerPadding * 2) / options?.length;
   }, [containerDimensions.width, innerPadding, options?.length]);
 
   const animatedIndicatorStyle = useAnimatedStyle(() => {
-    const translationX = offset.value * itemWidth;
-
     return {
-      transform: [
-        {
-          translateX: translationX,
-        },
-      ],
+      transform: [{ translateX: offset.value * itemWidth }],
     };
   });
 
@@ -151,9 +141,10 @@ export default function Tabs({
     {
       width: `${100 / options?.length}%`,
       height: containerDimensions.height - innerPadding * 2,
+      top: innerPadding,
+      left: innerPadding,
     },
     indicatorStyle,
-    { top: innerPadding, left: innerPadding },
   ];
 
   return (
@@ -172,13 +163,11 @@ export default function Tabs({
         >
           <LinearGradient
             key={JSON.stringify(containerDimensions)}
-            style={[
-              {
-                width: "100%",
-                height: containerDimensions.height - innerPadding * 2,
-              },
-              indicatorStyle,
-            ]}
+            style={{
+              width: "100%",
+              height: containerDimensions.height - innerPadding * 2,
+              borderRadius: 8,
+            }}
             colors={gradientColors}
             start={gradientStart}
             end={gradientEnd}
@@ -187,7 +176,8 @@ export default function Tabs({
       ) : (
         <Animated.View style={combinedIndicatorStyle} />
       )}
-      {options?.map((option) => (
+
+      {options.map((option) => (
         <Tab
           key={option.value}
           labelStyle={labelStyle}

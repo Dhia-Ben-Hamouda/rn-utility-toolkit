@@ -22,7 +22,7 @@ import { SCREEN_WIDTH } from "../../utils";
 const DEFAULT_ACTIVE_DOT_COLOR = "#000";
 const DEFAULT_DOT_COLOR = "#ccc";
 const DEFAULT_ACTIVE_DOT_WIDTH = 24;
-const DEFAULT_DOT_WIDTH = 10;
+const DEFAULT_DOT_WIDTH = 8;
 
 interface IAnimatedDot {
   index: number;
@@ -33,6 +33,7 @@ interface IAnimatedDot {
   dotWidth: number;
   dotStyle?: StyleProp<ViewStyle>;
   dotHeight?: number;
+  dotOffsetMultiplier: number;
 }
 
 function AnimatedDot({
@@ -43,6 +44,7 @@ function AnimatedDot({
   activeDotWidth,
   dotStyle,
   dotWidth,
+  dotOffsetMultiplier,
 }: IAnimatedDot) {
   const animatedDotStyle = useAnimatedStyle(() => {
     if (!offset) {
@@ -52,9 +54,9 @@ function AnimatedDot({
     const width = interpolate(
       offset.value,
       [
-        (index - 1) * SCREEN_WIDTH,
-        index * SCREEN_WIDTH,
-        (index + 1) * SCREEN_WIDTH,
+        (index - 1) * dotOffsetMultiplier,
+        index * dotOffsetMultiplier,
+        (index + 1) * dotOffsetMultiplier,
       ],
       [dotWidth, activeDotWidth, dotWidth],
       Extrapolation.CLAMP
@@ -63,9 +65,9 @@ function AnimatedDot({
     const backgroundColor = interpolateColor(
       offset.value,
       [
-        (index - 1) * SCREEN_WIDTH,
-        index * SCREEN_WIDTH,
-        (index + 1) * SCREEN_WIDTH,
+        (index - 1) * dotOffsetMultiplier,
+        index * dotOffsetMultiplier,
+        (index + 1) * dotOffsetMultiplier,
       ],
       [dotColor, activeDotColor, dotColor]
     );
@@ -94,6 +96,7 @@ interface ICarousel<T> extends Partial<Animated.FlatList<T>> {
   dotWidth?: number;
   showDots?: boolean;
   onChange?: (newIndex: number) => void;
+  dotOffsetMultiplier?: number;
 }
 
 export default function Carousel<T>({
@@ -108,6 +111,7 @@ export default function Carousel<T>({
   dotStyle,
   showDots = true,
   onChange,
+  dotOffsetMultiplier = SCREEN_WIDTH,
   ...rest
 }: ICarousel<T>) {
   const offset = useSharedValue(0);
@@ -139,7 +143,7 @@ export default function Carousel<T>({
   });
 
   return (
-    <View style={containerStyle}>
+    <View style={[styles.wrapper, containerStyle]}>
       <Animated.FlatList
         onScroll={onScroll}
         showsHorizontalScrollIndicator={false}
@@ -170,6 +174,7 @@ export default function Carousel<T>({
               activeDotWidth={activeDotWidth}
               dotStyle={dotStyle}
               dotWidth={dotWidth}
+              dotOffsetMultiplier={dotOffsetMultiplier}
             />
           ))}
         </View>
@@ -179,6 +184,9 @@ export default function Carousel<T>({
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    gap: 12,
+  },
   dotsContainer: {
     justifyContent: "center",
     marginHorizontal: 16,
@@ -186,8 +194,8 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   dot: {
-    width: 10,
-    height: 10,
+    width: 8,
+    height: 8,
     backgroundColor: "#555",
     borderRadius: 50,
   },

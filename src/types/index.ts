@@ -229,6 +229,7 @@ export interface CarouselProps<T> extends Partial<Animated.FlatList<T>> {
   dotWidth?: number;
   showDots?: boolean;
   onChange?: (newIndex: number) => void;
+  dotOffsetMultiplier: number;
 }
 
 export interface SwipeableAction {
