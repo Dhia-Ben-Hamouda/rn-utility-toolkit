@@ -107,7 +107,7 @@ function Tabs({ options, selectedValue, onChange, innerPadding = DEFAULT_INNER_P
 }
 const styles = react_native_1.StyleSheet.create({
     container: {
-        backgroundColor: "#e4e4e4",
+        backgroundColor: "#eaeaea",
         borderRadius: 8,
         flexDirection: "row",
     },

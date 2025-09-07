@@ -37,9 +37,9 @@ exports.default = Switch;
 const react_1 = require("react");
 const react_native_1 = require("react-native");
 const react_native_reanimated_1 = __importStar(require("react-native-reanimated"));
-const DEFAULT_ACTIVE_COLOR = "#555";
+const DEFAULT_ACTIVE_COLOR = "#333";
 const DEFAULT_INACTIVE_COLOR = "#ccc";
-function Switch({ onChange, value, containerStyle, thumbStyle, customThumbTranslation, activeSwitchColor = DEFAULT_ACTIVE_COLOR, inactiveSwitchColor = DEFAULT_INACTIVE_COLOR, isDisabled = false, }) {
+function Switch({ onChange, value, containerStyle, thumbStyle, customThumbTranslation, activeSwitchColor = DEFAULT_ACTIVE_COLOR, inactiveSwitchColor = DEFAULT_INACTIVE_COLOR, isDisabled = false, disabledSwitchColor = DEFAULT_INACTIVE_COLOR, }) {
     const isToggled = (0, react_native_reanimated_1.useSharedValue)(0);
     (0, react_1.useEffect)(() => {
         isToggled.value = (0, react_native_reanimated_1.withTiming)(value ? 1 : 0);
@@ -58,20 +58,16 @@ function Switch({ onChange, value, containerStyle, thumbStyle, customThumbTransl
         };
     });
     const animatedContainerStyle = (0, react_native_reanimated_1.useAnimatedStyle)(() => {
-        const backgroundColor = (0, react_native_reanimated_1.interpolateColor)(isToggled.value, [0, 1], [inactiveSwitchColor, activeSwitchColor]);
+        const backgroundColor = (0, react_native_reanimated_1.interpolateColor)(isToggled.value, [0, 1], [
+            isDisabled ? disabledSwitchColor : inactiveSwitchColor,
+            isDisabled ? disabledSwitchColor : activeSwitchColor,
+        ]);
         return {
             backgroundColor,
         };
     });
     return (<react_native_1.Pressable disabled={isDisabled} style={{ alignSelf: "flex-start" }} onPress={handleThumbPress}>
-      <react_native_reanimated_1.default.View hitSlop={25} style={[
-            styles.container,
-            containerStyle,
-            animatedContainerStyle,
-            isDisabled && {
-                backgroundColor: DEFAULT_INACTIVE_COLOR,
-            },
-        ]}>
+      <react_native_reanimated_1.default.View hitSlop={25} style={[styles.container, containerStyle, animatedContainerStyle]}>
         <react_native_reanimated_1.default.View style={[styles.thumb, thumbStyle, animatedThumbStyle]}/>
       </react_native_reanimated_1.default.View>
     </react_native_1.Pressable>);

@@ -20,7 +20,7 @@ const styles = react_native_1.StyleSheet.create({
         position: "relative",
     },
     bar: {
-        backgroundColor: "#555",
+        backgroundColor: "#333",
         height: "100%",
         borderRadius: 50,
     },

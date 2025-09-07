@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Languages = exports.isAndroid = exports.isIos = exports.SCREEN_HEIGHT = exports.SCREEN_WIDTH = void 0;
+exports.isAndroid = exports.isIos = exports.SCREEN_HEIGHT = exports.SCREEN_WIDTH = void 0;
 exports.hexToRgba = hexToRgba;
 exports.generateInsets = generateInsets;
 exports.generateShadow = generateShadow;
@@ -49,9 +49,3 @@ exports.SCREEN_WIDTH = react_native_1.Dimensions.get("screen").width;
 exports.SCREEN_HEIGHT = react_native_1.Dimensions.get("screen").height;
 exports.isIos = react_native_1.Platform.OS === "ios";
 exports.isAndroid = react_native_1.Platform.OS === "android";
-var Languages;
-(function (Languages) {
-    Languages["EN"] = "en";
-    Languages["FR"] = "fr";
-    Languages["AR"] = "ar";
-})(Languages || (exports.Languages = Languages = {}));

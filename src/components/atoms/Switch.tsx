@@ -14,7 +14,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-const DEFAULT_ACTIVE_COLOR = "#555";
+const DEFAULT_ACTIVE_COLOR = "#333";
 const DEFAULT_INACTIVE_COLOR = "#ccc";
 
 interface ISwitch {
@@ -26,6 +26,7 @@ interface ISwitch {
   activeSwitchColor?: string;
   inactiveSwitchColor?: string;
   isDisabled?: boolean;
+  disabledSwitchColor?: string;
 }
 
 export default function Switch({
@@ -37,6 +38,7 @@ export default function Switch({
   activeSwitchColor = DEFAULT_ACTIVE_COLOR,
   inactiveSwitchColor = DEFAULT_INACTIVE_COLOR,
   isDisabled = false,
+  disabledSwitchColor = DEFAULT_INACTIVE_COLOR,
 }: ISwitch) {
   const isToggled = useSharedValue(0);
 
@@ -68,7 +70,10 @@ export default function Switch({
     const backgroundColor = interpolateColor(
       isToggled.value,
       [0, 1],
-      [inactiveSwitchColor, activeSwitchColor]
+      [
+        isDisabled ? disabledSwitchColor : inactiveSwitchColor,
+        isDisabled ? disabledSwitchColor : activeSwitchColor,
+      ]
     );
 
     return {
@@ -84,14 +89,7 @@ export default function Switch({
     >
       <Animated.View
         hitSlop={25}
-        style={[
-          styles.container,
-          containerStyle,
-          animatedContainerStyle,
-          isDisabled && {
-            backgroundColor: DEFAULT_INACTIVE_COLOR,
-          },
-        ]}
+        style={[styles.container, containerStyle, animatedContainerStyle]}
       >
         <Animated.View style={[styles.thumb, thumbStyle, animatedThumbStyle]} />
       </Animated.View>

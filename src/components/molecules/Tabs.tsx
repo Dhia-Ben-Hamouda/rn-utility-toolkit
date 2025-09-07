@@ -195,7 +195,7 @@ export default function Tabs({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#e4e4e4",
+    backgroundColor: "#eaeaea",
     borderRadius: 8,
     flexDirection: "row",
   },
