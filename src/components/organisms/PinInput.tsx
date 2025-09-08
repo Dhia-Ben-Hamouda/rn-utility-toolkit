@@ -20,8 +20,8 @@ import Animated, {
 
 const DEFAULT_PIN_LENGTH = 6;
 const DEFAULT_BLINKING_SPEED = 500;
-const DEFAULT_CURSOR_COLOR = "#555";
-const DEFAULT_FOCUSED_PIN_BORDER_COLOR = "#555";
+const DEFAULT_CURSOR_COLOR = "#333";
+const DEFAULT_FOCUSED_PIN_BORDER_COLOR = "#333";
 
 interface IPinInput {
   pinLength?: number;

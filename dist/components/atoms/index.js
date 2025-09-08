@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.IconButton = exports.Button = exports.Switch = exports.RadioButton = exports.Divider = exports.Checkbox = void 0;
+exports.Skeleton = exports.IconButton = exports.Button = exports.Switch = exports.RadioButton = exports.Divider = exports.Checkbox = void 0;
 var Checkbox_1 = require("./Checkbox");
 Object.defineProperty(exports, "Checkbox", { enumerable: true, get: function () { return __importDefault(Checkbox_1).default; } });
 var Divider_1 = require("./Divider");
@@ -16,3 +16,5 @@ var Button_1 = require("./Button");
 Object.defineProperty(exports, "Button", { enumerable: true, get: function () { return __importDefault(Button_1).default; } });
 var IconButton_1 = require("./IconButton");
 Object.defineProperty(exports, "IconButton", { enumerable: true, get: function () { return __importDefault(IconButton_1).default; } });
+var Skeleton_1 = require("./Skeleton");
+Object.defineProperty(exports, "Skeleton", { enumerable: true, get: function () { return __importDefault(Skeleton_1).default; } });

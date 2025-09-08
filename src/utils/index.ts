@@ -3,6 +3,13 @@ import { Dimensions, Platform } from "react-native";
 export function hexToRgba(hex: string, opacity: number) {
   hex = hex?.replace(/^#/, "");
 
+  if (hex?.length === 3) {
+    hex = hex
+      .split("")
+      .map((char) => char + char)
+      .join("");
+  }
+
   const red = parseInt(hex.substring(0, 2), 16);
   const green = parseInt(hex.substring(2, 4), 16);
   const blue = parseInt(hex.substring(4, 6), 16);
@@ -40,15 +47,17 @@ export function generateShadow(
 }
 
 export function capitalize(value: string) {
-  return String(value[0]).toUpperCase() + String(value).slice(1).toLowerCase();
+  return (
+    String(value[0])?.toUpperCase() + String(value)?.slice(1)?.toLowerCase()
+  );
 }
 
 export function formatAmountByCurrency(amount: number, currency: string) {
-  return new Intl.NumberFormat("fr-FR", {
-    style: "currency",
-    currency: currency ?? "",
+  const formattedAmount = new Intl.NumberFormat("fr-FR", {
     maximumFractionDigits: 0,
   }).format(amount);
+
+  return `${formattedAmount} ${currency}`?.trim();
 }
 
 export const SCREEN_WIDTH = Dimensions.get("screen").width;

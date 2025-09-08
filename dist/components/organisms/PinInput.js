@@ -39,8 +39,8 @@ const react_native_1 = require("react-native");
 const react_native_reanimated_1 = __importStar(require("react-native-reanimated"));
 const DEFAULT_PIN_LENGTH = 6;
 const DEFAULT_BLINKING_SPEED = 500;
-const DEFAULT_CURSOR_COLOR = "#555";
-const DEFAULT_FOCUSED_PIN_BORDER_COLOR = "#555";
+const DEFAULT_CURSOR_COLOR = "#333";
+const DEFAULT_FOCUSED_PIN_BORDER_COLOR = "#333";
 exports.default = react_1.default.forwardRef(({ pinLength = DEFAULT_PIN_LENGTH, blinkingSpeed = DEFAULT_BLINKING_SPEED, onChange, value, cursorColor, activePinContainerStyle, pinContainerStyle, cursorStyle, pinTextStyle, secureDotStyle, containerStyle, secureTextEntry = false, shouldOnlyAcceptNumbers = true, showCursor = true, }, ref) => {
     var _a;
     const textInputRef = (0, react_2.useRef)(null);
