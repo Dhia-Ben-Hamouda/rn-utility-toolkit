@@ -40,7 +40,12 @@ exports.default = FlipCard;
 const react_1 = __importDefault(require("react"));
 const react_native_1 = require("react-native");
 const react_native_reanimated_1 = __importStar(require("react-native-reanimated"));
-function FlipCard({ backCard, frontCard, containerStyle, }) {
+function PlaceholderCard({ label }) {
+    return (<react_native_1.View style={styles.placeholderContainer}>
+      <react_native_1.Text style={styles.placeholderText}>{label}</react_native_1.Text>
+    </react_native_1.View>);
+}
+function FlipCard({ backCard = <PlaceholderCard label="Back Card"/>, frontCard = <PlaceholderCard label="Front Card"/>, containerStyle, }) {
     const isRotated = (0, react_native_reanimated_1.useSharedValue)(0);
     const animatedFrontCardStyle = (0, react_native_reanimated_1.useAnimatedStyle)(() => {
         const rotation = (0, react_native_reanimated_1.interpolate)(isRotated.value, [0, 1], [0, 180], react_native_reanimated_1.Extrapolation.CLAMP);
@@ -93,5 +98,17 @@ const styles = react_native_1.StyleSheet.create({
         width: "100%",
         height: "100%",
         backfaceVisibility: "hidden",
+    },
+    placeholderContainer: {
+        backgroundColor: "#333",
+        height: "100%",
+        borderRadius: 7,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    placeholderText: {
+        color: "#fff",
+        fontSize: 24,
+        fontWeight: "700",
     },
 });

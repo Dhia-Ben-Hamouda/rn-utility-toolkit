@@ -99,7 +99,7 @@ const styles = react_native_1.StyleSheet.create({
         zIndex: -1,
     },
     action: {
-        backgroundColor: "#555",
+        backgroundColor: "#333",
         width: ACTION_BUTTON_DIMENSION,
         height: ACTION_BUTTON_DIMENSION,
         borderRadius: 8,

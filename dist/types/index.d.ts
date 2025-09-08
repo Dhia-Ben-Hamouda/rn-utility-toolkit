@@ -1,6 +1,6 @@
 import { PropsWithChildren, SetStateAction } from "react";
 import { ImageSourcePropType, StyleProp, TextStyle, ViewStyle } from "react-native";
-import Animated, { SharedValue, WithTimingConfig } from "react-native-reanimated";
+import { SharedValue, WithTimingConfig } from "react-native-reanimated";
 export interface CheckboxProps {
     isChecked: boolean;
     onChange: (value: boolean) => void;
@@ -189,7 +189,7 @@ export interface ModalProps extends PropsWithChildren {
     overlayStyle?: StyleProp<ViewStyle>;
     containerStyle?: StyleProp<ViewStyle>;
 }
-export interface CarouselProps<T> extends Partial<Animated.FlatList<T>> {
+export interface CarouselProps<T> {
     data: Array<T>;
     renderItem: (payload: {
         item: T;
@@ -205,7 +205,7 @@ export interface CarouselProps<T> extends Partial<Animated.FlatList<T>> {
     dotWidth?: number;
     showDots?: boolean;
     onChange?: (newIndex: number) => void;
-    dotOffsetMultiplier: number;
+    dotOffsetMultiplier?: number;
 }
 export interface SwipeableAction {
     icon: React.ReactNode;

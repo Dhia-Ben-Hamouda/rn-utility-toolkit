@@ -127,12 +127,12 @@ const styles = react_native_1.StyleSheet.create({
     pinText: {
         fontSize: 24,
         fontWeight: "bold",
-        color: "#555",
+        color: "#333",
     },
     dot: {
         width: 10,
         height: 10,
-        backgroundColor: "#555",
+        backgroundColor: "#333",
         borderRadius: 50,
     },
 });

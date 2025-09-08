@@ -1,5 +1,12 @@
 import React from "react";
-import { Pressable, StyleProp, StyleSheet, ViewStyle } from "react-native";
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+  Text,
+} from "react-native";
 import Animated, {
   Easing,
   Extrapolation,
@@ -9,15 +16,23 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
+function PlaceholderCard({ label }: { label: string }) {
+  return (
+    <View style={styles.placeholderContainer}>
+      <Text style={styles.placeholderText}>{label}</Text>
+    </View>
+  );
+}
+
 interface IFlipCard {
-  frontCard: React.ReactNode;
-  backCard: React.ReactNode;
+  frontCard?: React.ReactNode;
+  backCard?: React.ReactNode;
   containerStyle?: StyleProp<ViewStyle>;
 }
 
 export default function FlipCard({
-  backCard,
-  frontCard,
+  backCard = <PlaceholderCard label="Back Card" />,
+  frontCard = <PlaceholderCard label="Front Card" />,
   containerStyle,
 }: IFlipCard) {
   const isRotated = useSharedValue(0);
@@ -94,5 +109,17 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     backfaceVisibility: "hidden",
+  },
+  placeholderContainer: {
+    backgroundColor: "#333",
+    height: "100%",
+    borderRadius: 7,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  placeholderText: {
+    color: "#fff",
+    fontSize: 24,
+    fontWeight: "700",
   },
 });

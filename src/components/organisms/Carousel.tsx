@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import {
-  ListRenderItem,
   StyleProp,
   StyleSheet,
   View,
@@ -80,7 +79,7 @@ function AnimatedDot({
 
   return <Animated.View style={[styles.dot, dotStyle, animatedDotStyle]} />;
 }
-interface ICarousel<T> extends Partial<Animated.FlatList<T>> {
+interface ICarousel<T> {
   data: Array<T>;
   renderItem: (payload: {
     item: T;
@@ -112,7 +111,6 @@ export default function Carousel<T>({
   showDots = true,
   onChange,
   dotOffsetMultiplier = SCREEN_WIDTH,
-  ...rest
 }: ICarousel<T>) {
   const offset = useSharedValue(0);
 
@@ -160,7 +158,6 @@ export default function Carousel<T>({
         viewabilityConfigCallbackPairs={
           viewabilitConfigCallbackPairsRef.current
         }
-        {...rest}
       />
       {showDots && (
         <View style={[styles.dotsContainer, dotsContainerStyle]}>

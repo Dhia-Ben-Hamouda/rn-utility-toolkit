@@ -218,7 +218,7 @@ export interface ModalProps extends PropsWithChildren {
   containerStyle?: StyleProp<ViewStyle>;
 }
 
-export interface CarouselProps<T> extends Partial<Animated.FlatList<T>> {
+export interface CarouselProps<T> {
   data: Array<T>;
   renderItem: (payload: {
     item: T;
@@ -234,7 +234,7 @@ export interface CarouselProps<T> extends Partial<Animated.FlatList<T>> {
   dotWidth?: number;
   showDots?: boolean;
   onChange?: (newIndex: number) => void;
-  dotOffsetMultiplier: number;
+  dotOffsetMultiplier?: number;
 }
 
 export interface SwipeableAction {

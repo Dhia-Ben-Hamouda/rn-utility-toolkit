@@ -32,17 +32,6 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Carousel;
 const react_1 = __importStar(require("react"));
@@ -75,8 +64,7 @@ function AnimatedDot({ index, offset, activeDotColor, dotColor, activeDotWidth, 
     });
     return <react_native_reanimated_1.default.View style={[styles.dot, dotStyle, animatedDotStyle]}/>;
 }
-function Carousel(_a) {
-    var { data = [], renderItem: customRenderItem, containerStyle, dotsContainerStyle, activeDotColor = DEFAULT_ACTIVE_DOT_COLOR, dotColor = DEFAULT_DOT_COLOR, activeDotWidth = DEFAULT_ACTIVE_DOT_WIDTH, dotWidth = DEFAULT_DOT_WIDTH, dotStyle, showDots = true, onChange, dotOffsetMultiplier = utils_1.SCREEN_WIDTH } = _a, rest = __rest(_a, ["data", "renderItem", "containerStyle", "dotsContainerStyle", "activeDotColor", "dotColor", "activeDotWidth", "dotWidth", "dotStyle", "showDots", "onChange", "dotOffsetMultiplier"]);
+function Carousel({ data = [], renderItem: customRenderItem, containerStyle, dotsContainerStyle, activeDotColor = DEFAULT_ACTIVE_DOT_COLOR, dotColor = DEFAULT_DOT_COLOR, activeDotWidth = DEFAULT_ACTIVE_DOT_WIDTH, dotWidth = DEFAULT_DOT_WIDTH, dotStyle, showDots = true, onChange, dotOffsetMultiplier = utils_1.SCREEN_WIDTH, }) {
     const offset = (0, react_native_reanimated_1.useSharedValue)(0);
     const viewabilitConfigCallbackPairsRef = (0, react_1.useRef)([
         {
@@ -104,7 +92,7 @@ function Carousel(_a) {
                 index,
                 offset,
             });
-        }} viewabilityConfigCallbackPairs={viewabilitConfigCallbackPairsRef.current} {...rest}/>
+        }} viewabilityConfigCallbackPairs={viewabilitConfigCallbackPairsRef.current}/>
       {showDots && (<react_native_1.View style={[styles.dotsContainer, dotsContainerStyle]}>
           {data === null || data === void 0 ? void 0 : data.map((_, index) => (<AnimatedDot key={index} dotColor={dotColor} activeDotColor={activeDotColor} index={index} offset={offset} activeDotWidth={activeDotWidth} dotStyle={dotStyle} dotWidth={dotWidth} dotOffsetMultiplier={dotOffsetMultiplier}/>))}
         </react_native_1.View>)}

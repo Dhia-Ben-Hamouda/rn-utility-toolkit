@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleProp, ViewStyle } from "react-native";
-import Animated, { SharedValue } from "react-native-reanimated";
-interface ICarousel<T> extends Partial<Animated.FlatList<T>> {
+import { SharedValue } from "react-native-reanimated";
+interface ICarousel<T> {
     data: Array<T>;
     renderItem: (payload: {
         item: T;
@@ -19,5 +19,5 @@ interface ICarousel<T> extends Partial<Animated.FlatList<T>> {
     onChange?: (newIndex: number) => void;
     dotOffsetMultiplier?: number;
 }
-export default function Carousel<T>({ data, renderItem: customRenderItem, containerStyle, dotsContainerStyle, activeDotColor, dotColor, activeDotWidth, dotWidth, dotStyle, showDots, onChange, dotOffsetMultiplier, ...rest }: ICarousel<T>): React.JSX.Element;
+export default function Carousel<T>({ data, renderItem: customRenderItem, containerStyle, dotsContainerStyle, activeDotColor, dotColor, activeDotWidth, dotWidth, dotStyle, showDots, onChange, dotOffsetMultiplier, }: ICarousel<T>): React.JSX.Element;
 export {};
