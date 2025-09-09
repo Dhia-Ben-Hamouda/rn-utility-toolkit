@@ -1,7 +1,8 @@
 import React from "react";
-import { ViewStyle } from "react-native";
 interface ISkeleton {
-    contentStyle?: ViewStyle;
+    width: number;
+    height: number;
+    borderRadius?: number;
     backgroundColor?: string;
     highlightColor?: string;
     speed?: number;
@@ -10,5 +11,5 @@ interface ISkeleton {
     angle?: number;
     shimmerWidth?: number;
 }
-export default function Skeleton({ contentStyle, ...rest }: ISkeleton): React.JSX.Element;
+export default function Skeleton({ width, height, speed, backgroundColor, highlightColor, ...rest }: ISkeleton): React.JSX.Element;
 export {};

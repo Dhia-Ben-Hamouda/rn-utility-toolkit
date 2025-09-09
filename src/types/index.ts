@@ -1,16 +1,11 @@
 import { PropsWithChildren, SetStateAction } from "react";
 import {
   ImageSourcePropType,
-  ListRenderItem,
-  ModalProps as NativeModalProps,
   StyleProp,
   TextStyle,
   ViewStyle,
 } from "react-native";
-import Animated, {
-  SharedValue,
-  WithTimingConfig,
-} from "react-native-reanimated";
+import { SharedValue, WithTimingConfig } from "react-native-reanimated";
 
 export interface CheckboxProps {
   isChecked: boolean;
@@ -248,7 +243,9 @@ export interface SwipeableProps extends PropsWithChildren {
 }
 
 export interface SkeletonProps {
-  contentStyle?: ViewStyle;
+  width: number;
+  height: number;
+  borderRadius?: number;
   backgroundColor?: string;
   highlightColor?: string;
   speed?: number;

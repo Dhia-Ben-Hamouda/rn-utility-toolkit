@@ -17,9 +17,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Skeleton;
 const react_1 = __importDefault(require("react"));
 const react_native_skeleton_placeholder_1 = __importDefault(require("react-native-skeleton-placeholder"));
+const DEFAULT_SPEED = 1250;
+const DEFAULT_BACKGROUND_COLOR = "#ccc";
+const DEFAULT_HIGHLIGHT_COLOR = "#aaa";
 function Skeleton(_a) {
-    var { contentStyle } = _a, rest = __rest(_a, ["contentStyle"]);
-    return (<react_native_skeleton_placeholder_1.default {...rest}>
-      <react_native_skeleton_placeholder_1.default.Item {...contentStyle}/>
+    var { width, height, speed = DEFAULT_SPEED, backgroundColor = DEFAULT_BACKGROUND_COLOR, highlightColor = DEFAULT_HIGHLIGHT_COLOR } = _a, rest = __rest(_a, ["width", "height", "speed", "backgroundColor", "highlightColor"]);
+    return (<react_native_skeleton_placeholder_1.default backgroundColor={backgroundColor} highlightColor={highlightColor} speed={speed} {...rest}>
+      <react_native_skeleton_placeholder_1.default.Item width={width} height={height}/>
     </react_native_skeleton_placeholder_1.default>);
 }
