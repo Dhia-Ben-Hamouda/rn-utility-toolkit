@@ -28,6 +28,8 @@ Small, reusable building blocks of the UI.
 
 - `Button`
 
+![Button Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/button.gif)
+
 ```tsx
 import React from "react";
 import { Button, type ButtonProps } from "rn-utility-toolkit";
@@ -45,10 +47,10 @@ export default function App() {
       endIcon={<HomeIcon />}
       onPress={() => console.log("Button pressed")}
       isOutlined={false}
-      activityIndicatorColor="#ff0"
+      activityIndicatorColor="#fff"
       pendingActionBackgroundColor="#aaa"
       useGradients={true}
-      gradientColors={["#ff7e5f", "#feb47b"]}
+      gradientColors={["#333", "#000"]}
       gradientStart={{ x: 0, y: 0 }}
       gradientEnd={{ x: 1, y: 0 }}
     >
@@ -59,6 +61,8 @@ export default function App() {
 ```
 
 - `Checkbox`
+
+![Checkbox Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/checkbox.gif)
 
 ```tsx
 import React, { useState } from "react";
@@ -74,12 +78,12 @@ export default function App() {
       onChange={(value) => setChecked(value)}
       size={28}
       label="Accept Terms & Conditions"
-      color="#6200ee"
+      color="#333"
       checkColor="#fff"
       customCheckIcon={<CheckIcon />}
       containerStyle={{ marginBottom: 16 }}
       boxStyle={{ borderRadius: 6 }}
-      labelStyle={{ fontSize: 18, color: "#6200ee" }}
+      labelStyle={{ fontSize: 18, color: "#333" }}
     />
   );
 }
@@ -121,13 +125,15 @@ export default function App() {
       containerStyle={{ margin: 10 }}
       customHitSlop={20}
       isOutlined={true}
-      color="#6200ee"
+      color="#333"
     />
   );
 }
 ```
 
 - `RadioButton`
+
+![Radio Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/radio.gif)
 
 ```tsx
 import React, { useState } from "react";
@@ -142,10 +148,10 @@ export default function App() {
       value="option1"
       activeValue={selectedValue}
       onChange={(val) => setSelectedValue(val)}
-      labelStyle={{ fontSize: 18, color: "#6200ee" }}
+      labelStyle={{ fontSize: 18, color: "#333" }}
       containerStyle={{ marginBottom: 16 }}
       radioContainerStyle={{ width: 24, height: 24 }}
-      color="#6200ee"
+      color="#333"
       customDotSize={12}
     />
   );
@@ -153,6 +159,8 @@ export default function App() {
 ```
 
 - `Switch`
+
+![Switch Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/switch.gif)
 
 ```tsx
 import React, { useState } from "react";
@@ -169,7 +177,7 @@ export default function App() {
       containerStyle={{ width: 60, height: 30, padding: 5 }}
       thumbStyle={{ width: 20, height: 20, backgroundColor: "#fff" }}
       customThumbTranslation={28}
-      activeSwitchColor="#6200ee"
+      activeSwitchColor="#333"
       inactiveSwitchColor="#bbb"
       isDisabled={false}
       disabledSwitchColor="#999"
@@ -199,7 +207,7 @@ export default function App() {
       containerStyle={{ margin: 8 }}
       labelStyle={{ fontSize: 16, fontWeight: "600" }}
       startPicture={{ uri: "https://via.placeholder.com/16" }}
-      activeChipBackgroundColor="#6200ee"
+      activeChipBackgroundColor="#333"
       chipBackgroundColor="#e0e0e0"
       activeChipTextColor="#fff"
       chipTextColor="#333"
@@ -244,13 +252,15 @@ export default function App() {
     <ProgressBar
       progress={progress}
       containerStyle={{ marginTop: 20, height: 12, borderRadius: 6 }}
-      barStyle={{ backgroundColor: "#6200ee" }}
+      barStyle={{ backgroundColor: "#333" }}
     />
   );
 }
 ```
 
 - `Select`
+
+![Select Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/select.gif)
 
 ```tsx
 import React, { useState } from "react";
@@ -304,6 +314,8 @@ export default function App() {
 
 - `Tabs`
 
+![Tabs Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/tabs.gif)
+
 ```tsx
 import React, { useState } from "react";
 import { Tabs, type TabsProps, type TabOption } from "rn-utility-toolkit";
@@ -351,19 +363,16 @@ export default function App() {
       title="Full Props Accordion"
       isDefaultExpanded={true}
       expansionDuration={600}
-      arrowColor="#ff6347"
+      arrowColor="#333"
       arrowSize={16}
       customArrowIcon={<Text style={{ fontSize: 18 }}>▼</Text>}
       customArrowRotationAngle={-90}
       isArrowShown={true}
       isTitleShown={true}
-      headerStyle={{ backgroundColor: "#4caf50", paddingVertical: 16 }}
+      headerStyle={{ backgroundColor: "#333", paddingVertical: 16 }}
       titleStyle={{ fontSize: 18, fontWeight: "bold", color: "#fff" }}
       containerStyle={{
         marginBottom: 20,
-        borderWidth: 1,
-        borderColor: "#4caf50",
-        borderRadius: 12,
       }}
       contentContainerStyle={{
         padding: 16,
@@ -472,6 +481,8 @@ const styles = StyleSheet.create({
 
 - `PinInput`
 
+![PinInput Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/pin.gif)
+
 ```tsx
 import React, { useRef, useState } from "react";
 import { View, Button } from "react-native";
@@ -494,7 +505,7 @@ export default function App() {
         pinLength={6}
         blinkingSpeed={400}
         secureTextEntry={true}
-        cursorColor="#ff6347"
+        cursorColor="#333"
         showCursor={true}
         shouldOnlyAcceptNumbers={true}
         containerStyle={{ marginVertical: 20 }}
@@ -502,9 +513,9 @@ export default function App() {
           backgroundColor: "#f5f5f5",
           borderColor: "#ccc",
         }}
-        activePinContainerStyle={{ borderColor: "#ff6347", borderWidth: 2 }}
+        activePinContainerStyle={{ borderColor: "#333", borderWidth: 2 }}
         pinTextStyle={{ color: "#333", fontSize: 20 }}
-        secureDotStyle={{ backgroundColor: "#ff6347" }}
+        secureDotStyle={{ backgroundColor: "#333" }}
       />
       <View>
         <Button title="Focus" onPress={() => pinRef.current?.focus()} />
