@@ -216,7 +216,9 @@ export interface SwipeableProps extends PropsWithChildren {
     actions?: Array<SwipeableAction>;
 }
 export interface SkeletonProps {
-    contentStyle?: ViewStyle;
+    width: number;
+    height: number;
+    borderRadius?: number;
     backgroundColor?: string;
     highlightColor?: string;
     speed?: number;
