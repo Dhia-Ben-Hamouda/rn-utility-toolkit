@@ -86,7 +86,7 @@ function Carousel({ data = [], renderItem: customRenderItem, containerStyle, dot
         },
     });
     return (<react_native_1.View style={[styles.wrapper, containerStyle]}>
-      <react_native_reanimated_1.default.FlatList onScroll={onScroll} showsHorizontalScrollIndicator={false} pagingEnabled horizontal data={data} renderItem={({ item, index }) => {
+      <react_native_reanimated_1.default.FlatList onScroll={onScroll} showsHorizontalScrollIndicator={false} bounces={false} pagingEnabled horizontal data={data} renderItem={({ item, index }) => {
             return customRenderItem({
                 item,
                 index,

@@ -120,7 +120,7 @@ function SelectItem({ onPress, item, value, picture, itemBackgroundColor = DEFAU
       </AnimatedPressable>
     </>);
 }
-function Select({ containerStyle, inputContainerStyle, labelStyle, isRequired = false, isError, errorMessage, label, placeholder = "Select option", data = [], onChange, value, shouldCloseAfterSelection = false, isArrowShown = true, itemBackgroundColor, selectedItemBackgroundColor, itemLabelColor, selectedItemLabelColor, itemLabelStyle, selectedItemLabelStyle, checkColor = DEFAULT_CHECK_COLOR, checkSize = DEFAULT_CHECK_SIZE, arrowColor = DEFAULT_ARROW_COLOR, arrowSize = DEFAULT_ARROW_SIZE, placeholderStyle, arrowContainerStyle, customArrowIcon, onSelectClosed, onSelectOpened, customDropdownOffset = DEFAULT_DROPDOWN_OFFSET, dropdownItemStyle, customArrowRotation = DEFAULT_ARROW_ROTATION, }) {
+function Select({ containerStyle, inputContainerStyle, labelStyle, isRequired = false, isError, errorMessage, errorMessageStyle, label, placeholder = "Select option", data = [], onChange, value, shouldCloseAfterSelection = false, isArrowShown = true, itemBackgroundColor, selectedItemBackgroundColor, itemLabelColor, selectedItemLabelColor, itemLabelStyle, selectedItemLabelStyle, checkColor = DEFAULT_CHECK_COLOR, checkSize = DEFAULT_CHECK_SIZE, arrowColor = DEFAULT_ARROW_COLOR, arrowSize = DEFAULT_ARROW_SIZE, placeholderStyle, arrowContainerStyle, customArrowIcon, onSelectClosed, onSelectOpened, customDropdownOffset = DEFAULT_DROPDOWN_OFFSET, dropdownItemStyle, customArrowRotation = DEFAULT_ARROW_ROTATION, }) {
     const isOpen = (0, react_native_reanimated_1.useSharedValue)(0);
     const dropdownRef = (0, react_native_reanimated_1.useAnimatedRef)();
     const animatedArrowStyle = (0, react_native_reanimated_1.useAnimatedStyle)(() => {
@@ -200,7 +200,7 @@ function Select({ containerStyle, inputContainerStyle, labelStyle, isRequired = 
             </react_native_1.View>))}
         </AnimatedScrollView>
       </react_native_reanimated_1.default.View>
-      {isError && <react_native_1.Text style={[styles.error]}>{errorMessage}</react_native_1.Text>}
+      {isError && (<react_native_1.Text style={[styles.error, errorMessageStyle]}>{errorMessage}</react_native_1.Text>)}
     </react_native_1.View>);
 }
 const styles = react_native_1.StyleSheet.create({

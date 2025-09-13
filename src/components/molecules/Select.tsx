@@ -195,6 +195,7 @@ interface ISelect<T> {
   isRequired?: boolean;
   isError?: boolean;
   errorMessage?: string;
+  errorMessageStyle?: StyleProp<TextStyle>;
   label?: string;
   placeholder?: string;
   data: Array<ISelectItem<T>>;
@@ -229,6 +230,7 @@ export default function Select<T>({
   isRequired = false,
   isError,
   errorMessage,
+  errorMessageStyle,
   label,
   placeholder = "Select option",
   data = [],
@@ -389,7 +391,9 @@ export default function Select<T>({
           ))}
         </AnimatedScrollView>
       </Animated.View>
-      {isError && <Text style={[styles.error]}>{errorMessage}</Text>}
+      {isError && (
+        <Text style={[styles.error, errorMessageStyle]}>{errorMessage}</Text>
+      )}
     </View>
   );
 }

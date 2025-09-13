@@ -12,6 +12,7 @@ interface ISelect<T> {
     isRequired?: boolean;
     isError?: boolean;
     errorMessage?: string;
+    errorMessageStyle?: StyleProp<TextStyle>;
     label?: string;
     placeholder?: string;
     data: Array<ISelectItem<T>>;
@@ -38,5 +39,5 @@ interface ISelect<T> {
     dropdownItemStyle?: StyleProp<ViewStyle>;
     customArrowRotation?: number;
 }
-export default function Select<T>({ containerStyle, inputContainerStyle, labelStyle, isRequired, isError, errorMessage, label, placeholder, data, onChange, value, shouldCloseAfterSelection, isArrowShown, itemBackgroundColor, selectedItemBackgroundColor, itemLabelColor, selectedItemLabelColor, itemLabelStyle, selectedItemLabelStyle, checkColor, checkSize, arrowColor, arrowSize, placeholderStyle, arrowContainerStyle, customArrowIcon, onSelectClosed, onSelectOpened, customDropdownOffset, dropdownItemStyle, customArrowRotation, }: ISelect<T>): React.JSX.Element;
+export default function Select<T>({ containerStyle, inputContainerStyle, labelStyle, isRequired, isError, errorMessage, errorMessageStyle, label, placeholder, data, onChange, value, shouldCloseAfterSelection, isArrowShown, itemBackgroundColor, selectedItemBackgroundColor, itemLabelColor, selectedItemLabelColor, itemLabelStyle, selectedItemLabelStyle, checkColor, checkSize, arrowColor, arrowSize, placeholderStyle, arrowContainerStyle, customArrowIcon, onSelectClosed, onSelectOpened, customDropdownOffset, dropdownItemStyle, customArrowRotation, }: ISelect<T>): React.JSX.Element;
 export {};

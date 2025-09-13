@@ -6,10 +6,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = IconButton;
 const react_1 = __importDefault(require("react"));
 const react_native_1 = require("react-native");
+const react_native_linear_gradient_1 = __importDefault(require("react-native-linear-gradient"));
 const DEFAULT_BUTTON_COLOR = "#333";
-function IconButton({ icon, onPress, containerStyle, customHitSlop, isOutlined, color = DEFAULT_BUTTON_COLOR, }) {
+function IconButton({ icon, onPress, containerStyle, customHitSlop, isOutlined, color = DEFAULT_BUTTON_COLOR, gradientColors = ["#000", "#777"], useGradients = false, gradientStart = { x: 0, y: 0 }, gradientEnd = { x: 1, y: 0 }, isDisabled, }) {
+    if (useGradients) {
+        return (<react_native_1.TouchableOpacity disabled={isDisabled} onPress={onPress} hitSlop={customHitSlop}>
+        <react_native_linear_gradient_1.default style={[styles.container, containerStyle]} colors={gradientColors} start={gradientStart} end={gradientEnd}>
+          {icon}
+        </react_native_linear_gradient_1.default>
+      </react_native_1.TouchableOpacity>);
+    }
     return (<>
-      <react_native_1.TouchableOpacity onPress={onPress} hitSlop={customHitSlop} style={[
+      <react_native_1.TouchableOpacity disabled={isDisabled} onPress={onPress} hitSlop={customHitSlop} style={[
             styles.container,
             containerStyle,
             { backgroundColor: color, borderColor: color },

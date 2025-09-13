@@ -111,6 +111,8 @@ export default function App() {
 
 - `IconButton`
 
+![Icon Button Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/icon.gif)
+
 ```tsx
 import React from "react";
 import { View, StyleSheet } from "react-native";
@@ -126,6 +128,11 @@ export default function App() {
       customHitSlop={20}
       isOutlined={true}
       color="#333"
+      useGradients={true}
+      gradientColors={["#333", "#000"]}
+      gradientStart={{ x: 0, y: 0 }}
+      gradientEnd={{ x: 1, y: 0 }}
+      isDisabled={false}
     />
   );
 }
@@ -278,6 +285,7 @@ export default function App() {
       isRequired={true}
       isError={false}
       errorMessage="This field is required"
+      errorMessageStyle={{ fontSize: 16 }}
       containerStyle={{ marginVertical: 10 }}
       inputContainerStyle={{ backgroundColor: "#f9f9f9" }}
       labelStyle={{ fontSize: 14, color: "#555" }}
@@ -436,6 +444,8 @@ export default function App() {
 
 - `FlipCard`
 
+![Flip Card Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/flipcard.gif)
+
 ```tsx
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
@@ -528,8 +538,45 @@ export default function App() {
 
 - `Swipeable`
 
+![Swipeable Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/swipeable.gif)
+
 ```tsx
-Coming Soon
+import React from "react";
+import { Text, View } from "react-native";
+import Swipeable from "rn-utility-toolkit";
+import { StarIcon } from "./icons";
+
+export default function App() {
+  return (
+    <Swipeable
+      containerStyle={{
+        backgroundColor: "#fff",
+      }}
+      actionContainerStyle={{
+        paddingHorizontal: 4,
+      }}
+      actions={[
+        {
+          icon: <StarIcon />,
+          onPress: () => console.log("Star pressed"),
+          containerStyle: { borderRadius: 50, padding: 10 },
+          isOutlined: true,
+          customHitSlop: 12,
+          color: "#fff",
+          useGradients: true,
+          gradientColors: ["#ff4d4d", "#cc0000"],
+          gradientStart: { x: 0, y: 0 },
+          gradientEnd: { x: 1, y: 1 },
+          isDisabled: false,
+        },
+      ]}
+    >
+      <View>
+        <Text>Swipe me left to reveal action with all props</Text>
+      </View>
+    </Swipeable>
+  );
+}
 ```
 
 - `DatePicker`

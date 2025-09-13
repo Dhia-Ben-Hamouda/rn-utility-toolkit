@@ -5,8 +5,14 @@ import {
   TouchableOpacity,
   ViewStyle,
 } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
 
 const DEFAULT_BUTTON_COLOR = "#333";
+
+interface IGradientCoordinate {
+  x: number;
+  y: number;
+}
 
 interface IIconButton {
   icon?: React.ReactNode;
@@ -15,6 +21,11 @@ interface IIconButton {
   isOutlined?: boolean;
   customHitSlop?: number;
   color?: string;
+  useGradients?: boolean;
+  gradientColors?: Array<string>;
+  gradientStart?: IGradientCoordinate;
+  gradientEnd?: IGradientCoordinate;
+  isDisabled?: boolean;
 }
 
 export default function IconButton({
@@ -24,10 +35,35 @@ export default function IconButton({
   customHitSlop,
   isOutlined,
   color = DEFAULT_BUTTON_COLOR,
+  gradientColors = ["#000", "#777"],
+  useGradients = false,
+  gradientStart = { x: 0, y: 0 },
+  gradientEnd = { x: 1, y: 0 },
+  isDisabled,
 }: IIconButton) {
+  if (useGradients) {
+    return (
+      <TouchableOpacity
+        disabled={isDisabled}
+        onPress={onPress}
+        hitSlop={customHitSlop}
+      >
+        <LinearGradient
+          style={[styles.container, containerStyle]}
+          colors={gradientColors}
+          start={gradientStart}
+          end={gradientEnd}
+        >
+          {icon}
+        </LinearGradient>
+      </TouchableOpacity>
+    );
+  }
+
   return (
     <>
       <TouchableOpacity
+        disabled={isDisabled}
         onPress={onPress}
         hitSlop={customHitSlop}
         style={[

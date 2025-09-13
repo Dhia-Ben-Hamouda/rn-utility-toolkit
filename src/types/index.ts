@@ -55,6 +55,7 @@ export interface SelectProps<T> {
   isRequired?: boolean;
   isError?: boolean;
   errorMessage?: string;
+  errorMessageStyle?: StyleProp<TextStyle>;
   label?: string;
   placeholder?: string;
   data: Array<SelectItem<T>>;
@@ -191,6 +192,11 @@ export interface IconButtonProps {
   isOutlined?: boolean;
   customHitSlop?: number;
   color?: string;
+  useGradients?: boolean;
+  gradientColors?: Array<string>;
+  gradientStart?: GradientCoordinate;
+  gradientEnd?: GradientCoordinate;
+  isDisabled?: boolean;
 }
 
 export interface ChipProps {
@@ -232,14 +238,10 @@ export interface CarouselProps<T> {
   dotOffsetMultiplier?: number;
 }
 
-export interface SwipeableAction {
-  icon: React.ReactNode;
-  onPress: () => void;
-}
-
 export interface SwipeableProps extends PropsWithChildren {
   containerStyle?: StyleProp<ViewStyle>;
-  actions?: Array<SwipeableAction>;
+  actionContainerStyle?: StyleProp<ViewStyle>;
+  actions?: Array<IconButtonProps>;
 }
 
 export interface SkeletonProps {

@@ -145,6 +145,7 @@ export default function Carousel<T>({
       <Animated.FlatList
         onScroll={onScroll}
         showsHorizontalScrollIndicator={false}
+        bounces={false}
         pagingEnabled
         horizontal
         data={data}

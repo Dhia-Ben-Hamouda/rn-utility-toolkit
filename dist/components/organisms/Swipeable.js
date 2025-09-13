@@ -41,17 +41,10 @@ const react_1 = __importDefault(require("react"));
 const react_native_1 = require("react-native");
 const react_native_gesture_handler_1 = require("react-native-gesture-handler");
 const react_native_reanimated_1 = __importStar(require("react-native-reanimated"));
-function Action({ icon, onPress }) {
-    const handlePress = () => {
-        onPress && onPress();
-    };
-    return (<react_native_1.TouchableOpacity onPress={handlePress} style={[styles.action]}>
-      {icon}
-    </react_native_1.TouchableOpacity>);
-}
+const atoms_1 = require("../atoms");
 const ACTION_BUTTON_DIMENSION = 42;
 const ACTION_CONTAINER_GAP = 8;
-function Swipeable({ children, containerStyle, actions = [], }) {
+function Swipeable({ children, containerStyle, actionContainerStyle, actions = [], }) {
     const translationX = (0, react_native_reanimated_1.useSharedValue)(0);
     const actionContainerWidth = (actions === null || actions === void 0 ? void 0 : actions.length) * (ACTION_BUTTON_DIMENSION + ACTION_CONTAINER_GAP);
     const panGesture = react_native_gesture_handler_1.Gesture.Pan()
@@ -76,8 +69,8 @@ function Swipeable({ children, containerStyle, actions = [], }) {
         <react_native_reanimated_1.default.View style={[styles.container, containerStyle, animatedContainerStyle]}>
           {children}
         </react_native_reanimated_1.default.View>
-        <react_native_1.View style={[styles.actionContainer]}>
-          {actions === null || actions === void 0 ? void 0 : actions.map((action, index) => (<Action key={index} {...action}/>))}
+        <react_native_1.View style={[styles.actionContainer, actionContainerStyle]}>
+          {actions === null || actions === void 0 ? void 0 : actions.map((action, index) => (<atoms_1.IconButton key={index} {...action}/>))}
         </react_native_1.View>
       </react_native_reanimated_1.default.View>
     </react_native_gesture_handler_1.GestureDetector>);
@@ -94,16 +87,9 @@ const styles = react_native_1.StyleSheet.create({
         alignItems: "center",
         flexDirection: "row",
         minHeight: 49,
+        height: "100%",
         right: 0,
         gap: ACTION_CONTAINER_GAP,
         zIndex: -1,
-    },
-    action: {
-        backgroundColor: "#333",
-        width: ACTION_BUTTON_DIMENSION,
-        height: ACTION_BUTTON_DIMENSION,
-        borderRadius: 8,
-        justifyContent: "center",
-        alignItems: "center",
     },
 });
