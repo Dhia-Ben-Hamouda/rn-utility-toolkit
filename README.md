@@ -91,6 +91,8 @@ export default function App() {
 
 - `Divider`
 
+![Divider Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/divider.png)
+
 ```tsx
 import React from "react";
 import { Divider, type DividerProps } from "rn-utility-toolkit";
@@ -199,6 +201,8 @@ Groups of atoms combined together.
 
 - `Chip`
 
+![Chip Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/chip.gif)
+
 ```tsx
 import React, { useState } from "react";
 import { Chip, type ChipProps } from "rn-utility-toolkit";
@@ -247,6 +251,8 @@ export default function App() {
 ```
 
 - `ProgressBar`
+
+![Progress Bar Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/progress.png)
 
 ```tsx
 import React, { useState } from "react";
@@ -359,6 +365,8 @@ export default function App() {
 Complex components composed of atoms and molecules.
 
 - `Accordion`
+
+![Accordion Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/accordion.gif)
 
 ```tsx
 import React from "react";
