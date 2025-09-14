@@ -1,6 +1,23 @@
 import { PropsWithChildren, SetStateAction } from "react";
 import { ImageSourcePropType, StyleProp, TextStyle, ViewStyle } from "react-native";
 import { SharedValue, WithTimingConfig } from "react-native-reanimated";
+export interface ButtonProps {
+    containerStyle?: StyleProp<ViewStyle>;
+    gradientWrapperStyle?: StyleProp<ViewStyle>;
+    textStyle?: StyleProp<TextStyle>;
+    isDisabled?: boolean;
+    isLoading?: boolean;
+    startIcon?: React.ReactNode;
+    endIcon?: React.ReactNode;
+    onPress?: () => void;
+    isOutlined?: boolean;
+    activityIndicatorColor?: string;
+    pendingActionBackgroundColor?: string;
+    useGradients?: boolean;
+    gradientColors?: Array<string>;
+    gradientStart?: GradientCoordinate;
+    gradientEnd?: GradientCoordinate;
+}
 export interface CheckboxProps {
     isChecked: boolean;
     onChange: (value: boolean) => void;
@@ -13,14 +30,21 @@ export interface CheckboxProps {
     boxStyle?: StyleProp<ViewStyle>;
     labelStyle?: StyleProp<TextStyle>;
 }
-export interface SwitchProps {
-    thumbStyle?: StyleProp<ViewStyle>;
+export interface DividerProps {
+    dividerStyle?: StyleProp<ViewStyle>;
+}
+export interface IconButtonProps {
+    icon?: React.ReactNode;
     containerStyle?: StyleProp<ViewStyle>;
-    onChange: (newValue: boolean) => void;
-    customThumbTranslation?: number;
-    value: boolean;
-    activeSwitchColor?: string;
-    inactiveSwitchColor?: string;
+    onPress?: () => void;
+    isOutlined?: boolean;
+    customHitSlop?: number;
+    color?: string;
+    useGradients?: boolean;
+    gradientColors?: Array<string>;
+    gradientStart?: GradientCoordinate;
+    gradientEnd?: GradientCoordinate;
+    isDisabled?: boolean;
 }
 export interface RadioButtonProps {
     label?: string;
@@ -32,6 +56,52 @@ export interface RadioButtonProps {
     containerStyle?: StyleProp<ViewStyle>;
     color?: string;
     customDotSize?: number;
+}
+export interface SwitchProps {
+    thumbStyle?: StyleProp<ViewStyle>;
+    containerStyle?: StyleProp<ViewStyle>;
+    onChange: (newValue: boolean) => void;
+    customThumbTranslation?: number;
+    value: boolean;
+    activeSwitchColor?: string;
+    inactiveSwitchColor?: string;
+    isDisabled?: boolean;
+    disabledSwitchColor?: string;
+}
+export interface SkeletonProps {
+    width: number;
+    height: number;
+    borderRadius?: number;
+    backgroundColor?: string;
+    highlightColor?: string;
+    speed?: number;
+    direction?: "left" | "right";
+    enabled?: boolean;
+    angle?: number;
+    shimmerWidth?: number;
+}
+export interface ChipProps {
+    value: string;
+    activeValue: string;
+    onChipPress?: (value: string) => void;
+    containerStyle?: StyleProp<ViewStyle>;
+    labelStyle?: StyleProp<TextStyle>;
+    startPicture?: ImageSourcePropType;
+    activeChipBackgroundColor?: string;
+    chipBackgroundColor?: string;
+    activeChipTextColor?: string;
+    chipTextColor?: string;
+}
+export interface ModalProps extends PropsWithChildren {
+    isOpen: boolean;
+    setIsOpen?: React.Dispatch<SetStateAction<boolean>>;
+    overlayStyle?: StyleProp<ViewStyle>;
+    containerStyle?: StyleProp<ViewStyle>;
+}
+export interface ProgressBarProps {
+    progress: number;
+    containerStyle?: StyleProp<ViewStyle>;
+    barStyle?: StyleProp<ViewStyle>;
 }
 export interface SelectItem<T> {
     label: string;
@@ -71,14 +141,6 @@ export interface SelectProps<T> {
     customDropdownOffset?: number;
     dropdownItemStyle?: StyleProp<ViewStyle>;
     customArrowRotation?: number;
-}
-export interface DividerProps {
-    dividerStyle?: StyleProp<ViewStyle>;
-}
-export interface ProgressBarProps {
-    progress: number;
-    containerStyle?: StyleProp<ViewStyle>;
-    barStyle?: StyleProp<ViewStyle>;
 }
 export interface TabOption {
     label: string;
@@ -122,6 +184,29 @@ export interface AccordionProps {
     onAccordionOpened?: (contentHeight: number) => void;
     onAccordionClosed?: (contentHeight: number) => void;
 }
+export interface CarouselProps<T> {
+    data: Array<T>;
+    renderItem: (payload: {
+        item: T;
+        index: number;
+        offset: SharedValue<number>;
+    }) => React.ReactElement | null;
+    containerStyle?: StyleProp<ViewStyle>;
+    dotsContainerStyle?: StyleProp<ViewStyle>;
+    activeDotColor?: string;
+    dotColor?: string;
+    activeDotWidth?: number;
+    dotStyle?: StyleProp<ViewStyle>;
+    dotWidth?: number;
+    showDots?: boolean;
+    onChange?: (newIndex: number) => void;
+    dotOffsetMultiplier?: number;
+}
+export interface FlipCardProps {
+    frontCard: React.ReactNode;
+    backCard: React.ReactNode;
+    containerStyle?: StyleProp<ViewStyle>;
+}
 export interface PinInputProps {
     pinLength?: number;
     value: string;
@@ -142,91 +227,8 @@ export interface PinInputRef {
     focus: () => void;
     blur: () => void;
 }
-export interface ButtonProps {
-    containerStyle?: StyleProp<ViewStyle>;
-    gradientWrapperStyle?: StyleProp<ViewStyle>;
-    textStyle?: StyleProp<TextStyle>;
-    isDisabled?: boolean;
-    isLoading?: boolean;
-    startIcon?: React.ReactNode;
-    endIcon?: React.ReactNode;
-    onPress?: () => void;
-    isOutlined?: boolean;
-    activityIndicatorColor?: string;
-    pendingActionBackgroundColor?: string;
-    useGradients?: boolean;
-    gradientColors?: Array<string>;
-    gradientStart?: GradientCoordinate;
-    gradientEnd?: GradientCoordinate;
-}
-export interface FlipCardProps {
-    frontCard: React.ReactNode;
-    backCard: React.ReactNode;
-    containerStyle?: StyleProp<ViewStyle>;
-}
-export interface IconButtonProps {
-    icon?: React.ReactNode;
-    containerStyle?: StyleProp<ViewStyle>;
-    onPress?: () => void;
-    isOutlined?: boolean;
-    customHitSlop?: number;
-    color?: string;
-    useGradients?: boolean;
-    gradientColors?: Array<string>;
-    gradientStart?: GradientCoordinate;
-    gradientEnd?: GradientCoordinate;
-    isDisabled?: boolean;
-}
-export interface ChipProps {
-    value: string;
-    activeValue: string;
-    onChipPress?: (value: string) => void;
-    containerStyle?: StyleProp<ViewStyle>;
-    labelStyle?: StyleProp<TextStyle>;
-    startPicture?: ImageSourcePropType;
-    activeChipBackgroundColor?: string;
-    chipBackgroundColor?: string;
-    activeChipTextColor?: string;
-    chipTextColor?: string;
-}
-export interface ModalProps extends PropsWithChildren {
-    isOpen: boolean;
-    setIsOpen?: React.Dispatch<SetStateAction<boolean>>;
-    overlayStyle?: StyleProp<ViewStyle>;
-    containerStyle?: StyleProp<ViewStyle>;
-}
-export interface CarouselProps<T> {
-    data: Array<T>;
-    renderItem: (payload: {
-        item: T;
-        index: number;
-        offset: SharedValue<number>;
-    }) => React.ReactElement | null;
-    containerStyle?: StyleProp<ViewStyle>;
-    dotsContainerStyle?: StyleProp<ViewStyle>;
-    activeDotColor?: string;
-    dotColor?: string;
-    activeDotWidth?: number;
-    dotStyle?: StyleProp<ViewStyle>;
-    dotWidth?: number;
-    showDots?: boolean;
-    onChange?: (newIndex: number) => void;
-    dotOffsetMultiplier?: number;
-}
 export interface SwipeableProps extends PropsWithChildren {
     containerStyle?: StyleProp<ViewStyle>;
     actionContainerStyle?: StyleProp<ViewStyle>;
     actions?: Array<IconButtonProps>;
-}
-export interface SkeletonProps {
-    width: number;
-    height: number;
-    borderRadius?: number;
-    backgroundColor?: string;
-    highlightColor?: string;
-    speed?: number;
-    direction?: "left" | "right";
-    enabled?: boolean;
-    angle?: number;
-    shimmerWidth?: number;
 }

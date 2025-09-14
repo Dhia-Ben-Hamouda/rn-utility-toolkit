@@ -195,6 +195,12 @@ export default function App() {
 }
 ```
 
+- `Skeleton`
+
+```tsx
+Coming Soon
+```
+
 ### 🔹 Molecules
 
 Groups of atoms combined together.
@@ -348,16 +354,45 @@ export default function App() {
       options={tabOptions}
       selectedValue={selectedTab}
       onChange={(newTab) => setSelectedTab(newTab)}
-      containerStyle={{ marginHorizontal: 16, marginTop: 50 }}
-      tabLabelColor="#555"
+      containerStyle={{ marginTop: 50 }}
+      innerPadding={8}
+      labelStyle={{ fontSize: 14, fontWeight: "500" }}
+      tabLabelColor="#777"
       activeTabLabelColor="#fff"
+      tabStyle={{ paddingVertical: 10 }}
       indicatorStyle={{ backgroundColor: "#333" }}
       useGradients={true}
       gradientColors={["#4c669f", "#3b5998", "#192f6a"]}
-      innerPadding={4}
+      gradientStart={{ x: 0, y: 0 }}
+      gradientEnd={{ x: 1, y: 0 }}
+      animationConfig={{ duration: 250 }}
     />
   );
 }
+```
+
+- `Picker`
+
+```tsx
+Coming Soon
+```
+
+- `File Picker`
+
+```tsx
+Coming Soon
+```
+
+- `Rating`
+
+```tsx
+Coming Soon
+```
+
+- `Expandable`
+
+```tsx
+Coming Soon
 ```
 
 ### 🔹 Organisms
@@ -588,6 +623,12 @@ export default function App() {
 ```
 
 - `DatePicker`
+
+```tsx
+Coming Soon
+```
+
+- `Range Slider`
 
 ```tsx
 Coming Soon
