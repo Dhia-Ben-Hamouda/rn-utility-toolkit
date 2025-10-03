@@ -52,12 +52,12 @@ export function capitalize(value: string) {
   );
 }
 
-export function formatAmountByCurrency(amount: number, currency: string) {
+export function formatAmountByCurrency(amount: number, currency?: string) {
   const formattedAmount = new Intl.NumberFormat("fr-FR", {
     maximumFractionDigits: 0,
   }).format(amount);
 
-  return `${formattedAmount} ${currency}`?.trim();
+  return `${formattedAmount} ${currency ? currency : ""}`?.trim();
 }
 
 export const SCREEN_WIDTH = Dimensions.get("screen").width;

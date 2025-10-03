@@ -374,25 +374,102 @@ export default function App() {
 - `Picker`
 
 ```tsx
-Coming Soon
-```
+import React, { useRef, useState } from "react";
+import { View, Text } from "react-native";
+import { Picker, type PickerItem, type PickerRef } from "rn-utility-toolkit";
 
-- `File Picker`
+export default function App() {
+  const countries: PickerItem<string>[] = [
+    {
+      label: "United States",
+      subLabel: "North America",
+      value: "US",
+      picture: { uri: "https://flagcdn.com/w40/us.png" },
+    },
+    {
+      label: "France",
+      subLabel: "Europe",
+      value: "FR",
+      picture: { uri: "https://flagcdn.com/w40/fr.png" },
+    },
+    {
+      label: "Japan",
+      subLabel: "Asia",
+      value: "JP",
+      picture: { uri: "https://flagcdn.com/w40/jp.png" },
+    },
+  ];
 
-```tsx
-Coming Soon
-```
+  const pickerRef = useRef<PickerRef>(null);
+  const [selectedCountry, setSelectedCountry] =
+    useState<PickerItem<string> | null>(null);
 
-- `Rating`
-
-```tsx
-Coming Soon
-```
-
-- `Expandable`
-
-```tsx
-Coming Soon
+  return (
+    <View>
+      <Picker
+        ref={pickerRef}
+        label="Select your country"
+        isRequired
+        isError={!selectedCountry}
+        errorMessage="Country selection is required"
+        placeholder="Choose a country"
+        placeholderStyle={{ color: "gray", fontStyle: "italic" }}
+        containerStyle={{ marginBottom: 20 }}
+        inputContainerStyle={{ backgroundColor: "#f9f9f9" }}
+        labelStyle={{ fontSize: 16, fontWeight: "600" }}
+        arrowColor="blue"
+        arrowSize={18}
+        arrowContainerStyle={{ marginLeft: 8 }}
+        customArrowRotation={180}
+        customArrowIcon={<Text style={{ fontSize: 16 }}>▼</Text>}
+        isArrowShown
+        data={countries}
+        value={selectedCountry}
+        onChange={(item) => {
+          setSelectedCountry(item);
+          console.log("Selected:", item);
+        }}
+        onPickerOpened={() => console.log("Picker opened")}
+        onPickerClosed={() => console.log("Picker closed")}
+        confirmationMethod="button"
+        confirmationButtonLabel="Confirm Selection"
+        confirmationButtonProps={{
+          containerStyle: {
+            backgroundColor: "blue",
+            borderRadius: 6,
+            marginTop: 12,
+          },
+          textStyle: { color: "white" },
+        }}
+        bottomSheetListProps={{
+          showsVerticalScrollIndicator: false,
+        }}
+        bottomSheetModalProps={{
+          enablePanDownToClose: true,
+        }}
+        shouldCloseOnSelection={true}
+        selectedItemBorderColor="blue"
+        itemBorderColor="lightgray"
+        sheetHeader={
+          <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+            Available Countries
+          </Text>
+        }
+        sheetListStyle={{ paddingBottom: 40 }}
+        itemStyle={{
+          labelStyle: { fontSize: 14, fontWeight: "600" },
+          subLabelStyle: { fontSize: 12, color: "gray" },
+          radioStyle: { activeColor: "blue" },
+          containerStyle: { backgroundColor: "#fafafa" },
+        }}
+      />
+      <View style={{ flexDirection: "row", gap: 10 }}>
+        <Button onPress={() => pickerRef.current?.open()}>Open Picker</Button>
+        <Button onPress={() => pickerRef.current?.close()}>Close Picker</Button>
+      </View>
+    </View>
+  );
+}
 ```
 
 ### 🔹 Organisms
@@ -622,22 +699,59 @@ export default function App() {
 }
 ```
 
-- `DatePicker`
-
-```tsx
-Coming Soon
-```
-
 - `Range Slider`
 
 ```tsx
-Coming Soon
-```
+import React, { useState } from "react";
+import { Text, View } from "react-native";
+import {
+  RangeSlider,
+  type RangeSliderProps,
+  type SingleSliderProps,
+} from "rn-utility-toolkit";
 
-- `BarChart`
+export default function App() {
+  const [singleValue, setSingleValue] = useState(10000);
+  const [rangeValue, setRangeValue] = useState([5000, 30000]);
 
-```tsx
-Coming Soon
+  return (
+    <View>
+      <RangeSlider
+        value={singleValue}
+        onChange={(val) => setSingleValue(val)}
+        color="#333"
+        min={0}
+        max={50000}
+        step={500}
+        unit="USD"
+        sliderWidth={320}
+        thumbStyle={{
+          backgroundColor: "white",
+          borderWidth: 2,
+        }}
+        trackStyle={{ backgroundColor: "#eee" }}
+        progressStyle={{ backgroundColor: "#333" }}
+      />
+      <RangeSlider
+        isRange
+        value={rangeValue}
+        onChange={(val) => setRangeValue(val)}
+        color="#333"
+        min={0}
+        max={50000}
+        step={1000}
+        unit="TND"
+        sliderWidth={320}
+        thumbStyle={{
+          backgroundColor: "white",
+          borderWidth: 2,
+        }}
+        trackStyle={{ backgroundColor: "#ddd" }}
+        progressStyle={{ backgroundColor: "#333" }}
+      />
+    </View>
+  );
+}
 ```
 
 ## 📚 Contributing

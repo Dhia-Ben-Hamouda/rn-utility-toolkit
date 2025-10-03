@@ -1,5 +1,7 @@
+import { BottomSheetModalProps } from "@gorhom/bottom-sheet";
 import { PropsWithChildren, SetStateAction } from "react";
 import {
+  FlatListProps,
   ImageSourcePropType,
   StyleProp,
   TextStyle,
@@ -192,6 +194,58 @@ export interface TabsProps {
   animationConfig?: WithTimingConfig;
 }
 
+export interface PickerItem<T> {
+  label: string;
+  subLabel?: string;
+  value: T;
+  picture?: ImageSourcePropType;
+}
+
+export interface PickerProps<T> {
+  labelStyle?: StyleProp<TextStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
+  inputContainerStyle?: StyleProp<ViewStyle>;
+  isRequired?: boolean;
+  isError?: boolean;
+  errorMessage?: string;
+  errorMessageStyle?: StyleProp<TextStyle>;
+  label?: string;
+  placeholder?: string;
+  data: Array<PickerItem<T>>;
+  value: null | PickerItem<T>;
+  onChange?: (newValue: PickerItem<T>) => void;
+  isArrowShown?: boolean;
+  placeholderStyle?: StyleProp<TextStyle>;
+  arrowColor?: string;
+  arrowSize?: number;
+  arrowContainerStyle?: StyleProp<ViewStyle>;
+  customArrowIcon?: React.ReactNode;
+  onPickerOpened?: () => void;
+  onPickerClosed?: () => void;
+  customArrowRotation?: number;
+  confirmationMethod?: "button" | "selection";
+  confirmationButtonProps?: Omit<ButtonProps, "onPress">;
+  confirmationButtonLabel?: string;
+  bottomSheetListProps?: Partial<FlatListProps<PickerItem<T>>>;
+  bottomSheetModalProps?: Partial<BottomSheetModalProps>;
+  shouldCloseOnSelection?: boolean;
+  selectedItemBorderColor?: string;
+  itemBorderColor?: string;
+  sheetHeader?: React.ReactNode;
+  sheetListStyle?: StyleProp<ViewStyle>;
+  itemStyle?: {
+    labelStyle?: StyleProp<TextStyle>;
+    subLabelStyle?: StyleProp<TextStyle>;
+    radioStyle?: Omit<RadioButtonProps, "value" | "activeValue" | "onChange">;
+    containerStyle?: StyleProp<ViewStyle>;
+  };
+}
+
+export interface PickerRef {
+  open: () => void;
+  close: () => void;
+}
+
 //? organisms types / interfaces
 
 export interface AccordionProps {
@@ -263,4 +317,28 @@ export interface SwipeableProps extends PropsWithChildren {
   containerStyle?: StyleProp<ViewStyle>;
   actionContainerStyle?: StyleProp<ViewStyle>;
   actions?: Array<IconButtonProps>;
+}
+
+export interface SliderBase {
+  thumbStyle?: StyleProp<ViewStyle>;
+  trackStyle?: StyleProp<ViewStyle>;
+  progressStyle?: StyleProp<ViewStyle>;
+  color?: string;
+  sliderWidth?: number;
+  unit?: string;
+  min?: number;
+  max?: number;
+  step?: number;
+}
+
+export interface SingleSliderProps extends SliderBase {
+  isRange?: false;
+  value: number;
+  onChange: (newValue: number) => void;
+}
+
+export interface RangeSliderProps extends SliderBase {
+  isRange: true;
+  value: number[];
+  onChange: (newValue: number[]) => void;
 }

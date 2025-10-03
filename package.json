@@ -1,6 +1,6 @@
 {
   "name": "rn-utility-toolkit",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -9,11 +9,12 @@
   },
   "peerDependencies": {
     "@react-native-masked-view/masked-view": ">=0.3.2",
-    "react": ">=18.0.0",
-    "react-native": ">=0.78.0",
+    "react": "*",
+    "react-native": "*",
     "react-native-gesture-handler": ">=2.0.0",
     "react-native-linear-gradient": ">=2.0.0",
     "react-native-reanimated": ">=3.0.0",
+    "react-native-worklets": ">=0.5.0",
     "react-native-svg": ">=15.0.0",
     "typescript": ">=5.0.0"
   },
@@ -25,11 +26,13 @@
     "react-native-gesture-handler": "^2.0.0",
     "react-native-linear-gradient": "^2.8.0",
     "react-native-reanimated": "^3.0.0",
+    "react-native-worklets": "^0.5.0",
     "react-native-svg": "^15.0.0",
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "react-native-skeleton-placeholder": "Dhia-Ben-Hamouda/react-native-skeleton-placeholder"
+    "react-native-skeleton-placeholder": "Dhia-Ben-Hamouda/react-native-skeleton-placeholder",
+    "@gorhom/bottom-sheet": "^5.2.6"
   },
   "keywords": [
     "react",
@@ -42,5 +45,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit"
-  }
+  },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md"
+  ]
 }

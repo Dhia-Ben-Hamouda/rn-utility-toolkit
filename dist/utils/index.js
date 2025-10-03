@@ -50,7 +50,7 @@ function formatAmountByCurrency(amount, currency) {
     const formattedAmount = new Intl.NumberFormat("fr-FR", {
         maximumFractionDigits: 0,
     }).format(amount);
-    return (_a = `${formattedAmount} ${currency}`) === null || _a === void 0 ? void 0 : _a.trim();
+    return (_a = `${formattedAmount} ${currency ? currency : ""}`) === null || _a === void 0 ? void 0 : _a.trim();
 }
 exports.SCREEN_WIDTH = react_native_1.Dimensions.get("screen").width;
 exports.SCREEN_HEIGHT = react_native_1.Dimensions.get("screen").height;
