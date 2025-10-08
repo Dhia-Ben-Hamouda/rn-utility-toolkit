@@ -1,0 +1,633 @@
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const bottom_sheet_1 = require("@gorhom/bottom-sheet");
+const moment_1 = __importDefault(require("moment"));
+const react_1 = __importStar(require("react"));
+const react_native_1 = require("react-native");
+const react_native_reanimated_1 = __importStar(require("react-native-reanimated"));
+const react_native_svg_1 = __importStar(require("react-native-svg"));
+const utils_1 = require("../../utils");
+const atoms_1 = require("../atoms");
+const Modal_1 = __importDefault(require("../molecules/Modal"));
+const ANIMATION_DURATION = 500;
+const DEFAULT_ARROW_COLOR = "rgba(0,0,0,.75)";
+const DEFAULT_ARROW_SIZE = 12;
+const DEFAULT_ARROW_ROTATION = 0;
+const DEFAULT_ACTIVE_DATE_BACKGROUND_COLOR = "#333";
+const DEFAULT_ACTIVE_DATE_TEXT_COLOR = "#fff";
+const DEFAULT_DATE_BACKGROUND_COLOR = "transparent";
+const DEFAULT_DATE_TEXT_COLOR = "#333";
+const DEFAULT_FAR_DATE_TEXT_COLOR = "rgba(0,0,0,0.25)";
+const DEFAULT_FAR_DATE_BACKGROUND_COLOR = "transparent";
+const DEFAULT_RANGE_DATE_BACKGROUND_COLOR = "rgba(0, 0, 0, 0.075)";
+const YEAR_COLUMN_GAP = 4;
+const AnimatedPressable = react_native_reanimated_1.default.createAnimatedComponent(react_native_1.Pressable);
+function AngleDown({ size = 20, color = DEFAULT_ARROW_COLOR, }) {
+    return (<react_native_svg_1.default width={size} height={size} viewBox="0 0 448 512">
+      <react_native_svg_1.Path fill={color} d="M201.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 306.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"/>
+    </react_native_svg_1.default>);
+}
+function generateCalendarData(date) {
+    const m = (0, moment_1.default)(date);
+    const orderedWeekdays = [
+        moment_1.default.weekdaysShort()[1],
+        moment_1.default.weekdaysShort()[2],
+        moment_1.default.weekdaysShort()[3],
+        moment_1.default.weekdaysShort()[4],
+        moment_1.default.weekdaysShort()[5],
+        moment_1.default.weekdaysShort()[6],
+        moment_1.default.weekdaysShort()[0],
+    ].map(day => ({
+        type: "weekday",
+        label: day,
+    }));
+    const startOfMonth = m.clone().startOf("month");
+    const daysInMonth = m.daysInMonth();
+    const startWeekday = (startOfMonth.day() + 6) % 7;
+    const prevMonth = m.clone().subtract(1, "month");
+    const prevMonthDays = prevMonth.daysInMonth();
+    const prevDays = Array.from({ length: startWeekday }).map((_, i) => {
+        const day = prevMonth
+            .clone()
+            .date(prevMonthDays - startWeekday + i + 1)
+            .toDate();
+        return { type: "prev", label: day };
+    });
+    const currDays = Array.from({ length: daysInMonth }).map((_, i) => {
+        const day = startOfMonth
+            .clone()
+            .date(i + 1)
+            .toDate();
+        return { type: "current", label: day };
+    });
+    const totalDays = prevDays.length + currDays.length;
+    const remaining = 35 - totalDays;
+    const nextMonth = m.clone().add(1, "month");
+    const nextDays = Array.from({ length: remaining }).map((_, i) => {
+        const day = nextMonth
+            .clone()
+            .date(i + 1)
+            .toDate();
+        return { type: "next", label: day };
+    });
+    return [...orderedWeekdays, ...prevDays, ...currDays, ...nextDays];
+}
+function MonthCell({ month, index, monthContainerWidth, selectedMonth, setSelectedMonth, activeMonthBackgroundColor, activeMonthTextColor, }) {
+    const isActiveCell = (0, react_native_reanimated_1.useSharedValue)(0);
+    (0, react_1.useEffect)(() => {
+        isActiveCell.value = (0, react_native_reanimated_1.withTiming)(month === selectedMonth ? 1 : 0);
+    }, [month, selectedMonth]);
+    const animatedContainerStyle = (0, react_native_reanimated_1.useAnimatedStyle)(() => {
+        const backgroundColor = (0, react_native_reanimated_1.interpolateColor)(isActiveCell.value, [0, 1], ["transparent", activeMonthBackgroundColor]);
+        return {
+            backgroundColor,
+        };
+    });
+    const animatedTextStyle = (0, react_native_reanimated_1.useAnimatedStyle)(() => {
+        const color = (0, react_native_reanimated_1.interpolateColor)(isActiveCell.value, [0, 1], ["#333", activeMonthTextColor]);
+        return {
+            color,
+        };
+    });
+    if (!monthContainerWidth)
+        return null;
+    return (<AnimatedPressable onPress={() => {
+            setSelectedMonth(month);
+        }} style={[
+            styles.yearCell,
+            {
+                width: (monthContainerWidth - YEAR_COLUMN_GAP * 2) / 3,
+                marginEnd: (index + 1) % 3 === 0 ? 0 : YEAR_COLUMN_GAP,
+            },
+            animatedContainerStyle,
+        ]}>
+      <react_native_reanimated_1.default.Text style={[styles.yearText, animatedTextStyle]}>
+        {(0, moment_1.default)().month(month).format("MMM")}
+      </react_native_reanimated_1.default.Text>
+    </AnimatedPressable>);
+}
+function YearCell({ year, index, yearContainerWidth, selectedYear, setSelectedYear, activeYearBackgroundColor, activeYearTextColor, }) {
+    const isActiveCell = (0, react_native_reanimated_1.useSharedValue)(0);
+    (0, react_1.useEffect)(() => {
+        isActiveCell.value = (0, react_native_reanimated_1.withTiming)(year === (selectedYear === null || selectedYear === void 0 ? void 0 : selectedYear.toString()) ? 1 : 0);
+    }, [year, selectedYear]);
+    const animatedContainerStyle = (0, react_native_reanimated_1.useAnimatedStyle)(() => {
+        const backgroundColor = (0, react_native_reanimated_1.interpolateColor)(isActiveCell.value, [0, 1], ["transparent", activeYearBackgroundColor]);
+        return {
+            backgroundColor,
+        };
+    });
+    const animatedTextStyle = (0, react_native_reanimated_1.useAnimatedStyle)(() => {
+        const color = (0, react_native_reanimated_1.interpolateColor)(isActiveCell.value, [0, 1], ["#333", activeYearTextColor]);
+        return {
+            color,
+        };
+    });
+    if (!yearContainerWidth)
+        return null;
+    return (<AnimatedPressable onPress={() => {
+            setSelectedYear(parseInt(year));
+        }} style={[
+            styles.yearCell,
+            {
+                width: (yearContainerWidth - YEAR_COLUMN_GAP * 2) / 3,
+                marginEnd: (index + 1) % 3 === 0 ? 0 : YEAR_COLUMN_GAP,
+            },
+            animatedContainerStyle,
+        ]}>
+      <react_native_reanimated_1.default.Text style={[styles.yearText, animatedTextStyle]}>
+        {year}
+      </react_native_reanimated_1.default.Text>
+    </AnimatedPressable>);
+}
+function DateCell({ isLastInRow, label, cellType, mode, localDate, setLocalDate, currentSlide, setCurrentSlide, activeDateBackgroundColor, dateBackgroundColor, activeDateTextColor, dateTextColor, farDateTextColor, farDateBackgroundColor, rangeDateBackgroundColor, }) {
+    const isActive = (0, react_native_reanimated_1.useSharedValue)(0);
+    const isInRange = (0, react_native_reanimated_1.useSharedValue)(0);
+    (0, react_1.useEffect)(() => {
+        if (cellType !== "current") {
+            isActive.value = 0;
+            isInRange.value = 0;
+            return;
+        }
+        if (mode === "single") {
+            const isSame = (0, moment_1.default)(localDate).isSame(label, "day");
+            isActive.value = (0, react_native_reanimated_1.withSpring)(isSame ? 1 : 0);
+            isInRange.value = 0;
+        }
+        else {
+            const [start, end] = localDate;
+            const isStart = start && (0, moment_1.default)(start).isSame(label, "day");
+            const isEnd = end && (0, moment_1.default)(end).isSame(label, "day");
+            const inRange = start && end && (0, moment_1.default)(label).isBetween(start, end, "day", "()");
+            isActive.value = (0, react_native_reanimated_1.withSpring)(isStart || isEnd ? 1 : 0);
+            isInRange.value = (0, react_native_reanimated_1.withTiming)(inRange ? 1 : 0);
+        }
+    }, [localDate, label, mode, cellType]);
+    const animatedContainerStyle = (0, react_native_reanimated_1.useAnimatedStyle)(() => {
+        let baseBackgroundColor = farDateBackgroundColor;
+        if (cellType === "current") {
+            if (mode === "range" && isInRange.value > 0) {
+                baseBackgroundColor = (0, react_native_reanimated_1.interpolateColor)(isInRange.value, [0, 1], [dateBackgroundColor, rangeDateBackgroundColor]);
+            }
+            if (isActive.value > 0) {
+                baseBackgroundColor = (0, react_native_reanimated_1.interpolateColor)(isActive.value, [0, 1], [baseBackgroundColor, activeDateBackgroundColor]);
+            }
+        }
+        return {
+            backgroundColor: baseBackgroundColor,
+            borderRadius: 7,
+        };
+    });
+    const animatedTextStyle = (0, react_native_reanimated_1.useAnimatedStyle)(() => {
+        let baseColor = farDateTextColor;
+        if (cellType === "current") {
+            baseColor = (0, react_native_reanimated_1.interpolateColor)(isActive.value, [0, 1], [dateTextColor, activeDateTextColor]);
+        }
+        return { color: baseColor, fontWeight: "500" };
+    });
+    const handlePress = () => {
+        if (cellType === "prev") {
+            setCurrentSlide((0, moment_1.default)(currentSlide).subtract(1, "month").toDate());
+        }
+        else if (cellType === "next") {
+            setCurrentSlide((0, moment_1.default)(currentSlide).add(1, "month").toDate());
+        }
+        else {
+            if (mode === "single") {
+                setLocalDate(label);
+            }
+            else {
+                const [start, end] = localDate;
+                if (!start || (start && end)) {
+                    // Start new range
+                    setLocalDate([label, null]);
+                }
+                else {
+                    // Complete range
+                    const newEnd = (0, moment_1.default)(label).isBefore(start) ? start : label;
+                    const newStart = (0, moment_1.default)(label).isBefore(start) ? label : start;
+                    setLocalDate([newStart, newEnd]);
+                }
+            }
+        }
+    };
+    return (<AnimatedPressable onPress={handlePress} style={[
+            styles.cell,
+            !isLastInRow && { marginRight: 4 },
+            animatedContainerStyle,
+        ]}>
+      <react_native_reanimated_1.default.Text style={[animatedTextStyle]}>
+        {(0, moment_1.default)(label).format("D")}
+      </react_native_reanimated_1.default.Text>
+    </AnimatedPressable>);
+}
+function DatePicker(props, ref) {
+    var _a;
+    const { containerStyle, inputContainerStyle, labelStyle, isRequired = false, isError, errorMessage, errorMessageStyle, label, placeholder = "Select date", onChange, value, mode = "single", isArrowShown = true, arrowColor = DEFAULT_ARROW_COLOR, arrowSize = DEFAULT_ARROW_SIZE, placeholderStyle, arrowContainerStyle, customArrowIcon, onDatePickerOpened, onDatePickerClosed, customArrowRotation = DEFAULT_ARROW_ROTATION, bottomSheetModalProps, cancelButtonProps, chooseDateButtonProps, chooseYearButtonProps, chooseMonthButtonProps, chooseYearButtonText = "Choose year", chooseMonthButtonText = "Choose month", cancelButtonText = "Cancel", chooseDateButtonText = "Choose date", activeDateBackgroundColor = DEFAULT_ACTIVE_DATE_BACKGROUND_COLOR, activeDateTextColor = DEFAULT_ACTIVE_DATE_TEXT_COLOR, dateBackgroundColor = DEFAULT_DATE_BACKGROUND_COLOR, dateTextColor = DEFAULT_DATE_TEXT_COLOR, farDateTextColor = DEFAULT_FAR_DATE_TEXT_COLOR, farDateBackgroundColor = DEFAULT_FAR_DATE_BACKGROUND_COLOR, rangeDateBackgroundColor = DEFAULT_RANGE_DATE_BACKGROUND_COLOR, } = props;
+    const isOpen = (0, react_native_reanimated_1.useSharedValue)(0);
+    const bottomSheetModalRef = (0, react_1.useRef)(null);
+    const [localDate, setLocalDate] = (0, react_1.useState)(value);
+    const getInitialSlide = () => {
+        var _a, _b;
+        if (mode === "single") {
+            return (_a = value) !== null && _a !== void 0 ? _a : new Date();
+        }
+        return (_b = value === null || value === void 0 ? void 0 : value[0]) !== null && _b !== void 0 ? _b : new Date();
+    };
+    const [currentSlide, setCurrentSlide] = (0, react_1.useState)(getInitialSlide());
+    const [isYearsModalOpen, setIsYearsModalOpen] = (0, react_1.useState)(false);
+    const [isMonthsModalOpen, setIsMonthsModalOpen] = (0, react_1.useState)(false);
+    const [currentDecade, setCurrentDecade] = (0, react_1.useState)(getInitialSlide());
+    const [yearContainerWidth, setYearContainerWidth] = (0, react_1.useState)(0);
+    const [selectedYear, setSelectedYear] = (0, react_1.useState)(currentSlide === null || currentSlide === void 0 ? void 0 : currentSlide.getFullYear());
+    const [selectedMonth, setSelectedMonth] = (0, react_1.useState)(currentSlide === null || currentSlide === void 0 ? void 0 : currentSlide.getMonth());
+    (0, react_1.useEffect)(() => {
+        setCurrentDecade(currentSlide);
+    }, [currentSlide]);
+    const leftArrowScale = (0, react_native_reanimated_1.useSharedValue)(1);
+    const rightArrowScale = (0, react_native_reanimated_1.useSharedValue)(1);
+    const animatedLeftArrowStyle = (0, react_native_reanimated_1.useAnimatedStyle)(() => ({
+        transform: [{ scale: leftArrowScale.value }, { rotate: "90deg" }],
+    }));
+    const animatedRightArrowStyle = (0, react_native_reanimated_1.useAnimatedStyle)(() => ({
+        transform: [{ scale: rightArrowScale.value }, { rotate: "-90deg" }],
+    }));
+    const handleMonthChange = (direction) => {
+        const isPrev = direction === "prev";
+        setCurrentSlide(prev => (0, moment_1.default)(prev)
+            .add(isPrev ? -1 : 1, "month")
+            .toDate());
+    };
+    (0, react_1.useEffect)(() => {
+        if (value) {
+            setLocalDate(value);
+            if (mode === "single") {
+                setCurrentSlide(value);
+            }
+            else {
+                const rangeValue = value;
+                if (rangeValue[0])
+                    setCurrentSlide(rangeValue[0]);
+            }
+        }
+    }, [value, mode]);
+    const bottomSheetModalBackdrop = (0, react_1.useCallback)((props) => (<bottom_sheet_1.BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0}/>), []);
+    const animatedArrowStyle = (0, react_native_reanimated_1.useAnimatedStyle)(() => {
+        const rotation = (0, react_native_reanimated_1.interpolate)(isOpen.value, [0, 1], [0, customArrowRotation], react_native_reanimated_1.Extrapolation.CLAMP);
+        return {
+            transform: [{ rotate: `${rotation}deg` }],
+        };
+    });
+    const resetToInitialState = () => {
+        var _a, _b;
+        setLocalDate(value);
+        if (mode === "single") {
+            setCurrentSlide((_a = value) !== null && _a !== void 0 ? _a : new Date());
+        }
+        else {
+            const rangeValue = value;
+            setCurrentSlide((_b = rangeValue === null || rangeValue === void 0 ? void 0 : rangeValue[0]) !== null && _b !== void 0 ? _b : new Date());
+        }
+    };
+    function handlePress() {
+        var _a;
+        (_a = bottomSheetModalRef.current) === null || _a === void 0 ? void 0 : _a.present();
+        resetToInitialState();
+        if (isOpen.value) {
+            onDatePickerClosed && onDatePickerClosed();
+        }
+        else {
+            onDatePickerOpened && onDatePickerOpened();
+        }
+        isOpen.value = (0, react_native_reanimated_1.withTiming)(isOpen.value ? 0 : 1, {
+            duration: ANIMATION_DURATION,
+        });
+    }
+    (0, react_1.useImperativeHandle)(ref, () => ({
+        open: () => {
+            var _a;
+            (_a = bottomSheetModalRef.current) === null || _a === void 0 ? void 0 : _a.present();
+            resetToInitialState();
+            isOpen.value = (0, react_native_reanimated_1.withTiming)(1, { duration: ANIMATION_DURATION });
+            onDatePickerOpened && onDatePickerOpened();
+        },
+        close: () => {
+            var _a;
+            (_a = bottomSheetModalRef.current) === null || _a === void 0 ? void 0 : _a.close();
+            isOpen.value = (0, react_native_reanimated_1.withTiming)(0, { duration: ANIMATION_DURATION });
+            onDatePickerClosed && onDatePickerClosed();
+        },
+    }));
+    function getYearRange(date) {
+        const year = (0, moment_1.default)(date).year();
+        const start = Math.floor(year / 10) * 10;
+        const end = start + 10;
+        return { floor: start, ceil: end };
+    }
+    function generateYearsArray(date) {
+        const { floor, ceil } = getYearRange(date);
+        const years = [];
+        for (let year = floor; year <= ceil; year++) {
+            years.push(year);
+        }
+        return years;
+    }
+    const handleDecadeChange = (direction) => {
+        setCurrentDecade(prev => (0, moment_1.default)(prev)
+            .add(direction === "prev" ? -10 : 10, "years")
+            .toDate());
+    };
+    const formatDisplayValue = () => {
+        var _a;
+        if (mode === "single") {
+            return value ? (_a = (0, moment_1.default)(value)) === null || _a === void 0 ? void 0 : _a.format("DD/MM/YYYY") : placeholder;
+        }
+        const [start, end] = value;
+        if (start && end) {
+            return `${(0, moment_1.default)(start).format("DD/MM/YYYY")} - ${(0, moment_1.default)(end).format("DD/MM/YYYY")}`;
+        }
+        if (start) {
+            return (0, moment_1.default)(start).format("DD/MM/YYYY");
+        }
+        return placeholder;
+    };
+    const handleChoose = () => {
+        var _a;
+        if (mode === "single") {
+            if (localDate) {
+                onChange === null || onChange === void 0 ? void 0 : onChange(localDate);
+            }
+        }
+        else {
+            const [start, end] = localDate;
+            if (start && end) {
+                onChange === null || onChange === void 0 ? void 0 : onChange([start, end]);
+            }
+        }
+        (_a = bottomSheetModalRef.current) === null || _a === void 0 ? void 0 : _a.close();
+    };
+    return (<react_native_1.View style={[styles.container, containerStyle]}>
+      {label && (<react_native_1.Text style={[styles.label, labelStyle]}>
+          {label} {isRequired && <react_native_1.Text style={[styles.star]}>*</react_native_1.Text>}{" "}
+        </react_native_1.Text>)}
+      <react_native_1.TouchableOpacity onPress={handlePress} style={[
+            styles.inputContainer,
+            inputContainerStyle,
+            isError && { borderColor: "red" },
+        ]}>
+        <react_native_1.View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+          <react_native_1.Text style={[styles.label, placeholderStyle]}>
+            {formatDisplayValue()}
+          </react_native_1.Text>
+        </react_native_1.View>
+        {isArrowShown && (<react_native_1.View style={[arrowContainerStyle]}>
+            <react_native_reanimated_1.default.View style={[animatedArrowStyle]}>
+              {customArrowIcon ? (customArrowIcon) : (<AngleDown size={arrowSize} color={arrowColor}/>)}
+            </react_native_reanimated_1.default.View>
+          </react_native_1.View>)}
+      </react_native_1.TouchableOpacity>
+      {isError && (<react_native_1.Text style={[styles.error, errorMessageStyle]}>{errorMessage}</react_native_1.Text>)}
+      <bottom_sheet_1.BottomSheetModal ref={bottomSheetModalRef} backdropComponent={bottomSheetModalBackdrop} handleComponent={() => <></>} enableDynamicSizing={false} enablePanDownToClose onDismiss={resetToInitialState} snapPoints={[utils_1.isIos ? "55%" : "60%"]} {...bottomSheetModalProps}>
+        <react_native_1.View style={[styles.sheetContainer]}>
+          <react_native_1.View style={[styles.header]}>
+            <react_native_1.TouchableOpacity onPress={() => handleMonthChange("prev")} hitSlop={25}>
+              <react_native_reanimated_1.default.View style={[styles.leftArrow, animatedLeftArrowStyle]}>
+                <AngleDown size={18} color="#333"/>
+              </react_native_reanimated_1.default.View>
+            </react_native_1.TouchableOpacity>
+            <react_native_1.TouchableOpacity onPress={() => {
+            setIsYearsModalOpen(true);
+        }}>
+              <react_native_1.Text style={[styles.headerDate]}>
+                {(_a = (0, moment_1.default)(currentSlide)) === null || _a === void 0 ? void 0 : _a.format("MMMM Y")}
+              </react_native_1.Text>
+            </react_native_1.TouchableOpacity>
+            <react_native_1.TouchableOpacity onPress={() => handleMonthChange("next")} hitSlop={25}>
+              <react_native_reanimated_1.default.View style={[styles.rightArrow, animatedRightArrowStyle]}>
+                <AngleDown size={18} color="#333"/>
+              </react_native_reanimated_1.default.View>
+            </react_native_1.TouchableOpacity>
+          </react_native_1.View>
+          <react_native_1.FlatList numColumns={7} bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={styles.dateContainer} data={generateCalendarData(currentSlide)} renderItem={({ item, index }) => {
+            const isLastInRow = (index + 1) % 7 === 0;
+            if (item.type === "weekday") {
+                return (<react_native_1.View style={[styles.cell, !isLastInRow && { marginRight: 4 }]}>
+                    <react_native_1.Text style={styles.weekDay}>{item.label}</react_native_1.Text>
+                  </react_native_1.View>);
+            }
+            return (<DateCell mode={mode} rangeDateBackgroundColor={rangeDateBackgroundColor} farDateBackgroundColor={farDateBackgroundColor} farDateTextColor={farDateTextColor} activeDateBackgroundColor={activeDateBackgroundColor} activeDateTextColor={activeDateTextColor} dateBackgroundColor={dateBackgroundColor} dateTextColor={dateTextColor} currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} localDate={localDate} setLocalDate={setLocalDate} isLastInRow={isLastInRow} cellType={item === null || item === void 0 ? void 0 : item.type} label={item === null || item === void 0 ? void 0 : item.label}/>);
+        }}/>
+          <react_native_1.View style={[styles.buttonContainer]}>
+            <atoms_1.Button isOutlined {...cancelButtonProps} onPress={() => {
+            var _a;
+            resetToInitialState();
+            (_a = bottomSheetModalRef.current) === null || _a === void 0 ? void 0 : _a.close();
+        }} textStyle={[styles.buttonText, cancelButtonProps === null || cancelButtonProps === void 0 ? void 0 : cancelButtonProps.textStyle]} containerStyle={[
+            styles.button,
+            cancelButtonProps === null || cancelButtonProps === void 0 ? void 0 : cancelButtonProps.containerStyle,
+        ]}>
+              {cancelButtonText}
+            </atoms_1.Button>
+            <atoms_1.Button {...chooseDateButtonProps} onPress={handleChoose} textStyle={[styles.buttonText, chooseDateButtonProps === null || chooseDateButtonProps === void 0 ? void 0 : chooseDateButtonProps.textStyle]} containerStyle={[
+            styles.button,
+            chooseDateButtonProps === null || chooseDateButtonProps === void 0 ? void 0 : chooseDateButtonProps.containerStyle,
+        ]}>
+              {chooseDateButtonText}
+            </atoms_1.Button>
+          </react_native_1.View>
+        </react_native_1.View>
+        <Modal_1.default containerStyle={styles.yearModal} isOpen={isYearsModalOpen} setIsOpen={setIsYearsModalOpen}>
+          <react_native_1.View style={[styles.header, { paddingHorizontal: 0 }]}>
+            <react_native_1.TouchableOpacity onPress={() => handleDecadeChange("prev")} hitSlop={25}>
+              <react_native_reanimated_1.default.View style={[styles.leftArrow, animatedLeftArrowStyle]}>
+                <AngleDown size={18} color="#333"/>
+              </react_native_reanimated_1.default.View>
+            </react_native_1.TouchableOpacity>
+            <react_native_1.Text style={[styles.headerDate]}>
+              {`${getYearRange(currentDecade).floor} - ${getYearRange(currentDecade).ceil}`}
+            </react_native_1.Text>
+            <react_native_1.TouchableOpacity onPress={() => handleDecadeChange("next")} hitSlop={25}>
+              <react_native_reanimated_1.default.View style={[styles.rightArrow, animatedRightArrowStyle]}>
+                <AngleDown size={18} color="#333"/>
+              </react_native_reanimated_1.default.View>
+            </react_native_1.TouchableOpacity>
+          </react_native_1.View>
+          <react_native_1.FlatList numColumns={3} contentContainerStyle={[
+            {
+                gap: YEAR_COLUMN_GAP,
+            },
+        ]} onLayout={event => {
+            setYearContainerWidth(event.nativeEvent.layout.width);
+        }} data={generateYearsArray(currentDecade)} renderItem={({ item, index }) => (<YearCell activeYearTextColor={activeDateTextColor} activeYearBackgroundColor={activeDateBackgroundColor} setSelectedYear={setSelectedYear} selectedYear={selectedYear} yearContainerWidth={yearContainerWidth} index={index} year={item === null || item === void 0 ? void 0 : item.toString()}/>)}/>
+          <react_native_1.View style={{
+            flexDirection: "row",
+            gap: 8,
+        }}>
+            <atoms_1.Button onPress={() => {
+            setIsYearsModalOpen(false);
+            setIsMonthsModalOpen(true);
+        }} textStyle={[styles.buttonText, chooseYearButtonProps === null || chooseYearButtonProps === void 0 ? void 0 : chooseYearButtonProps.textStyle]} containerStyle={[
+            {
+                padding: 12,
+                flex: 1,
+            },
+            chooseYearButtonProps === null || chooseYearButtonProps === void 0 ? void 0 : chooseYearButtonProps.containerStyle,
+        ]}>
+              {chooseYearButtonText}
+            </atoms_1.Button>
+          </react_native_1.View>
+        </Modal_1.default>
+        <Modal_1.default containerStyle={styles.yearModal} isOpen={isMonthsModalOpen} setIsOpen={setIsMonthsModalOpen}>
+          <react_native_1.FlatList numColumns={3} contentContainerStyle={[
+            {
+                gap: YEAR_COLUMN_GAP,
+            },
+        ]} onLayout={event => {
+            setYearContainerWidth(event.nativeEvent.layout.width);
+        }} data={Array.from({ length: 12 }).map((item, index) => index)} renderItem={({ item, index }) => (<MonthCell activeMonthTextColor={activeDateTextColor} activeMonthBackgroundColor={activeDateBackgroundColor} month={item} selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} monthContainerWidth={yearContainerWidth} index={index}/>)}/>
+          <react_native_1.View style={{
+            flexDirection: "row",
+            gap: 8,
+        }}>
+            <atoms_1.Button onPress={() => {
+            setCurrentSlide((0, moment_1.default)().year(selectedYear).month(selectedMonth).toDate());
+            setIsMonthsModalOpen(false);
+        }} textStyle={[styles.buttonText, chooseMonthButtonProps === null || chooseMonthButtonProps === void 0 ? void 0 : chooseMonthButtonProps.textStyle]} containerStyle={[
+            {
+                padding: 12,
+                flex: 1,
+            },
+            chooseMonthButtonProps === null || chooseMonthButtonProps === void 0 ? void 0 : chooseMonthButtonProps.containerStyle,
+        ]}>
+              {chooseMonthButtonText}
+            </atoms_1.Button>
+          </react_native_1.View>
+        </Modal_1.default>
+      </bottom_sheet_1.BottomSheetModal>
+    </react_native_1.View>);
+}
+exports.default = (0, react_1.forwardRef)(DatePicker);
+const styles = react_native_1.StyleSheet.create({
+    container: {
+        gap: 8,
+    },
+    inputContainer: {
+        borderRadius: 8,
+        padding: 16,
+        backgroundColor: "#fff",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 6,
+        borderWidth: 1,
+        borderColor: "rgba(0,0,0,.25)",
+        minHeight: 50,
+    },
+    label: {
+        color: "rgba(0,0,0,.75)",
+    },
+    error: {
+        color: "red",
+        fontSize: 12,
+        marginStart: 8,
+    },
+    star: {
+        color: "red",
+    },
+    sheetContainer: Object.assign({ padding: 16, flex: 1, gap: 14 }, (utils_1.isIos && { paddingBottom: 42 })),
+    header: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingHorizontal: 8,
+    },
+    headerDate: {
+        fontSize: 16,
+        fontWeight: "600",
+    },
+    rightArrow: {},
+    leftArrow: {},
+    weekDays: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingHorizontal: 8,
+        gap: 6,
+    },
+    dateContainer: {
+        gap: 4,
+    },
+    cell: {
+        flex: 1,
+        aspectRatio: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    weekDay: {
+        fontSize: 15,
+        fontWeight: "700",
+    },
+    buttonContainer: {
+        flexDirection: "row",
+        paddingHorizontal: 8,
+        gap: 12,
+    },
+    button: {
+        flex: 0.5,
+    },
+    buttonText: {
+        fontWeight: "700",
+    },
+    yearModal: {
+        width: 250,
+        minWidth: 220,
+        padding: 12,
+        paddingTop: 14,
+        gap: 12,
+        bottom: 50,
+    },
+    yearCell: {
+        padding: 12,
+        borderRadius: 5,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    yearText: {
+        color: "#333",
+    },
+});

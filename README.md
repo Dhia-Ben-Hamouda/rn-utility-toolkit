@@ -28,7 +28,7 @@ Small, reusable building blocks of the UI.
 
 - `Button`
 
-![Button Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/button.gif)
+![Button Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/atoms/button.gif)
 
 ```tsx
 import React from "react";
@@ -62,7 +62,7 @@ export default function App() {
 
 - `Checkbox`
 
-![Checkbox Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/checkbox.gif)
+![Checkbox Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/atoms/checkbox.gif)
 
 ```tsx
 import React, { useState } from "react";
@@ -91,7 +91,7 @@ export default function App() {
 
 - `Divider`
 
-![Divider Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/divider.png)
+![Divider Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/atoms/divider.png)
 
 ```tsx
 import React from "react";
@@ -113,7 +113,7 @@ export default function App() {
 
 - `IconButton`
 
-![Icon Button Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/icon.gif)
+![Icon Button Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/atoms/icon.gif)
 
 ```tsx
 import React from "react";
@@ -142,7 +142,7 @@ export default function App() {
 
 - `RadioButton`
 
-![Radio Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/radio.gif)
+![Radio Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/atoms/radio.gif)
 
 ```tsx
 import React, { useState } from "react";
@@ -169,7 +169,7 @@ export default function App() {
 
 - `Switch`
 
-![Switch Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/switch.gif)
+![Switch Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/atoms/switch.gif)
 
 ```tsx
 import React, { useState } from "react";
@@ -198,7 +198,25 @@ export default function App() {
 - `Skeleton`
 
 ```tsx
-Coming Soon
+import React from "react";
+import { Skeleton, type SkeletonProps } from "rn-utility-toolkit";
+
+export default function App() {
+  return (
+    <Skeleton
+      width={200}
+      height={40}
+      borderRadius={12}
+      backgroundColor="#e0e0e0"
+      highlightColor="#f5f5f5"
+      speed={800}
+      direction="right"
+      enabled={true}
+      angle={30}
+      shimmerWidth={120}
+    />
+  );
+}
 ```
 
 ### 🔹 Molecules
@@ -207,7 +225,7 @@ Groups of atoms combined together.
 
 - `Chip`
 
-![Chip Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/chip.gif)
+![Chip Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/molecules/chip.gif)
 
 ```tsx
 import React, { useState } from "react";
@@ -258,7 +276,7 @@ export default function App() {
 
 - `ProgressBar`
 
-![Progress Bar Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/progress.png)
+![Progress Bar Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/molecules/progress.png)
 
 ```tsx
 import React, { useState } from "react";
@@ -279,7 +297,7 @@ export default function App() {
 
 - `Select`
 
-![Select Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/select.gif)
+![Select Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/molecules/select.gif)
 
 ```tsx
 import React, { useState } from "react";
@@ -334,7 +352,7 @@ export default function App() {
 
 - `Tabs`
 
-![Tabs Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/tabs.gif)
+![Tabs Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/molecules/tabs.gif)
 
 ```tsx
 import React, { useState } from "react";
@@ -478,7 +496,7 @@ Complex components composed of atoms and molecules.
 
 - `Accordion`
 
-![Accordion Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/accordion.gif)
+![Accordion Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/organisms/accordion.gif)
 
 ```tsx
 import React from "react";
@@ -564,7 +582,7 @@ export default function App() {
 
 - `FlipCard`
 
-![Flip Card Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/flipcard.gif)
+![Flip Card Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/organisms/flipcard.gif)
 
 ```tsx
 import React from "react";
@@ -611,7 +629,7 @@ const styles = StyleSheet.create({
 
 - `PinInput`
 
-![PinInput Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/pin.gif)
+![PinInput Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/organisms/pin.gif)
 
 ```tsx
 import React, { useRef, useState } from "react";
@@ -658,7 +676,7 @@ export default function App() {
 
 - `Swipeable`
 
-![Swipeable Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/swipeable.gif)
+![Swipeable Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/organisms/swipeable.gif)
 
 ```tsx
 import React from "react";
@@ -700,6 +718,8 @@ export default function App() {
 ```
 
 - `Range Slider`
+
+![Slider Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/organisms/slider.gif)
 
 ```tsx
 import React, { useState } from "react";
@@ -748,6 +768,84 @@ export default function App() {
         }}
         trackStyle={{ backgroundColor: "#ddd" }}
         progressStyle={{ backgroundColor: "#333" }}
+      />
+    </View>
+  );
+}
+```
+
+- `Date Picker`
+
+```tsx
+import React, { useRef, useState } from "react";
+import { View, } from "react-native";
+import { DatePicker, DatePickerRef } from "rn-utility-toolkit";
+
+export default function App() {
+  const singleRef = useRef<DatePickerRef | null>(null);
+  const rangeRef = useRef<DatePickerRef | null>(null);
+  const [singleValue, setSingleValue] = useState<Date | null>(new Date());
+  const [rangeValue, setRangeValue] = useState<[Date | null, Date | null]>([new Date(), null]);
+
+  return (
+    <View>
+      <DatePicker
+        mode="range"
+        value={rangeValue}
+        onChange={(range) => setRangeValue(range)}
+      />
+      <DatePicker
+        ref={singleRef}
+        mode="single"
+        value={singleValue}
+        onChange={(d) => setSingleValue(d)}
+        label="Birthdate"
+        labelStyle={{ color: "#333", fontSize: 14, fontWeight: "600" }}
+        containerStyle={{ width: "95%", alignSelf: "center", marginTop: 12 }}
+        inputContainerStyle={{ padding: 14, borderRadius: 10 }}
+        placeholder="DD/MM/YYYY"
+        placeholderStyle={{ color: "#9AA0A6" }}
+        isArrowShown={true}
+        arrowColor="#ff6a00"
+        arrowSize={18}
+        arrowContainerStyle={{ paddingHorizontal: 6, paddingVertical: 2 }}
+        customArrowIcon={<Text style={{ fontSize: 12 }}>▼</Text>}
+        customArrowRotation={180}
+        isRequired={true}
+        isError={false}
+        errorMessage="Please select a valid date"
+        errorMessageStyle={{ color: "crimson", fontSize: 12 }}
+        onDatePickerOpened={() => console.log("single opened")}
+        onDatePickerClosed={() => console.log("single closed")}
+        bottomSheetModalProps={{ snapPoints: ["55%"], enablePanDownToClose: true }}
+        cancelButtonProps={{
+          isOutlined: true,
+          textStyle: { fontWeight: "700" },
+          containerStyle: { borderWidth: 1, paddingVertical: 12 },
+        }}
+        chooseDateButtonProps={{
+          textStyle: { fontWeight: "700" },
+          containerStyle: { paddingVertical: 12 },
+        }}
+        chooseYearButtonProps={{
+          textStyle: { fontWeight: "700" },
+          containerStyle: { paddingVertical: 12 },
+        }}
+        chooseMonthButtonProps={{
+          textStyle: { fontWeight: "700" },
+          containerStyle: { paddingVertical: 12 },
+        }}
+        cancelButtonText="Cancel"
+        chooseDateButtonText="Choose date"
+        chooseYearButtonText="Choose year"
+        chooseMonthButtonText="Choose month"
+        activeDateBackgroundColor="#0A84FF"
+        activeDateTextColor="#FFFFFF"
+        dateBackgroundColor="transparent"
+        dateTextColor="#111"
+        farDateTextColor="rgba(0,0,0,0.25)"
+        farDateBackgroundColor="transparent"
+        rangeDateBackgroundColor="rgba(10,132,255,0.12)"
       />
     </View>
   );

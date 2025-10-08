@@ -3,11 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Swipeable = exports.RangeSlider = exports.PinInput = exports.FlipCard = exports.Carousel = exports.Accordion = void 0;
+exports.Swipeable = exports.RangeSlider = exports.PinInput = exports.FlipCard = exports.DatePicker = exports.Carousel = exports.Accordion = void 0;
 var Accordion_1 = require("./Accordion");
 Object.defineProperty(exports, "Accordion", { enumerable: true, get: function () { return __importDefault(Accordion_1).default; } });
 var Carousel_1 = require("./Carousel");
 Object.defineProperty(exports, "Carousel", { enumerable: true, get: function () { return __importDefault(Carousel_1).default; } });
+var DatePicker_1 = require("./DatePicker");
+Object.defineProperty(exports, "DatePicker", { enumerable: true, get: function () { return __importDefault(DatePicker_1).default; } });
 var FlipCard_1 = require("./FlipCard");
 Object.defineProperty(exports, "FlipCard", { enumerable: true, get: function () { return __importDefault(FlipCard_1).default; } });
 var PinInput_1 = require("./PinInput");
