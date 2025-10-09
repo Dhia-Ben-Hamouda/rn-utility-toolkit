@@ -782,6 +782,8 @@ export default function App() {
 
 - `Date Picker`
 
+![Date Picker Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/organisms/date.gif)
+
 ```tsx
 import React, { useRef, useState } from "react";
 import { View, } from "react-native";

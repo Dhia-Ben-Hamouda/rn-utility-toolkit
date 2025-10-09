@@ -52,6 +52,7 @@ const DEFAULT_FAR_DATE_TEXT_COLOR = "rgba(0,0,0,0.25)";
 const DEFAULT_FAR_DATE_BACKGROUND_COLOR = "transparent";
 const DEFAULT_RANGE_DATE_BACKGROUND_COLOR = "rgba(0, 0, 0, 0.075)";
 const DEFAULT_DISABLED_DATE_TEXT_COLOR = "rgba(0,0,0,0.25)";
+const NUMBER_OF_DATE_CELLS_PER_SLIDE = 35;
 const YEAR_COLUMN_GAP = 4;
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -94,41 +95,45 @@ function generateCalendarData(date: Date): ICalendarItem[] {
   }));
 
   const startOfMonth = m.clone().startOf("month");
-  const daysInMonth = m.daysInMonth();
+  const numberOfdaysInCurrentMonth = m.daysInMonth();
   const startWeekday = (startOfMonth.day() + 6) % 7;
 
-  const prevMonth = m.clone().subtract(1, "month");
-  const prevMonthDays = prevMonth.daysInMonth();
+  const previousMonth = m.clone().subtract(1, "month");
+  const numberOfDaysInPreviousMonth = previousMonth.daysInMonth();
 
-  const prevDays = Array.from({ length: startWeekday }).map((_, i) => {
-    const day = prevMonth
+  const previousDays = Array.from({ length: startWeekday }).map((_, index) => {
+    const day = previousMonth
       .clone()
-      .date(prevMonthDays - startWeekday + i + 1)
+      .date(numberOfDaysInPreviousMonth - startWeekday + index + 1)
       .toDate();
     return { type: "prev" as const, label: day };
   });
 
-  const currDays = Array.from({ length: daysInMonth }).map((_, i) => {
-    const day = startOfMonth
-      .clone()
-      .date(i + 1)
-      .toDate();
-    return { type: "current" as const, label: day };
-  });
+  const currentDays = Array.from({ length: numberOfdaysInCurrentMonth }).map(
+    (_, index) => {
+      const day = startOfMonth
+        .clone()
+        .date(index + 1)
+        .toDate();
+      return { type: "current" as const, label: day };
+    },
+  );
 
-  const totalDays = prevDays.length + currDays.length;
-  const remaining = 35 - totalDays;
+  const totalDays = previousDays?.length + currentDays?.length;
+  const remainingDaysToFill = NUMBER_OF_DATE_CELLS_PER_SLIDE - totalDays;
   const nextMonth = m.clone().add(1, "month");
 
-  const nextDays = Array.from({ length: remaining }).map((_, i) => {
-    const day = nextMonth
-      .clone()
-      .date(i + 1)
-      .toDate();
-    return { type: "next" as const, label: day };
-  });
+  const nextDays = Array.from({ length: remainingDaysToFill }).map(
+    (_, index) => {
+      const day = nextMonth
+        .clone()
+        .date(index + 1)
+        .toDate();
+      return { type: "next" as const, label: day };
+    },
+  );
 
-  return [...orderedWeekdays, ...prevDays, ...currDays, ...nextDays];
+  return [...orderedWeekdays, ...previousDays, ...currentDays, ...nextDays];
 }
 
 interface IMonthCell {
@@ -1090,5 +1095,6 @@ const styles = StyleSheet.create({
   },
   yearText: {
     color: "#333",
+    fontWeight: "500",
   },
 });

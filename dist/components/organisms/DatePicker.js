@@ -57,6 +57,7 @@ const DEFAULT_FAR_DATE_TEXT_COLOR = "rgba(0,0,0,0.25)";
 const DEFAULT_FAR_DATE_BACKGROUND_COLOR = "transparent";
 const DEFAULT_RANGE_DATE_BACKGROUND_COLOR = "rgba(0, 0, 0, 0.075)";
 const DEFAULT_DISABLED_DATE_TEXT_COLOR = "rgba(0,0,0,0.25)";
+const NUMBER_OF_DATE_CELLS_PER_SLIDE = 35;
 const YEAR_COLUMN_GAP = 4;
 const AnimatedPressable = react_native_reanimated_1.default.createAnimatedComponent(react_native_1.Pressable);
 function AngleDown({ size = 20, color = DEFAULT_ARROW_COLOR, }) {
@@ -79,35 +80,35 @@ function generateCalendarData(date) {
         label: day,
     }));
     const startOfMonth = m.clone().startOf("month");
-    const daysInMonth = m.daysInMonth();
+    const numberOfdaysInCurrentMonth = m.daysInMonth();
     const startWeekday = (startOfMonth.day() + 6) % 7;
-    const prevMonth = m.clone().subtract(1, "month");
-    const prevMonthDays = prevMonth.daysInMonth();
-    const prevDays = Array.from({ length: startWeekday }).map((_, i) => {
-        const day = prevMonth
+    const previousMonth = m.clone().subtract(1, "month");
+    const numberOfDaysInPreviousMonth = previousMonth.daysInMonth();
+    const previousDays = Array.from({ length: startWeekday }).map((_, index) => {
+        const day = previousMonth
             .clone()
-            .date(prevMonthDays - startWeekday + i + 1)
+            .date(numberOfDaysInPreviousMonth - startWeekday + index + 1)
             .toDate();
         return { type: "prev", label: day };
     });
-    const currDays = Array.from({ length: daysInMonth }).map((_, i) => {
+    const currentDays = Array.from({ length: numberOfdaysInCurrentMonth }).map((_, index) => {
         const day = startOfMonth
             .clone()
-            .date(i + 1)
+            .date(index + 1)
             .toDate();
         return { type: "current", label: day };
     });
-    const totalDays = prevDays.length + currDays.length;
-    const remaining = 35 - totalDays;
+    const totalDays = (previousDays === null || previousDays === void 0 ? void 0 : previousDays.length) + (currentDays === null || currentDays === void 0 ? void 0 : currentDays.length);
+    const remainingDaysToFill = NUMBER_OF_DATE_CELLS_PER_SLIDE - totalDays;
     const nextMonth = m.clone().add(1, "month");
-    const nextDays = Array.from({ length: remaining }).map((_, i) => {
+    const nextDays = Array.from({ length: remainingDaysToFill }).map((_, index) => {
         const day = nextMonth
             .clone()
-            .date(i + 1)
+            .date(index + 1)
             .toDate();
         return { type: "next", label: day };
     });
-    return [...orderedWeekdays, ...prevDays, ...currDays, ...nextDays];
+    return [...orderedWeekdays, ...previousDays, ...currentDays, ...nextDays];
 }
 function MonthCell({ month, index, monthContainerWidth, selectedMonth, setSelectedMonth, activeMonthBackgroundColor, activeMonthTextColor, }) {
     const isActiveCell = (0, react_native_reanimated_1.useSharedValue)(0);
@@ -638,5 +639,6 @@ const styles = react_native_1.StyleSheet.create({
     },
     yearText: {
         color: "#333",
+        fontWeight: "500",
     },
 });
