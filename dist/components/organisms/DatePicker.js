@@ -56,6 +56,7 @@ const DEFAULT_DATE_TEXT_COLOR = "#333";
 const DEFAULT_FAR_DATE_TEXT_COLOR = "rgba(0,0,0,0.25)";
 const DEFAULT_FAR_DATE_BACKGROUND_COLOR = "transparent";
 const DEFAULT_RANGE_DATE_BACKGROUND_COLOR = "rgba(0, 0, 0, 0.075)";
+const DEFAULT_DISABLED_DATE_TEXT_COLOR = "rgba(0,0,0,0.25)";
 const YEAR_COLUMN_GAP = 4;
 const AnimatedPressable = react_native_reanimated_1.default.createAnimatedComponent(react_native_1.Pressable);
 function AngleDown({ size = 20, color = DEFAULT_ARROW_COLOR, }) {
@@ -176,9 +177,11 @@ function YearCell({ year, index, yearContainerWidth, selectedYear, setSelectedYe
       </react_native_reanimated_1.default.Text>
     </AnimatedPressable>);
 }
-function DateCell({ isLastInRow, label, cellType, mode, localDate, setLocalDate, currentSlide, setCurrentSlide, activeDateBackgroundColor, dateBackgroundColor, activeDateTextColor, dateTextColor, farDateTextColor, farDateBackgroundColor, rangeDateBackgroundColor, }) {
+function DateCell({ isLastInRow, label, cellType, mode, localDate, setLocalDate, currentSlide, setCurrentSlide, activeDateBackgroundColor, dateBackgroundColor, activeDateTextColor, dateTextColor, farDateTextColor, farDateBackgroundColor, rangeDateBackgroundColor, disabledDateTextColor, minDate, maxDate, }) {
     const isActive = (0, react_native_reanimated_1.useSharedValue)(0);
     const isInRange = (0, react_native_reanimated_1.useSharedValue)(0);
+    const isCellDisabled = (minDate && (0, moment_1.default)(label).isBefore(minDate)) ||
+        (maxDate && (0, moment_1.default)(label).isAfter(maxDate));
     (0, react_1.useEffect)(() => {
         if (cellType !== "current") {
             isActive.value = 0;
@@ -219,7 +222,10 @@ function DateCell({ isLastInRow, label, cellType, mode, localDate, setLocalDate,
         if (cellType === "current") {
             baseColor = (0, react_native_reanimated_1.interpolateColor)(isActive.value, [0, 1], [dateTextColor, activeDateTextColor]);
         }
-        return { color: baseColor, fontWeight: "500" };
+        return {
+            color: isCellDisabled ? disabledDateTextColor : baseColor,
+            fontWeight: "500",
+        };
     });
     const handlePress = () => {
         if (cellType === "prev") {
@@ -247,7 +253,7 @@ function DateCell({ isLastInRow, label, cellType, mode, localDate, setLocalDate,
             }
         }
     };
-    return (<AnimatedPressable onPress={handlePress} style={[
+    return (<AnimatedPressable disabled={isCellDisabled} onPress={handlePress} style={[
             styles.cell,
             !isLastInRow && { marginRight: 4 },
             animatedContainerStyle,
@@ -257,9 +263,8 @@ function DateCell({ isLastInRow, label, cellType, mode, localDate, setLocalDate,
       </react_native_reanimated_1.default.Text>
     </AnimatedPressable>);
 }
-function DatePicker(props, ref) {
+function DatePicker({ containerStyle, inputContainerStyle, labelStyle, isRequired = false, isError, errorMessage, errorMessageStyle, label, placeholder = "Select date", onChange, value, mode = "single", isArrowShown = true, arrowColor = DEFAULT_ARROW_COLOR, arrowSize = DEFAULT_ARROW_SIZE, placeholderStyle, arrowContainerStyle, customArrowIcon, onDatePickerOpened, onDatePickerClosed, customArrowRotation = DEFAULT_ARROW_ROTATION, bottomSheetModalProps, cancelButtonProps, chooseDateButtonProps, chooseYearButtonProps, chooseMonthButtonProps, chooseYearButtonText = "Choose year", chooseMonthButtonText = "Choose month", cancelButtonText = "Cancel", chooseDateButtonText = "Choose date", activeDateBackgroundColor = DEFAULT_ACTIVE_DATE_BACKGROUND_COLOR, activeDateTextColor = DEFAULT_ACTIVE_DATE_TEXT_COLOR, dateBackgroundColor = DEFAULT_DATE_BACKGROUND_COLOR, dateTextColor = DEFAULT_DATE_TEXT_COLOR, farDateTextColor = DEFAULT_FAR_DATE_TEXT_COLOR, farDateBackgroundColor = DEFAULT_FAR_DATE_BACKGROUND_COLOR, rangeDateBackgroundColor = DEFAULT_RANGE_DATE_BACKGROUND_COLOR, disabledDateTextColor = DEFAULT_DISABLED_DATE_TEXT_COLOR, hideInput = false, minDate, maxDate, }, ref) {
     var _a;
-    const { containerStyle, inputContainerStyle, labelStyle, isRequired = false, isError, errorMessage, errorMessageStyle, label, placeholder = "Select date", onChange, value, mode = "single", isArrowShown = true, arrowColor = DEFAULT_ARROW_COLOR, arrowSize = DEFAULT_ARROW_SIZE, placeholderStyle, arrowContainerStyle, customArrowIcon, onDatePickerOpened, onDatePickerClosed, customArrowRotation = DEFAULT_ARROW_ROTATION, bottomSheetModalProps, cancelButtonProps, chooseDateButtonProps, chooseYearButtonProps, chooseMonthButtonProps, chooseYearButtonText = "Choose year", chooseMonthButtonText = "Choose month", cancelButtonText = "Cancel", chooseDateButtonText = "Choose date", activeDateBackgroundColor = DEFAULT_ACTIVE_DATE_BACKGROUND_COLOR, activeDateTextColor = DEFAULT_ACTIVE_DATE_TEXT_COLOR, dateBackgroundColor = DEFAULT_DATE_BACKGROUND_COLOR, dateTextColor = DEFAULT_DATE_TEXT_COLOR, farDateTextColor = DEFAULT_FAR_DATE_TEXT_COLOR, farDateBackgroundColor = DEFAULT_FAR_DATE_BACKGROUND_COLOR, rangeDateBackgroundColor = DEFAULT_RANGE_DATE_BACKGROUND_COLOR, } = props;
     const isOpen = (0, react_native_reanimated_1.useSharedValue)(0);
     const bottomSheetModalRef = (0, react_1.useRef)(null);
     const [localDate, setLocalDate] = (0, react_1.useState)(value);
@@ -403,26 +408,30 @@ function DatePicker(props, ref) {
         (_a = bottomSheetModalRef.current) === null || _a === void 0 ? void 0 : _a.close();
     };
     return (<react_native_1.View style={[styles.container, containerStyle]}>
-      {label && (<react_native_1.Text style={[styles.label, labelStyle]}>
-          {label} {isRequired && <react_native_1.Text style={[styles.star]}>*</react_native_1.Text>}{" "}
-        </react_native_1.Text>)}
-      <react_native_1.TouchableOpacity onPress={handlePress} style={[
-            styles.inputContainer,
-            inputContainerStyle,
-            isError && { borderColor: "red" },
-        ]}>
-        <react_native_1.View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
-          <react_native_1.Text style={[styles.label, placeholderStyle]}>
-            {formatDisplayValue()}
-          </react_native_1.Text>
-        </react_native_1.View>
-        {isArrowShown && (<react_native_1.View style={[arrowContainerStyle]}>
-            <react_native_reanimated_1.default.View style={[animatedArrowStyle]}>
-              {customArrowIcon ? (customArrowIcon) : (<AngleDown size={arrowSize} color={arrowColor}/>)}
-            </react_native_reanimated_1.default.View>
-          </react_native_1.View>)}
-      </react_native_1.TouchableOpacity>
-      {isError && (<react_native_1.Text style={[styles.error, errorMessageStyle]}>{errorMessage}</react_native_1.Text>)}
+      {!hideInput && (<>
+          {label && (<react_native_1.Text style={[styles.label, labelStyle]}>
+              {label} {isRequired && <react_native_1.Text style={[styles.star]}>*</react_native_1.Text>}{" "}
+            </react_native_1.Text>)}
+          <react_native_1.TouchableOpacity onPress={handlePress} style={[
+                styles.inputContainer,
+                inputContainerStyle,
+                isError && { borderColor: "red" },
+            ]}>
+            <react_native_1.View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+              <react_native_1.Text style={[styles.label, placeholderStyle]}>
+                {formatDisplayValue()}
+              </react_native_1.Text>
+            </react_native_1.View>
+            {isArrowShown && (<react_native_1.View style={[arrowContainerStyle]}>
+                <react_native_reanimated_1.default.View style={[animatedArrowStyle]}>
+                  {customArrowIcon ? (customArrowIcon) : (<AngleDown size={arrowSize} color={arrowColor}/>)}
+                </react_native_reanimated_1.default.View>
+              </react_native_1.View>)}
+          </react_native_1.TouchableOpacity>
+          {isError && (<react_native_1.Text style={[styles.error, errorMessageStyle]}>
+              {errorMessage}
+            </react_native_1.Text>)}
+        </>)}
       <bottom_sheet_1.BottomSheetModal ref={bottomSheetModalRef} backdropComponent={bottomSheetModalBackdrop} handleComponent={() => <></>} enableDynamicSizing={false} enablePanDownToClose onDismiss={resetToInitialState} snapPoints={[utils_1.isIos ? "55%" : "60%"]} {...bottomSheetModalProps}>
         <react_native_1.View style={[styles.sheetContainer]}>
           <react_native_1.View style={[styles.header]}>
@@ -431,7 +440,7 @@ function DatePicker(props, ref) {
                 <AngleDown size={18} color="#333"/>
               </react_native_reanimated_1.default.View>
             </react_native_1.TouchableOpacity>
-            <react_native_1.TouchableOpacity onPress={() => {
+            <react_native_1.TouchableOpacity hitSlop={25} onPress={() => {
             setIsYearsModalOpen(true);
         }}>
               <react_native_1.Text style={[styles.headerDate]}>
@@ -451,7 +460,7 @@ function DatePicker(props, ref) {
                     <react_native_1.Text style={styles.weekDay}>{item.label}</react_native_1.Text>
                   </react_native_1.View>);
             }
-            return (<DateCell mode={mode} rangeDateBackgroundColor={rangeDateBackgroundColor} farDateBackgroundColor={farDateBackgroundColor} farDateTextColor={farDateTextColor} activeDateBackgroundColor={activeDateBackgroundColor} activeDateTextColor={activeDateTextColor} dateBackgroundColor={dateBackgroundColor} dateTextColor={dateTextColor} currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} localDate={localDate} setLocalDate={setLocalDate} isLastInRow={isLastInRow} cellType={item === null || item === void 0 ? void 0 : item.type} label={item === null || item === void 0 ? void 0 : item.label}/>);
+            return (<DateCell mode={mode} rangeDateBackgroundColor={rangeDateBackgroundColor} farDateBackgroundColor={farDateBackgroundColor} farDateTextColor={farDateTextColor} activeDateBackgroundColor={activeDateBackgroundColor} activeDateTextColor={activeDateTextColor} dateBackgroundColor={dateBackgroundColor} disabledDateTextColor={disabledDateTextColor} dateTextColor={dateTextColor} currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} localDate={localDate} setLocalDate={setLocalDate} isLastInRow={isLastInRow} cellType={item === null || item === void 0 ? void 0 : item.type} label={item === null || item === void 0 ? void 0 : item.label} minDate={minDate} maxDate={maxDate}/>);
         }}/>
           <react_native_1.View style={[styles.buttonContainer]}>
             <atoms_1.Button isOutlined {...cancelButtonProps} onPress={() => {
@@ -579,7 +588,7 @@ const styles = react_native_1.StyleSheet.create({
     },
     headerDate: {
         fontSize: 16,
-        fontWeight: "600",
+        fontWeight: "700",
     },
     rightArrow: {},
     leftArrow: {},

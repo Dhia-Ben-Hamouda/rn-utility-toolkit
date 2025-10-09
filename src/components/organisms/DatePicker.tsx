@@ -51,6 +51,7 @@ const DEFAULT_DATE_TEXT_COLOR = "#333";
 const DEFAULT_FAR_DATE_TEXT_COLOR = "rgba(0,0,0,0.25)";
 const DEFAULT_FAR_DATE_BACKGROUND_COLOR = "transparent";
 const DEFAULT_RANGE_DATE_BACKGROUND_COLOR = "rgba(0, 0, 0, 0.075)";
+const DEFAULT_DISABLED_DATE_TEXT_COLOR = "rgba(0,0,0,0.25)";
 const YEAR_COLUMN_GAP = 4;
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -290,6 +291,9 @@ interface IDateCell {
   farDateTextColor: string;
   farDateBackgroundColor: string;
   rangeDateBackgroundColor: string;
+  disabledDateTextColor: string;
+  minDate?: Date;
+  maxDate?: Date;
 }
 
 function DateCell({
@@ -308,9 +312,16 @@ function DateCell({
   farDateTextColor,
   farDateBackgroundColor,
   rangeDateBackgroundColor,
+  disabledDateTextColor,
+  minDate,
+  maxDate,
 }: IDateCell) {
   const isActive = useSharedValue(0);
   const isInRange = useSharedValue(0);
+
+  const isCellDisabled =
+    (minDate && moment(label).isBefore(minDate)) ||
+    (maxDate && moment(label).isAfter(maxDate));
 
   useEffect(() => {
     if (cellType !== "current") {
@@ -373,7 +384,10 @@ function DateCell({
       );
     }
 
-    return { color: baseColor, fontWeight: "500" };
+    return {
+      color: isCellDisabled ? disabledDateTextColor : baseColor,
+      fontWeight: "500",
+    };
   });
 
   const handlePress = () => {
@@ -402,6 +416,7 @@ function DateCell({
 
   return (
     <AnimatedPressable
+      disabled={isCellDisabled}
       onPress={handlePress}
       style={[
         styles.cell,
@@ -465,6 +480,10 @@ interface IDatePickerBase {
   farDateTextColor?: string;
   farDateBackgroundColor?: string;
   rangeDateBackgroundColor?: string;
+  disabledDateTextColor?: string;
+  hideInput?: boolean;
+  minDate?: Date;
+  maxDate?: Date;
 }
 
 interface IDatePickerSingle extends IDatePickerBase {
@@ -481,8 +500,8 @@ interface IDatePickerRange extends IDatePickerBase {
 
 type IDatePicker = IDatePickerSingle | IDatePickerRange;
 
-function DatePicker(props: IDatePicker, ref: React.Ref<IDatePickerRef>) {
-  const {
+function DatePicker(
+  {
     containerStyle,
     inputContainerStyle,
     labelStyle,
@@ -520,8 +539,13 @@ function DatePicker(props: IDatePicker, ref: React.Ref<IDatePickerRef>) {
     farDateTextColor = DEFAULT_FAR_DATE_TEXT_COLOR,
     farDateBackgroundColor = DEFAULT_FAR_DATE_BACKGROUND_COLOR,
     rangeDateBackgroundColor = DEFAULT_RANGE_DATE_BACKGROUND_COLOR,
-  } = props;
-
+    disabledDateTextColor = DEFAULT_DISABLED_DATE_TEXT_COLOR,
+    hideInput = false,
+    minDate,
+    maxDate,
+  }: IDatePicker,
+  ref: React.Ref<IDatePickerRef>,
+) {
   const isOpen = useSharedValue(0);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const [localDate, setLocalDate] = useState<DateValue | DateRangeValue>(value);
@@ -696,37 +720,44 @@ function DatePicker(props: IDatePicker, ref: React.Ref<IDatePickerRef>) {
 
   return (
     <View style={[styles.container, containerStyle]}>
-      {label && (
-        <Text style={[styles.label, labelStyle]}>
-          {label} {isRequired && <Text style={[styles.star]}>*</Text>}{" "}
-        </Text>
-      )}
-      <TouchableOpacity
-        onPress={handlePress}
-        style={[
-          styles.inputContainer,
-          inputContainerStyle,
-          isError && { borderColor: "red" },
-        ]}>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
-          <Text style={[styles.label, placeholderStyle]}>
-            {formatDisplayValue()}
-          </Text>
-        </View>
-        {isArrowShown && (
-          <View style={[arrowContainerStyle]}>
-            <Animated.View style={[animatedArrowStyle]}>
-              {customArrowIcon ? (
-                customArrowIcon
-              ) : (
-                <AngleDown size={arrowSize} color={arrowColor} />
-              )}
-            </Animated.View>
-          </View>
-        )}
-      </TouchableOpacity>
-      {isError && (
-        <Text style={[styles.error, errorMessageStyle]}>{errorMessage}</Text>
+      {!hideInput && (
+        <>
+          {label && (
+            <Text style={[styles.label, labelStyle]}>
+              {label} {isRequired && <Text style={[styles.star]}>*</Text>}{" "}
+            </Text>
+          )}
+          <TouchableOpacity
+            onPress={handlePress}
+            style={[
+              styles.inputContainer,
+              inputContainerStyle,
+              isError && { borderColor: "red" },
+            ]}>
+            <View
+              style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+              <Text style={[styles.label, placeholderStyle]}>
+                {formatDisplayValue()}
+              </Text>
+            </View>
+            {isArrowShown && (
+              <View style={[arrowContainerStyle]}>
+                <Animated.View style={[animatedArrowStyle]}>
+                  {customArrowIcon ? (
+                    customArrowIcon
+                  ) : (
+                    <AngleDown size={arrowSize} color={arrowColor} />
+                  )}
+                </Animated.View>
+              </View>
+            )}
+          </TouchableOpacity>
+          {isError && (
+            <Text style={[styles.error, errorMessageStyle]}>
+              {errorMessage}
+            </Text>
+          )}
+        </>
       )}
       <BottomSheetModal
         ref={bottomSheetModalRef}
@@ -747,6 +778,7 @@ function DatePicker(props: IDatePicker, ref: React.Ref<IDatePickerRef>) {
               </Animated.View>
             </TouchableOpacity>
             <TouchableOpacity
+              hitSlop={25}
               onPress={() => {
                 setIsYearsModalOpen(true);
               }}>
@@ -790,6 +822,7 @@ function DatePicker(props: IDatePicker, ref: React.Ref<IDatePickerRef>) {
                   activeDateBackgroundColor={activeDateBackgroundColor}
                   activeDateTextColor={activeDateTextColor}
                   dateBackgroundColor={dateBackgroundColor}
+                  disabledDateTextColor={disabledDateTextColor}
                   dateTextColor={dateTextColor}
                   currentSlide={currentSlide}
                   setCurrentSlide={setCurrentSlide}
@@ -798,6 +831,8 @@ function DatePicker(props: IDatePicker, ref: React.Ref<IDatePickerRef>) {
                   isLastInRow={isLastInRow}
                   cellType={item?.type}
                   label={item?.label}
+                  minDate={minDate}
+                  maxDate={maxDate}
                 />
               );
             }}
@@ -1005,7 +1040,7 @@ const styles = StyleSheet.create({
   },
   headerDate: {
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: "700",
   },
   rightArrow: {},
   leftArrow: {},

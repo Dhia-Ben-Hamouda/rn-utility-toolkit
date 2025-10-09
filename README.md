@@ -197,6 +197,8 @@ export default function App() {
 
 - `Skeleton`
 
+![Skeleton Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/atoms/skeleton.gif)
+
 ```tsx
 import React from "react";
 import { Skeleton, type SkeletonProps } from "rn-utility-toolkit";
@@ -391,6 +393,8 @@ export default function App() {
 
 - `Picker`
 
+![Picker Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/molecules/picker.gif)
+
 ```tsx
 import React, { useRef, useState } from "react";
 import { View, Text } from "react-native";
@@ -538,6 +542,8 @@ export default function App() {
 ```
 
 - `Carousel`
+
+![Carousel Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/organisms/carousel.gif)
 
 ```tsx
 import React, { useState } from "react";
@@ -779,13 +785,20 @@ export default function App() {
 ```tsx
 import React, { useRef, useState } from "react";
 import { View, } from "react-native";
-import { DatePicker, DatePickerRef } from "rn-utility-toolkit";
+import { 
+  DatePicker, 
+  type DatePickerRef, 
+  type DatePickerBaseProps, 
+  type SingleDatePickerProps,
+  type RanngeDatePickerProps,
+  type DateRangeValue
+} from "rn-utility-toolkit";
 
 export default function App() {
   const singleRef = useRef<DatePickerRef | null>(null);
   const rangeRef = useRef<DatePickerRef | null>(null);
   const [singleValue, setSingleValue] = useState<Date | null>(new Date());
-  const [rangeValue, setRangeValue] = useState<[Date | null, Date | null]>([new Date(), null]);
+  const [rangeValue, setRangeValue] = useState<DateRangeValue>([new Date(), null]);
 
   return (
     <View>
@@ -846,6 +859,9 @@ export default function App() {
         farDateTextColor="rgba(0,0,0,0.25)"
         farDateBackgroundColor="transparent"
         rangeDateBackgroundColor="rgba(10,132,255,0.12)"
+        disabledDateTextColor="#ccc"
+        minDate={new Date("2025-10-01")}
+        maxDate={new Date("2025-06-01")}
       />
     </View>
   );

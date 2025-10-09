@@ -44,6 +44,10 @@ interface IDatePickerBase {
     farDateTextColor?: string;
     farDateBackgroundColor?: string;
     rangeDateBackgroundColor?: string;
+    disabledDateTextColor?: string;
+    hideInput?: boolean;
+    minDate?: Date;
+    maxDate?: Date;
 }
 interface IDatePickerSingle extends IDatePickerBase {
     mode?: "single";
@@ -56,7 +60,7 @@ interface IDatePickerRange extends IDatePickerBase {
     onChange?: (newDateRange: DateRangeValue) => void;
 }
 type IDatePicker = IDatePickerSingle | IDatePickerRange;
-declare function DatePicker(props: IDatePicker, ref: React.Ref<IDatePickerRef>): React.JSX.Element;
+declare function DatePicker({ containerStyle, inputContainerStyle, labelStyle, isRequired, isError, errorMessage, errorMessageStyle, label, placeholder, onChange, value, mode, isArrowShown, arrowColor, arrowSize, placeholderStyle, arrowContainerStyle, customArrowIcon, onDatePickerOpened, onDatePickerClosed, customArrowRotation, bottomSheetModalProps, cancelButtonProps, chooseDateButtonProps, chooseYearButtonProps, chooseMonthButtonProps, chooseYearButtonText, chooseMonthButtonText, cancelButtonText, chooseDateButtonText, activeDateBackgroundColor, activeDateTextColor, dateBackgroundColor, dateTextColor, farDateTextColor, farDateBackgroundColor, rangeDateBackgroundColor, disabledDateTextColor, hideInput, minDate, maxDate, }: IDatePicker, ref: React.Ref<IDatePickerRef>): React.JSX.Element;
 declare const _default: <T extends DateMode = "single" | "range">(props: (T extends "range" ? IDatePickerRange : IDatePickerSingle) & {
     ref?: React.Ref<IDatePickerRef>;
 }) => ReturnType<typeof DatePicker>;
