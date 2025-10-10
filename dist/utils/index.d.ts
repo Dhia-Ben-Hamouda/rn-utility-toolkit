@@ -24,8 +24,8 @@ export declare function generateShadow(shadowColor?: string, shadowOffset?: {
     shadowOpacity?: undefined;
     shadowRadius?: undefined;
 } | undefined;
-export declare function capitalize(value: string): string;
-export declare function formatAmountByCurrency(amount: number, currency?: string): string;
+export declare function capitalize(value?: string): string;
+export declare function formatAmountByCurrency(amount: number, currency?: string, isCurrencyLeftPositioned?: boolean): string;
 export declare const SCREEN_WIDTH: number;
 export declare const SCREEN_HEIGHT: number;
 export declare const isIos: boolean;

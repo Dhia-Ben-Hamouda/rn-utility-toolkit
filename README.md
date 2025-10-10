@@ -862,6 +862,10 @@ export default function App() {
         farDateBackgroundColor="transparent"
         rangeDateBackgroundColor="rgba(10,132,255,0.12)"
         disabledDateTextColor="#ccc"
+        customHeader={<></>}
+        customFooter={<></>}
+        showInput={true}
+        showFarDates={true}
         minDate={new Date("2025-10-01")}
         maxDate={new Date("2025-06-01")}
       />

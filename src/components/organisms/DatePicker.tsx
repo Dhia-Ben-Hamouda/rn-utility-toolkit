@@ -11,6 +11,7 @@ import React, {
   useCallback,
   useEffect,
   useImperativeHandle,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -297,6 +298,7 @@ interface IDateCell {
   farDateBackgroundColor: string;
   rangeDateBackgroundColor: string;
   disabledDateTextColor: string;
+  showFarDates: boolean;
   minDate?: Date;
   maxDate?: Date;
 }
@@ -318,13 +320,14 @@ function DateCell({
   farDateBackgroundColor,
   rangeDateBackgroundColor,
   disabledDateTextColor,
+  showFarDates,
   minDate,
   maxDate,
 }: IDateCell) {
   const isActive = useSharedValue(0);
   const isInRange = useSharedValue(0);
 
-  const isCellDisabled =
+  const isDateNotInBounds =
     (minDate && moment(label).isBefore(minDate)) ||
     (maxDate && moment(label).isAfter(maxDate));
 
@@ -390,7 +393,7 @@ function DateCell({
     }
 
     return {
-      color: isCellDisabled ? disabledDateTextColor : baseColor,
+      color: isDateNotInBounds ? disabledDateTextColor : baseColor,
       fontWeight: "500",
     };
   });
@@ -407,10 +410,8 @@ function DateCell({
         const [start, end] = localDate as DateRangeValue;
 
         if (!start || (start && end)) {
-          // Start new range
           setLocalDate([label, null]);
         } else {
-          // Complete range
           const newEnd = moment(label).isBefore(start) ? start : label;
           const newStart = moment(label).isBefore(start) ? label : start;
           setLocalDate([newStart, newEnd]);
@@ -421,11 +422,12 @@ function DateCell({
 
   return (
     <AnimatedPressable
-      disabled={isCellDisabled}
+      disabled={isDateNotInBounds || (!showFarDates && cellType !== "current")}
       onPress={handlePress}
       style={[
         styles.cell,
         !isLastInRow && { marginRight: 4 },
+        !showFarDates && cellType !== "current" && { opacity: 0 },
         animatedContainerStyle,
       ]}>
       <Animated.Text style={[animatedTextStyle]}>
@@ -448,6 +450,10 @@ type ICalendarItem =
 export interface IDatePickerRef {
   open: () => void;
   close: () => void;
+  handleChooseDate: () => void;
+  swipeRight: () => void;
+  swipeLeft: () => void;
+  changeYear: () => void;
 }
 
 interface IDatePickerBase {
@@ -486,7 +492,10 @@ interface IDatePickerBase {
   farDateBackgroundColor?: string;
   rangeDateBackgroundColor?: string;
   disabledDateTextColor?: string;
-  hideInput?: boolean;
+  showInput?: boolean;
+  showFarDates?: boolean;
+  customHeader?: React.ReactNode;
+  customFooter?: React.ReactNode;
   minDate?: Date;
   maxDate?: Date;
 }
@@ -545,7 +554,10 @@ function DatePicker(
     farDateBackgroundColor = DEFAULT_FAR_DATE_BACKGROUND_COLOR,
     rangeDateBackgroundColor = DEFAULT_RANGE_DATE_BACKGROUND_COLOR,
     disabledDateTextColor = DEFAULT_DISABLED_DATE_TEXT_COLOR,
-    hideInput = false,
+    customHeader,
+    customFooter,
+    showInput = true,
+    showFarDates = true,
     minDate,
     maxDate,
   }: IDatePicker,
@@ -655,20 +667,6 @@ function DatePicker(
     });
   }
 
-  useImperativeHandle(ref, () => ({
-    open: () => {
-      bottomSheetModalRef.current?.present();
-      resetToInitialState();
-      isOpen.value = withTiming(1, { duration: ANIMATION_DURATION });
-      onDatePickerOpened && onDatePickerOpened();
-    },
-    close: () => {
-      bottomSheetModalRef.current?.close();
-      isOpen.value = withTiming(0, { duration: ANIMATION_DURATION });
-      onDatePickerClosed && onDatePickerClosed();
-    },
-  }));
-
   function getYearRange(date: Date): { floor: number; ceil: number } {
     const year = moment(date).year();
     const start = Math.floor(year / 10) * 10;
@@ -709,7 +707,7 @@ function DatePicker(
     return placeholder;
   };
 
-  const handleChoose = () => {
+  const handleChooseDate = () => {
     if (mode === "single") {
       if (localDate) {
         (onChange as IDatePickerSingle["onChange"])?.(localDate as Date);
@@ -723,9 +721,37 @@ function DatePicker(
     bottomSheetModalRef.current?.close();
   };
 
+  const calendatData = useMemo(() => {
+    return generateCalendarData(currentSlide);
+  }, [currentSlide]);
+
+  useImperativeHandle(ref, () => ({
+    open: () => {
+      bottomSheetModalRef.current?.present();
+      resetToInitialState();
+      isOpen.value = withTiming(1, { duration: ANIMATION_DURATION });
+      onDatePickerOpened && onDatePickerOpened();
+    },
+    close: () => {
+      bottomSheetModalRef.current?.close();
+      isOpen.value = withTiming(0, { duration: ANIMATION_DURATION });
+      onDatePickerClosed && onDatePickerClosed();
+    },
+    handleChooseDate,
+    swipeLeft: () => {
+      handleMonthChange("prev");
+    },
+    swipeRight: () => {
+      handleMonthChange("next");
+    },
+    changeYear: () => {
+      setIsYearsModalOpen(true);
+    },
+  }));
+
   return (
     <View style={[styles.container, containerStyle]}>
-      {!hideInput && (
+      {showInput && (
         <>
           {label && (
             <Text style={[styles.label, labelStyle]}>
@@ -774,38 +800,41 @@ function DatePicker(
         snapPoints={[isIos ? "55%" : "60%"]}
         {...bottomSheetModalProps}>
         <View style={[styles.sheetContainer]}>
-          <View style={[styles.header]}>
-            <TouchableOpacity
-              onPress={() => handleMonthChange("prev")}
-              hitSlop={25}>
-              <Animated.View style={[styles.leftArrow, animatedLeftArrowStyle]}>
-                <AngleDown size={18} color="#333" />
-              </Animated.View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              hitSlop={25}
-              onPress={() => {
-                setIsYearsModalOpen(true);
-              }}>
-              <Text style={[styles.headerDate]}>
-                {moment(currentSlide)?.format("MMMM Y")}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => handleMonthChange("next")}
-              hitSlop={25}>
-              <Animated.View
-                style={[styles.rightArrow, animatedRightArrowStyle]}>
-                <AngleDown size={18} color="#333" />
-              </Animated.View>
-            </TouchableOpacity>
-          </View>
+          {customHeader ?? (
+            <View style={[styles.header]}>
+              <TouchableOpacity
+                onPress={() => handleMonthChange("prev")}
+                hitSlop={25}>
+                <Animated.View
+                  style={[styles.leftArrow, animatedLeftArrowStyle]}>
+                  <AngleDown size={18} color="#333" />
+                </Animated.View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                hitSlop={25}
+                onPress={() => {
+                  setIsYearsModalOpen(true);
+                }}>
+                <Text style={[styles.headerDate]}>
+                  {moment(currentSlide)?.format("MMMM Y")}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => handleMonthChange("next")}
+                hitSlop={25}>
+                <Animated.View
+                  style={[styles.rightArrow, animatedRightArrowStyle]}>
+                  <AngleDown size={18} color="#333" />
+                </Animated.View>
+              </TouchableOpacity>
+            </View>
+          )}
           <FlatList
             numColumns={7}
             bounces={false}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.dateContainer}
-            data={generateCalendarData(currentSlide)}
+            data={calendatData}
             renderItem={({ item, index }) => {
               const isLastInRow = (index + 1) % 7 === 0;
 
@@ -838,36 +867,42 @@ function DatePicker(
                   label={item?.label}
                   minDate={minDate}
                   maxDate={maxDate}
+                  showFarDates={showFarDates}
                 />
               );
             }}
           />
-          <View style={[styles.buttonContainer]}>
-            <Button
-              isOutlined
-              {...cancelButtonProps}
-              onPress={() => {
-                resetToInitialState();
-                bottomSheetModalRef.current?.close();
-              }}
-              textStyle={[styles.buttonText, cancelButtonProps?.textStyle]}
-              containerStyle={[
-                styles.button,
-                cancelButtonProps?.containerStyle,
-              ]}>
-              {cancelButtonText}
-            </Button>
-            <Button
-              {...chooseDateButtonProps}
-              onPress={handleChoose}
-              textStyle={[styles.buttonText, chooseDateButtonProps?.textStyle]}
-              containerStyle={[
-                styles.button,
-                chooseDateButtonProps?.containerStyle,
-              ]}>
-              {chooseDateButtonText}
-            </Button>
-          </View>
+          {customFooter ?? (
+            <View style={[styles.buttonContainer]}>
+              <Button
+                isOutlined
+                {...cancelButtonProps}
+                onPress={() => {
+                  resetToInitialState();
+                  bottomSheetModalRef.current?.close();
+                }}
+                textStyle={[styles.buttonText, cancelButtonProps?.textStyle]}
+                containerStyle={[
+                  styles.button,
+                  cancelButtonProps?.containerStyle,
+                ]}>
+                {cancelButtonText}
+              </Button>
+              <Button
+                {...chooseDateButtonProps}
+                onPress={handleChooseDate}
+                textStyle={[
+                  styles.buttonText,
+                  chooseDateButtonProps?.textStyle,
+                ]}
+                containerStyle={[
+                  styles.button,
+                  chooseDateButtonProps?.containerStyle,
+                ]}>
+                {chooseDateButtonText}
+              </Button>
+            </View>
+          )}
         </View>
         <Modal
           containerStyle={styles.yearModal}

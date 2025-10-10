@@ -41,16 +41,18 @@ function generateShadow(shadowColor = "#000000", shadowOffset = { height: 0, wid
         },
     });
 }
-function capitalize(value) {
-    var _a, _b, _c;
-    return (((_a = String(value[0])) === null || _a === void 0 ? void 0 : _a.toUpperCase()) + ((_c = (_b = String(value)) === null || _b === void 0 ? void 0 : _b.slice(1)) === null || _c === void 0 ? void 0 : _c.toLowerCase()));
+function capitalize(value = "") {
+    if (!value)
+        return "";
+    return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
 }
-function formatAmountByCurrency(amount, currency) {
-    var _a;
+function formatAmountByCurrency(amount, currency, isCurrencyLeftPositioned) {
     const formattedAmount = new Intl.NumberFormat("fr-FR", {
         maximumFractionDigits: 0,
     }).format(amount);
-    return (_a = `${formattedAmount} ${currency ? currency : ""}`) === null || _a === void 0 ? void 0 : _a.trim();
+    return isCurrencyLeftPositioned
+        ? `${currency} ${formattedAmount}`.trim()
+        : `${formattedAmount} ${currency}`.trim();
 }
 exports.SCREEN_WIDTH = react_native_1.Dimensions.get("screen").width;
 exports.SCREEN_HEIGHT = react_native_1.Dimensions.get("screen").height;

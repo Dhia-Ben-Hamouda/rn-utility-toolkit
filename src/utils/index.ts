@@ -46,18 +46,23 @@ export function generateShadow(
   });
 }
 
-export function capitalize(value: string) {
-  return (
-    String(value[0])?.toUpperCase() + String(value)?.slice(1)?.toLowerCase()
-  );
+export function capitalize(value: string = "") {
+  if (!value) return "";
+  return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
 }
 
-export function formatAmountByCurrency(amount: number, currency?: string) {
+export function formatAmountByCurrency(
+  amount: number,
+  currency?: string,
+  isCurrencyLeftPositioned?: boolean,
+) {
   const formattedAmount = new Intl.NumberFormat("fr-FR", {
     maximumFractionDigits: 0,
   }).format(amount);
 
-  return `${formattedAmount} ${currency ? currency : ""}`?.trim();
+  return isCurrencyLeftPositioned
+    ? `${currency} ${formattedAmount}`.trim()
+    : `${formattedAmount} ${currency}`.trim();
 }
 
 export const SCREEN_WIDTH = Dimensions.get("screen").width;

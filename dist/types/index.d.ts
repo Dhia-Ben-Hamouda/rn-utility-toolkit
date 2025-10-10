@@ -339,7 +339,10 @@ export interface DatePickerBaseProps {
     farDateBackgroundColor?: string;
     rangeDateBackgroundColor?: string;
     disabledDateTextColor?: string;
-    hideInput?: boolean;
+    showInput?: boolean;
+    showFarDates?: boolean;
+    customHeader?: React.ReactNode;
+    customFooter?: React.ReactNode;
     minDate?: Date;
     maxDate?: Date;
 }
@@ -357,4 +360,8 @@ export interface RanngeDatePickerProps extends DatePickerBaseProps {
 export interface DatePickerRef {
     open: () => void;
     close: () => void;
+    handleChooseDate: () => void;
+    swipeRight: () => void;
+    swipeLeft: () => void;
+    changeYear: () => void;
 }
