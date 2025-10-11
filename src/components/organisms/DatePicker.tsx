@@ -120,8 +120,12 @@ function generateCalendarData(date: Date): ICalendarItem[] {
     },
   );
 
-  const totalDays = previousDays?.length + currentDays?.length;
-  const remainingDaysToFill = NUMBER_OF_DATE_CELLS_PER_SLIDE - totalDays;
+  const totalDaysSoFar = previousDays?.length + currentDays?.length;
+
+  const totalWeeks = Math.ceil(totalDaysSoFar / 7);
+  const totalCells = totalWeeks > 5 ? 42 : NUMBER_OF_DATE_CELLS_PER_SLIDE;
+
+  const remainingDaysToFill = totalCells - totalDaysSoFar;
   const nextMonth = m.clone().add(1, "month");
 
   const nextDays = Array.from({ length: remainingDaysToFill }).map(
@@ -299,6 +303,7 @@ interface IDateCell {
   rangeDateBackgroundColor: string;
   disabledDateTextColor: string;
   showFarDates: boolean;
+  dateCellStyle?: StyleProp<ViewStyle>;
   minDate?: Date;
   maxDate?: Date;
 }
@@ -321,6 +326,7 @@ function DateCell({
   rangeDateBackgroundColor,
   disabledDateTextColor,
   showFarDates,
+  dateCellStyle,
   minDate,
   maxDate,
 }: IDateCell) {
@@ -377,7 +383,6 @@ function DateCell({
 
     return {
       backgroundColor: baseBackgroundColor,
-      borderRadius: 7,
     };
   });
 
@@ -428,6 +433,7 @@ function DateCell({
         styles.cell,
         !isLastInRow && { marginRight: 4 },
         !showFarDates && cellType !== "current" && { opacity: 0 },
+        dateCellStyle,
         animatedContainerStyle,
       ]}>
       <Animated.Text style={[animatedTextStyle]}>
@@ -496,6 +502,7 @@ interface IDatePickerBase {
   showFarDates?: boolean;
   customHeader?: React.ReactNode;
   customFooter?: React.ReactNode;
+  dateCellStyle?: StyleProp<ViewStyle>;
   minDate?: Date;
   maxDate?: Date;
 }
@@ -558,6 +565,7 @@ function DatePicker(
     customFooter,
     showInput = true,
     showFarDates = true,
+    dateCellStyle,
     minDate,
     maxDate,
   }: IDatePicker,
@@ -832,7 +840,6 @@ function DatePicker(
           <FlatList
             numColumns={7}
             bounces={false}
-            showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.dateContainer}
             data={calendatData}
             renderItem={({ item, index }) => {
@@ -868,6 +875,7 @@ function DatePicker(
                   minDate={minDate}
                   maxDate={maxDate}
                   showFarDates={showFarDates}
+                  dateCellStyle={dateCellStyle}
                 />
               );
             }}
@@ -1098,6 +1106,7 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     justifyContent: "center",
     alignItems: "center",
+    borderRadius: 7,
   },
   weekDay: {
     fontSize: 15,

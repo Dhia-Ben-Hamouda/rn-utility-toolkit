@@ -521,13 +521,8 @@ export default function App() {
       isTitleShown={true}
       headerStyle={{ backgroundColor: "#333", paddingVertical: 16 }}
       titleStyle={{ fontSize: 18, fontWeight: "bold", color: "#fff" }}
-      containerStyle={{
-        marginBottom: 20,
-      }}
-      contentContainerStyle={{
-        padding: 16,
-        backgroundColor: "#e8f5e9",
-      }}
+      containerStyle={{ marginBottom: 20 }}
+      contentContainerStyle={{ padding: 16 }}
       onAccordionOpened={(height) =>
         console.log("Accordion opened, content height:", height)
       }
@@ -663,11 +658,8 @@ export default function App() {
         showCursor={true}
         shouldOnlyAcceptNumbers={true}
         containerStyle={{ marginVertical: 20 }}
-        pinContainerStyle={{
-          backgroundColor: "#f5f5f5",
-          borderColor: "#ccc",
-        }}
-        activePinContainerStyle={{ borderColor: "#333", borderWidth: 2 }}
+        pinContainerStyle={{ backgroundColor: "#f5f5f5" }}
+        activePinContainerStyle={{ borderColor: "#333" }}
         pinTextStyle={{ color: "#333", fontSize: 20 }}
         secureDotStyle={{ backgroundColor: "#333" }}
       />
@@ -751,10 +743,7 @@ export default function App() {
         step={500}
         unit="USD"
         sliderWidth={320}
-        thumbStyle={{
-          backgroundColor: "white",
-          borderWidth: 2,
-        }}
+        thumbStyle={{ borderWidth: 2 }}
         trackStyle={{ backgroundColor: "#eee" }}
         progressStyle={{ backgroundColor: "#333" }}
       />
@@ -768,10 +757,7 @@ export default function App() {
         step={1000}
         unit="TND"
         sliderWidth={320}
-        thumbStyle={{
-          backgroundColor: "white",
-          borderWidth: 2,
-        }}
+        thumbStyle={{ borderWidth: 2 }}
         trackStyle={{ backgroundColor: "#ddd" }}
         progressStyle={{ backgroundColor: "#333" }}
       />
@@ -815,16 +801,16 @@ export default function App() {
         value={singleValue}
         onChange={(d) => setSingleValue(d)}
         label="Birthdate"
-        labelStyle={{ color: "#333", fontSize: 14, fontWeight: "600" }}
-        containerStyle={{ width: "95%", alignSelf: "center", marginTop: 12 }}
-        inputContainerStyle={{ padding: 14, borderRadius: 10 }}
+        labelStyle={{ fontWeight: "600" }}
+        containerStyle={{ marginTop: 12 }}
+        inputContainerStyle={{ borderRadius: 10 }}
         placeholder="DD/MM/YYYY"
         placeholderStyle={{ color: "#9AA0A6" }}
         isArrowShown={true}
         arrowColor="#ff6a00"
         arrowSize={18}
         arrowContainerStyle={{ paddingHorizontal: 6, paddingVertical: 2 }}
-        customArrowIcon={<Text style={{ fontSize: 12 }}>▼</Text>}
+        customArrowIcon={undefined}
         customArrowRotation={180}
         isRequired={true}
         isError={false}
@@ -833,23 +819,10 @@ export default function App() {
         onDatePickerOpened={() => console.log("single opened")}
         onDatePickerClosed={() => console.log("single closed")}
         bottomSheetModalProps={{ snapPoints: ["55%"], enablePanDownToClose: true }}
-        cancelButtonProps={{
-          isOutlined: true,
-          textStyle: { fontWeight: "700" },
-          containerStyle: { borderWidth: 1, paddingVertical: 12 },
-        }}
-        chooseDateButtonProps={{
-          textStyle: { fontWeight: "700" },
-          containerStyle: { paddingVertical: 12 },
-        }}
-        chooseYearButtonProps={{
-          textStyle: { fontWeight: "700" },
-          containerStyle: { paddingVertical: 12 },
-        }}
-        chooseMonthButtonProps={{
-          textStyle: { fontWeight: "700" },
-          containerStyle: { paddingVertical: 12 },
-        }}
+        cancelButtonProps={{ isOutlined: true }}
+        chooseDateButtonProps={{ textStyle: { fontWeight: "700" } }}
+        chooseYearButtonProps={{ textStyle: { fontWeight: "700" } }}
+        chooseMonthButtonProps={{ textStyle: { fontWeight: "700" } }}
         cancelButtonText="Cancel"
         chooseDateButtonText="Choose date"
         chooseYearButtonText="Choose year"
@@ -866,6 +839,7 @@ export default function App() {
         customFooter={<></>}
         showInput={true}
         showFarDates={true}
+        dateCellStyle={{ borderRadius: 7 }}
         minDate={new Date("2025-10-01")}
         maxDate={new Date("2025-06-01")}
       />

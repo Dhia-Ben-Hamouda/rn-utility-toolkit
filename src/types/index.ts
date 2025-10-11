@@ -383,6 +383,7 @@ export interface DatePickerBaseProps {
   showFarDates?: boolean;
   customHeader?: React.ReactNode;
   customFooter?: React.ReactNode;
+  dateCellStyle?: StyleProp<ViewStyle>;
   minDate?: Date;
   maxDate?: Date;
 }

@@ -48,7 +48,7 @@ export function generateShadow(
 
 export function capitalize(value: string = "") {
   if (!value) return "";
-  return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+  return value.charAt(0)?.toUpperCase() + value.slice(1)?.toLowerCase();
 }
 
 export function formatAmountByCurrency(
@@ -61,8 +61,8 @@ export function formatAmountByCurrency(
   }).format(amount);
 
   return isCurrencyLeftPositioned
-    ? `${currency} ${formattedAmount}`.trim()
-    : `${formattedAmount} ${currency}`.trim();
+    ? `${currency} ${formattedAmount}`?.trim()
+    : `${formattedAmount} ${currency}`?.trim();
 }
 
 export const SCREEN_WIDTH = Dimensions.get("screen").width;
