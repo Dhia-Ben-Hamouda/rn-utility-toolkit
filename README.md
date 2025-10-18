@@ -27,7 +27,9 @@ The library is organized following the [Atomic Design](https://bradfrost.com/blo
 Small, reusable building blocks of the UI.
 
 - `Button`
+
 check out the full documentation here 👉 https://www.npmjs.com/package/rn-awesome-button
+
 ![Button Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/atoms/button.gif)
 
 ```tsx
@@ -61,7 +63,9 @@ export default function App() {
 ```
 
 - `Checkbox`
+
 check out the full documentation here 👉 https://www.npmjs.com/package/rn-bouncy-checkbox
+
 ![Checkbox Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/atoms/checkbox.gif)
 
 ```tsx
@@ -141,7 +145,9 @@ export default function App() {
 ```
 
 - `RadioButton`
+
 check out the full documentation here 👉 https://www.npmjs.com/package/rn-awesome-radio-button
+
 ![Radio Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/atoms/radio.gif)
 
 ```tsx
@@ -168,7 +174,9 @@ export default function App() {
 ```
 
 - `Switch`
+
 check out the full documentation here 👉 https://www.npmjs.com/package/rn-awesome-switch
+
 ![Switch Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/atoms/switch.gif)
 
 ```tsx
@@ -298,7 +306,9 @@ export default function App() {
 ```
 
 - `Select`
+
 check out the full documentation here 👉 https://www.npmjs.com/package/rn-custom-select-dropdown
+
 ![Select Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/molecules/select.gif)
 
 ```tsx
@@ -353,7 +363,9 @@ export default function App() {
 ```
 
 - `Tabs`
+
 check out the full documentation here 👉 https://www.npmjs.com/package/rn-segmented-tabs
+
 ![Tabs Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/molecules/tabs.gif)
 
 ```tsx
@@ -629,7 +641,9 @@ const styles = StyleSheet.create({
 ```
 
 - `PinInput`
+
 check out the full documentation here 👉 https://www.npmjs.com/package/rn-awesome-pin-input
+
 ![PinInput Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/organisms/pin.gif)
 
 ```tsx
@@ -767,7 +781,9 @@ export default function App() {
 ```
 
 - `Date Picker`
+
 check out the full documentation here 👉 https://www.npmjs.com/package/rn-awesome-date-picker
+
 ![Date Picker Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/organisms/date.gif)
 
 ```tsx
