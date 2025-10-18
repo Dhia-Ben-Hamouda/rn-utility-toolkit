@@ -42,19 +42,29 @@ import { Button } from "../atoms";
 import Modal from "../molecules/Modal";
 
 const ANIMATION_DURATION = 500;
+
 const DEFAULT_ARROW_COLOR = "rgba(0,0,0,.75)";
 const DEFAULT_ARROW_SIZE = 12;
 const DEFAULT_ARROW_ROTATION = 0;
-const DEFAULT_ACTIVE_DATE_BACKGROUND_COLOR = "#333";
+
 const DEFAULT_ACTIVE_DATE_TEXT_COLOR = "#fff";
-const DEFAULT_DATE_BACKGROUND_COLOR = "transparent";
+const DEFAULT_ACTIVE_DATE_BACKGROUND_COLOR = "#333";
+
 const DEFAULT_DATE_TEXT_COLOR = "#333";
+const DEFAULT_DATE_BACKGROUND_COLOR = "transparent";
+
 const DEFAULT_FAR_DATE_TEXT_COLOR = "rgba(0,0,0,0.25)";
 const DEFAULT_FAR_DATE_BACKGROUND_COLOR = "transparent";
+
+const DEFAULT_RANGE_DATE_TEXT_COLOR = "#333";
 const DEFAULT_RANGE_DATE_BACKGROUND_COLOR = "rgba(0, 0, 0, 0.075)";
+
 const DEFAULT_DISABLED_DATE_TEXT_COLOR = "rgba(0,0,0,0.25)";
+
 const NUMBER_OF_DATE_CELLS_PER_SLIDE = 35;
 const YEAR_COLUMN_GAP = 4;
+const DEFAULT_CURRENT_SLIDE_FORMATTER = (date: Date) =>
+  moment(date).format("MMMM Y");
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -79,36 +89,45 @@ function AngleDown({
   );
 }
 
-function generateCalendarData(date: Date): ICalendarItem[] {
+function generateCalendarData(
+  date: Date,
+  customWeekDays?: string[],
+): ICalendarItem[] {
   const m = moment(date);
 
-  const orderedWeekdays = [
-    moment.weekdaysShort()[1],
-    moment.weekdaysShort()[2],
-    moment.weekdaysShort()[3],
-    moment.weekdaysShort()[4],
-    moment.weekdaysShort()[5],
-    moment.weekdaysShort()[6],
-    moment.weekdaysShort()[0],
-  ].map(day => ({
+  const orderedWeekdays = (
+    customWeekDays
+      ? customWeekDays
+      : [
+          moment.weekdaysShort()[1],
+          moment.weekdaysShort()[2],
+          moment.weekdaysShort()[3],
+          moment.weekdaysShort()[4],
+          moment.weekdaysShort()[5],
+          moment.weekdaysShort()[6],
+          moment.weekdaysShort()[0],
+        ]
+  )?.map(day => ({
     type: "weekday" as const,
     label: day,
   }));
 
   const startOfMonth = m.clone().startOf("month");
   const numberOfdaysInCurrentMonth = m.daysInMonth();
-  const startWeekday = (startOfMonth.day() + 6) % 7;
+  const numberOfPreviousDays = (startOfMonth.day() + 6) % 7;
 
   const previousMonth = m.clone().subtract(1, "month");
   const numberOfDaysInPreviousMonth = previousMonth.daysInMonth();
 
-  const previousDays = Array.from({ length: startWeekday }).map((_, index) => {
-    const day = previousMonth
-      .clone()
-      .date(numberOfDaysInPreviousMonth - startWeekday + index + 1)
-      .toDate();
-    return { type: "prev" as const, label: day };
-  });
+  const previousDays = Array.from({ length: numberOfPreviousDays }).map(
+    (_, index) => {
+      const day = previousMonth
+        .clone()
+        .date(numberOfDaysInPreviousMonth - numberOfPreviousDays + index + 1)
+        .toDate();
+      return { type: "prev" as const, label: day };
+    },
+  );
 
   const currentDays = Array.from({ length: numberOfdaysInCurrentMonth }).map(
     (_, index) => {
@@ -149,6 +168,7 @@ interface IMonthCell {
   setSelectedMonth: React.Dispatch<SetStateAction<number>>;
   activeMonthBackgroundColor: string;
   activeMonthTextColor: string;
+  monthCellStyle?: StyleProp<Omit<ViewStyle, "backgroundColor" | "color">>;
 }
 
 function MonthCell({
@@ -159,6 +179,7 @@ function MonthCell({
   setSelectedMonth,
   activeMonthBackgroundColor,
   activeMonthTextColor,
+  monthCellStyle,
 }: IMonthCell) {
   const isActiveCell = useSharedValue(0);
 
@@ -204,6 +225,7 @@ function MonthCell({
           marginEnd: (index + 1) % 3 === 0 ? 0 : YEAR_COLUMN_GAP,
         },
         animatedContainerStyle,
+        monthCellStyle,
       ]}>
       <Animated.Text style={[styles.yearText, animatedTextStyle]}>
         {moment().month(month).format("MMM")}
@@ -218,6 +240,7 @@ interface IYearCell {
   yearContainerWidth: number;
   selectedYear: number;
   setSelectedYear: React.Dispatch<SetStateAction<number>>;
+  yearCellStyle?: StyleProp<Omit<ViewStyle, "backgroundColor" | "color">>;
   activeYearBackgroundColor: string;
   activeYearTextColor: string;
 }
@@ -230,6 +253,7 @@ function YearCell({
   setSelectedYear,
   activeYearBackgroundColor,
   activeYearTextColor,
+  yearCellStyle,
 }: IYearCell) {
   const isActiveCell = useSharedValue(0);
 
@@ -275,6 +299,7 @@ function YearCell({
           marginEnd: (index + 1) % 3 === 0 ? 0 : YEAR_COLUMN_GAP,
         },
         animatedContainerStyle,
+        yearCellStyle,
       ]}>
       <Animated.Text style={[styles.yearText, animatedTextStyle]}>
         {year}
@@ -296,14 +321,17 @@ interface IDateCell {
   setCurrentSlide: React.Dispatch<SetStateAction<Date>>;
   activeDateBackgroundColor: string;
   activeDateTextColor: string;
-  dateBackgroundColor: string;
   dateTextColor: string;
+  dateBackgroundColor: string;
   farDateTextColor: string;
   farDateBackgroundColor: string;
+  rangeDateTextColor: string;
   rangeDateBackgroundColor: string;
   disabledDateTextColor: string;
   showFarDates: boolean;
-  dateCellStyle?: StyleProp<ViewStyle>;
+  dateCellStyle?: StyleProp<Omit<ViewStyle, "backgroundColor" | "color">>;
+  startDateCellStyle?: StyleProp<Omit<ViewStyle, "backgroundColor" | "color">>;
+  endDateCellStyle?: StyleProp<Omit<ViewStyle, "backgroundColor" | "color">>;
   minDate?: Date;
   maxDate?: Date;
 }
@@ -318,15 +346,18 @@ function DateCell({
   currentSlide,
   setCurrentSlide,
   activeDateBackgroundColor,
-  dateBackgroundColor,
   activeDateTextColor,
   dateTextColor,
+  dateBackgroundColor,
   farDateTextColor,
   farDateBackgroundColor,
+  rangeDateTextColor,
   rangeDateBackgroundColor,
   disabledDateTextColor,
   showFarDates,
   dateCellStyle,
+  startDateCellStyle,
+  endDateCellStyle,
   minDate,
   maxDate,
 }: IDateCell) {
@@ -364,6 +395,8 @@ function DateCell({
     let baseBackgroundColor = farDateBackgroundColor;
 
     if (cellType === "current") {
+      baseBackgroundColor = dateBackgroundColor;
+
       if (mode === "range" && isInRange.value > 0) {
         baseBackgroundColor = interpolateColor(
           isInRange.value,
@@ -390,11 +423,23 @@ function DateCell({
     let baseColor = farDateTextColor;
 
     if (cellType === "current") {
-      baseColor = interpolateColor(
-        isActive.value,
-        [0, 1],
-        [dateTextColor, activeDateTextColor],
-      );
+      baseColor = dateTextColor;
+
+      if (mode === "range" && isInRange.value > 0) {
+        baseColor = interpolateColor(
+          isInRange.value,
+          [0, 1],
+          [dateTextColor, rangeDateTextColor],
+        );
+      }
+
+      if (isActive.value > 0) {
+        baseColor = interpolateColor(
+          isActive.value,
+          [0, 1],
+          [baseColor, activeDateTextColor],
+        );
+      }
     }
 
     return {
@@ -425,6 +470,24 @@ function DateCell({
     }
   };
 
+  const isStartDateCell = useMemo(() => {
+    return (
+      cellType === "current" &&
+      mode === "range" &&
+      localDate &&
+      moment((localDate as DateRangeValue)[0])?.isSame(label)
+    );
+  }, [cellType, localDate, label]);
+
+  const isEndDateCell = useMemo(() => {
+    return (
+      cellType === "current" &&
+      mode === "range" &&
+      localDate &&
+      moment((localDate as DateRangeValue)[1])?.isSame(label)
+    );
+  }, [cellType, localDate, label]);
+
   return (
     <AnimatedPressable
       disabled={isDateNotInBounds || (!showFarDates && cellType !== "current")}
@@ -434,6 +497,8 @@ function DateCell({
         !isLastInRow && { marginRight: 4 },
         !showFarDates && cellType !== "current" && { opacity: 0 },
         dateCellStyle,
+        isStartDateCell && startDateCellStyle,
+        isEndDateCell && endDateCellStyle,
         animatedContainerStyle,
       ]}>
       <Animated.Text style={[animatedTextStyle]}>
@@ -492,17 +557,25 @@ interface IDatePickerBase {
   chooseMonthButtonText?: string;
   activeDateBackgroundColor?: string;
   activeDateTextColor?: string;
-  dateBackgroundColor?: string;
   dateTextColor?: string;
+  dateBackgroundColor?: string;
   farDateTextColor?: string;
   farDateBackgroundColor?: string;
+  rangeDateTextColor?: string;
   rangeDateBackgroundColor?: string;
   disabledDateTextColor?: string;
   showInput?: boolean;
   showFarDates?: boolean;
   customHeader?: React.ReactNode;
   customFooter?: React.ReactNode;
-  dateCellStyle?: StyleProp<ViewStyle>;
+  dateCellStyle?: StyleProp<Omit<ViewStyle, "backgroundColor" | "color">>;
+  startDateCellStyle?: StyleProp<Omit<ViewStyle, "backgroundColor" | "color">>;
+  endDateCellStyle?: StyleProp<Omit<ViewStyle, "backgroundColor" | "color">>;
+  currentSlideFormatter?: (date: Date) => string;
+  customWeekDays?: string[];
+  yearCellStyle?: StyleProp<Omit<ViewStyle, "backgroundColor" | "color">>;
+  monthCellStyle?: StyleProp<Omit<ViewStyle, "backgroundColor" | "color">>;
+  onSlideChange?: (newSlide: Date) => void;
   minDate?: Date;
   maxDate?: Date;
 }
@@ -553,12 +626,13 @@ function DatePicker(
     chooseMonthButtonText = "Choose month",
     cancelButtonText = "Cancel",
     chooseDateButtonText = "Choose date",
-    activeDateBackgroundColor = DEFAULT_ACTIVE_DATE_BACKGROUND_COLOR,
     activeDateTextColor = DEFAULT_ACTIVE_DATE_TEXT_COLOR,
-    dateBackgroundColor = DEFAULT_DATE_BACKGROUND_COLOR,
+    activeDateBackgroundColor = DEFAULT_ACTIVE_DATE_BACKGROUND_COLOR,
     dateTextColor = DEFAULT_DATE_TEXT_COLOR,
+    dateBackgroundColor = DEFAULT_DATE_BACKGROUND_COLOR,
     farDateTextColor = DEFAULT_FAR_DATE_TEXT_COLOR,
     farDateBackgroundColor = DEFAULT_FAR_DATE_BACKGROUND_COLOR,
+    rangeDateTextColor = DEFAULT_RANGE_DATE_TEXT_COLOR,
     rangeDateBackgroundColor = DEFAULT_RANGE_DATE_BACKGROUND_COLOR,
     disabledDateTextColor = DEFAULT_DISABLED_DATE_TEXT_COLOR,
     customHeader,
@@ -566,6 +640,13 @@ function DatePicker(
     showInput = true,
     showFarDates = true,
     dateCellStyle,
+    startDateCellStyle,
+    endDateCellStyle,
+    customWeekDays,
+    currentSlideFormatter = DEFAULT_CURRENT_SLIDE_FORMATTER,
+    yearCellStyle,
+    monthCellStyle,
+    onSlideChange,
     minDate,
     maxDate,
   }: IDatePicker,
@@ -592,6 +673,7 @@ function DatePicker(
 
   useEffect(() => {
     setCurrentDecade(currentSlide);
+    onSlideChange && onSlideChange(currentSlide);
   }, [currentSlide]);
 
   const leftArrowScale = useSharedValue(1);
@@ -729,8 +811,8 @@ function DatePicker(
     bottomSheetModalRef.current?.close();
   };
 
-  const calendatData = useMemo(() => {
-    return generateCalendarData(currentSlide);
+  const calendarData = useMemo(() => {
+    return generateCalendarData(currentSlide, customWeekDays);
   }, [currentSlide]);
 
   useImperativeHandle(ref, () => ({
@@ -805,7 +887,7 @@ function DatePicker(
         enableDynamicSizing={false}
         enablePanDownToClose
         onDismiss={resetToInitialState}
-        snapPoints={[isIos ? "55%" : "60%"]}
+        snapPoints={[isIos ? "55%" : "60.5%"]}
         {...bottomSheetModalProps}>
         <View style={[styles.sheetContainer]}>
           {customHeader ?? (
@@ -824,7 +906,7 @@ function DatePicker(
                   setIsYearsModalOpen(true);
                 }}>
                 <Text style={[styles.headerDate]}>
-                  {moment(currentSlide)?.format("MMMM Y")}
+                  {currentSlideFormatter(currentSlide)}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -841,7 +923,8 @@ function DatePicker(
             numColumns={7}
             bounces={false}
             contentContainerStyle={styles.dateContainer}
-            data={calendatData}
+            showsVerticalScrollIndicator={false}
+            data={calendarData}
             renderItem={({ item, index }) => {
               const isLastInRow = (index + 1) % 7 === 0;
 
@@ -857,14 +940,15 @@ function DatePicker(
               return (
                 <DateCell
                   mode={mode}
+                  rangeDateTextColor={rangeDateTextColor}
                   rangeDateBackgroundColor={rangeDateBackgroundColor}
                   farDateBackgroundColor={farDateBackgroundColor}
                   farDateTextColor={farDateTextColor}
                   activeDateBackgroundColor={activeDateBackgroundColor}
                   activeDateTextColor={activeDateTextColor}
-                  dateBackgroundColor={dateBackgroundColor}
                   disabledDateTextColor={disabledDateTextColor}
                   dateTextColor={dateTextColor}
+                  dateBackgroundColor={dateBackgroundColor}
                   currentSlide={currentSlide}
                   setCurrentSlide={setCurrentSlide}
                   localDate={localDate}
@@ -876,6 +960,8 @@ function DatePicker(
                   maxDate={maxDate}
                   showFarDates={showFarDates}
                   dateCellStyle={dateCellStyle}
+                  startDateCellStyle={startDateCellStyle}
+                  endDateCellStyle={endDateCellStyle}
                 />
               );
             }}
@@ -943,6 +1029,7 @@ function DatePicker(
             contentContainerStyle={[
               {
                 gap: YEAR_COLUMN_GAP,
+                minHeight: 180,
               },
             ]}
             onLayout={event => {
@@ -951,13 +1038,15 @@ function DatePicker(
             data={generateYearsArray(currentDecade)}
             renderItem={({ item, index }) => (
               <YearCell
+                key={index}
                 activeYearTextColor={activeDateTextColor}
                 activeYearBackgroundColor={activeDateBackgroundColor}
                 setSelectedYear={setSelectedYear}
                 selectedYear={selectedYear}
                 yearContainerWidth={yearContainerWidth}
-                index={index}
+                yearCellStyle={yearCellStyle}
                 year={item?.toString()}
+                index={index}
               />
             )}
           />
@@ -1000,12 +1089,14 @@ function DatePicker(
             data={Array.from({ length: 12 }).map((item, index) => index)}
             renderItem={({ item, index }) => (
               <MonthCell
+                key={index}
                 activeMonthTextColor={activeDateTextColor}
                 activeMonthBackgroundColor={activeDateBackgroundColor}
                 month={item}
                 selectedMonth={selectedMonth}
                 setSelectedMonth={setSelectedMonth}
                 monthContainerWidth={yearContainerWidth}
+                monthCellStyle={monthCellStyle}
                 index={index}
               />
             )}

@@ -333,16 +333,25 @@ export interface DatePickerBaseProps {
     chooseMonthButtonText?: string;
     activeDateBackgroundColor?: string;
     activeDateTextColor?: string;
-    dateBackgroundColor?: string;
     dateTextColor?: string;
+    dateBackgroundColor?: string;
     farDateTextColor?: string;
     farDateBackgroundColor?: string;
+    rangeDateTextColor?: string;
     rangeDateBackgroundColor?: string;
     disabledDateTextColor?: string;
     showInput?: boolean;
     showFarDates?: boolean;
     customHeader?: React.ReactNode;
     customFooter?: React.ReactNode;
+    dateCellStyle?: StyleProp<Omit<ViewStyle, "backgroundColor" | "color">>;
+    startDateCellStyle?: StyleProp<Omit<ViewStyle, "backgroundColor" | "color">>;
+    endDateCellStyle?: StyleProp<Omit<ViewStyle, "backgroundColor" | "color">>;
+    currentSlideFormatter?: (date: Date) => string;
+    customWeekDays?: string[];
+    yearCellStyle?: StyleProp<Omit<ViewStyle, "backgroundColor" | "color">>;
+    monthCellStyle?: StyleProp<Omit<ViewStyle, "backgroundColor" | "color">>;
+    onSlideChange?: (newSlide: Date) => void;
     minDate?: Date;
     maxDate?: Date;
 }
@@ -352,7 +361,7 @@ export interface SingleDatePickerProps extends DatePickerBaseProps {
     value: Date | null;
     onChange?: (newDate: Date) => void;
 }
-export interface RanngeDatePickerProps extends DatePickerBaseProps {
+export interface RangeDatePickerProps extends DatePickerBaseProps {
     mode: "range";
     value: DateRangeValue;
     onChange?: (newDateRange: DateRangeValue) => void;
@@ -365,3 +374,7 @@ export interface DatePickerRef {
     swipeLeft: () => void;
     changeYear: () => void;
 }
+export type MapCoordinate = {
+    latitude: number;
+    longitude: number;
+};

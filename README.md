@@ -27,7 +27,7 @@ The library is organized following the [Atomic Design](https://bradfrost.com/blo
 Small, reusable building blocks of the UI.
 
 - `Button`
-
+check out the full documentation here 👉 https://www.npmjs.com/package/rn-awesome-button
 ![Button Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/atoms/button.gif)
 
 ```tsx
@@ -61,7 +61,7 @@ export default function App() {
 ```
 
 - `Checkbox`
-
+check out the full documentation here 👉 https://www.npmjs.com/package/rn-bouncy-checkbox
 ![Checkbox Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/atoms/checkbox.gif)
 
 ```tsx
@@ -141,7 +141,7 @@ export default function App() {
 ```
 
 - `RadioButton`
-
+check out the full documentation here 👉 https://www.npmjs.com/package/rn-awesome-radio-button
 ![Radio Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/atoms/radio.gif)
 
 ```tsx
@@ -168,7 +168,7 @@ export default function App() {
 ```
 
 - `Switch`
-
+check out the full documentation here 👉 https://www.npmjs.com/package/rn-awesome-switch
 ![Switch Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/atoms/switch.gif)
 
 ```tsx
@@ -298,7 +298,7 @@ export default function App() {
 ```
 
 - `Select`
-
+check out the full documentation here 👉 https://www.npmjs.com/package/rn-custom-select-dropdown
 ![Select Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/molecules/select.gif)
 
 ```tsx
@@ -353,7 +353,7 @@ export default function App() {
 ```
 
 - `Tabs`
-
+check out the full documentation here 👉 https://www.npmjs.com/package/rn-segmented-tabs
 ![Tabs Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/molecules/tabs.gif)
 
 ```tsx
@@ -629,7 +629,7 @@ const styles = StyleSheet.create({
 ```
 
 - `PinInput`
-
+check out the full documentation here 👉 https://www.npmjs.com/package/rn-awesome-pin-input
 ![PinInput Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/organisms/pin.gif)
 
 ```tsx
@@ -767,7 +767,7 @@ export default function App() {
 ```
 
 - `Date Picker`
-
+check out the full documentation here 👉 https://www.npmjs.com/package/rn-awesome-date-picker
 ![Date Picker Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/organisms/date.gif)
 
 ```tsx
@@ -778,7 +778,7 @@ import {
   type DatePickerRef, 
   type DatePickerBaseProps, 
   type SingleDatePickerProps,
-  type RanngeDatePickerProps,
+  type RangeDatePickerProps,
   type DateRangeValue
 } from "rn-utility-toolkit";
 
@@ -796,52 +796,11 @@ export default function App() {
         onChange={(range) => setRangeValue(range)}
       />
       <DatePicker
-        ref={singleRef}
         mode="single"
+        ref={singleRef}
         value={singleValue}
         onChange={(d) => setSingleValue(d)}
         label="Birthdate"
-        labelStyle={{ fontWeight: "600" }}
-        containerStyle={{ marginTop: 12 }}
-        inputContainerStyle={{ borderRadius: 10 }}
-        placeholder="DD/MM/YYYY"
-        placeholderStyle={{ color: "#9AA0A6" }}
-        isArrowShown={true}
-        arrowColor="#ff6a00"
-        arrowSize={18}
-        arrowContainerStyle={{ paddingHorizontal: 6, paddingVertical: 2 }}
-        customArrowIcon={undefined}
-        customArrowRotation={180}
-        isRequired={true}
-        isError={false}
-        errorMessage="Please select a valid date"
-        errorMessageStyle={{ color: "crimson", fontSize: 12 }}
-        onDatePickerOpened={() => console.log("single opened")}
-        onDatePickerClosed={() => console.log("single closed")}
-        bottomSheetModalProps={{ snapPoints: ["55%"], enablePanDownToClose: true }}
-        cancelButtonProps={{ isOutlined: true }}
-        chooseDateButtonProps={{ textStyle: { fontWeight: "700" } }}
-        chooseYearButtonProps={{ textStyle: { fontWeight: "700" } }}
-        chooseMonthButtonProps={{ textStyle: { fontWeight: "700" } }}
-        cancelButtonText="Cancel"
-        chooseDateButtonText="Choose date"
-        chooseYearButtonText="Choose year"
-        chooseMonthButtonText="Choose month"
-        activeDateBackgroundColor="#0A84FF"
-        activeDateTextColor="#FFFFFF"
-        dateBackgroundColor="transparent"
-        dateTextColor="#111"
-        farDateTextColor="rgba(0,0,0,0.25)"
-        farDateBackgroundColor="transparent"
-        rangeDateBackgroundColor="rgba(10,132,255,0.12)"
-        disabledDateTextColor="#ccc"
-        customHeader={<></>}
-        customFooter={<></>}
-        showInput={true}
-        showFarDates={true}
-        dateCellStyle={{ borderRadius: 7 }}
-        minDate={new Date("2025-10-01")}
-        maxDate={new Date("2025-06-01")}
       />
     </View>
   );

@@ -1,4 +1,5 @@
 import { Dimensions, Platform } from "react-native";
+import { MapCoordinate } from "../types";
 
 export function hexToRgba(hex: string, opacity: number) {
   hex = hex?.replace(/^#/, "");
@@ -63,6 +64,35 @@ export function formatAmountByCurrency(
   return isCurrencyLeftPositioned
     ? `${currency} ${formattedAmount}`?.trim()
     : `${formattedAmount} ${currency}`?.trim();
+}
+
+function degreestoRadians(degrees: number): number {
+  return (degrees * Math.PI) / 180;
+}
+
+export function getDistanceInKm(start:MapCoordinate, end:MapCoordinate): number {
+  const EARTH_RADIUS_KM = 6371;
+
+  // Convert latitude and longitude differences to radians
+  const deltaLatitude = degreestoRadians(end.latitude - start.latitude);
+  const deltaLongitude = degreestoRadians(end.longitude - start.longitude);
+
+  const startLatitudeRad = degreestoRadians(start.latitude);
+  const endLatitudeRad = degreestoRadians(end.latitude);
+
+  // Apply Haversine formula
+  const latitudeSin = Math.sin(deltaLatitude / 2);
+  const longitudeSin = Math.sin(deltaLongitude / 2);
+
+  const haversineFormula =
+    latitudeSin * latitudeSin +
+    Math.cos(startLatitudeRad) * Math.cos(endLatitudeRad) * longitudeSin * longitudeSin;
+
+  const centralAngle = 2 * Math.atan2(Math.sqrt(haversineFormula), Math.sqrt(1 - haversineFormula));
+
+  const distanceInKm = EARTH_RADIUS_KM * centralAngle;
+
+  return distanceInKm;
 }
 
 export const SCREEN_WIDTH = Dimensions.get("screen").width;

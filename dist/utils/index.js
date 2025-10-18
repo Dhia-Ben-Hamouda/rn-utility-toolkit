@@ -6,6 +6,7 @@ exports.generateInsets = generateInsets;
 exports.generateShadow = generateShadow;
 exports.capitalize = capitalize;
 exports.formatAmountByCurrency = formatAmountByCurrency;
+exports.getDistanceInKm = getDistanceInKm;
 const react_native_1 = require("react-native");
 function hexToRgba(hex, opacity) {
     hex = hex === null || hex === void 0 ? void 0 : hex.replace(/^#/, "");
@@ -42,17 +43,38 @@ function generateShadow(shadowColor = "#000000", shadowOffset = { height: 0, wid
     });
 }
 function capitalize(value = "") {
+    var _a, _b;
     if (!value)
         return "";
-    return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+    return ((_a = value.charAt(0)) === null || _a === void 0 ? void 0 : _a.toUpperCase()) + ((_b = value.slice(1)) === null || _b === void 0 ? void 0 : _b.toLowerCase());
 }
 function formatAmountByCurrency(amount, currency, isCurrencyLeftPositioned) {
+    var _a, _b;
     const formattedAmount = new Intl.NumberFormat("fr-FR", {
         maximumFractionDigits: 0,
     }).format(amount);
     return isCurrencyLeftPositioned
-        ? `${currency} ${formattedAmount}`.trim()
-        : `${formattedAmount} ${currency}`.trim();
+        ? (_a = `${currency} ${formattedAmount}`) === null || _a === void 0 ? void 0 : _a.trim()
+        : (_b = `${formattedAmount} ${currency}`) === null || _b === void 0 ? void 0 : _b.trim();
+}
+function degreestoRadians(degrees) {
+    return (degrees * Math.PI) / 180;
+}
+function getDistanceInKm(start, end) {
+    const EARTH_RADIUS_KM = 6371;
+    // Convert latitude and longitude differences to radians
+    const deltaLatitude = degreestoRadians(end.latitude - start.latitude);
+    const deltaLongitude = degreestoRadians(end.longitude - start.longitude);
+    const startLatitudeRad = degreestoRadians(start.latitude);
+    const endLatitudeRad = degreestoRadians(end.latitude);
+    // Apply Haversine formula
+    const latitudeSin = Math.sin(deltaLatitude / 2);
+    const longitudeSin = Math.sin(deltaLongitude / 2);
+    const haversineFormula = latitudeSin * latitudeSin +
+        Math.cos(startLatitudeRad) * Math.cos(endLatitudeRad) * longitudeSin * longitudeSin;
+    const centralAngle = 2 * Math.atan2(Math.sqrt(haversineFormula), Math.sqrt(1 - haversineFormula));
+    const distanceInKm = EARTH_RADIUS_KM * centralAngle;
+    return distanceInKm;
 }
 exports.SCREEN_WIDTH = react_native_1.Dimensions.get("screen").width;
 exports.SCREEN_HEIGHT = react_native_1.Dimensions.get("screen").height;
