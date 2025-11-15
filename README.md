@@ -506,6 +506,10 @@ export default function App() {
 }
 ```
 
+- `Rating`
+
+coming soon
+
 ### 🔹 Organisms
 
 Complex components composed of atoms and molecules.
@@ -788,21 +792,24 @@ check out the full documentation here 👉 https://www.npmjs.com/package/rn-awes
 
 ```tsx
 import React, { useRef, useState } from "react";
-import { View, } from "react-native";
-import { 
-  DatePicker, 
-  type DatePickerRef, 
-  type DatePickerBaseProps, 
+import { View } from "react-native";
+import {
+  DatePicker,
+  type DatePickerRef,
+  type DatePickerBaseProps,
   type SingleDatePickerProps,
   type RangeDatePickerProps,
-  type DateRangeValue
+  type DateRangeValue,
 } from "rn-utility-toolkit";
 
 export default function App() {
   const singleRef = useRef<DatePickerRef | null>(null);
   const rangeRef = useRef<DatePickerRef | null>(null);
   const [singleValue, setSingleValue] = useState<Date | null>(new Date());
-  const [rangeValue, setRangeValue] = useState<DateRangeValue>([new Date(), null]);
+  const [rangeValue, setRangeValue] = useState<DateRangeValue>([
+    new Date(),
+    null,
+  ]);
 
   return (
     <View>

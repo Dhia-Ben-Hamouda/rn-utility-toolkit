@@ -17,5 +17,5 @@ interface IIconButton {
     gradientEnd?: IGradientCoordinate;
     isDisabled?: boolean;
 }
-export default function IconButton({ icon, onPress, containerStyle, customHitSlop, isOutlined, color, gradientColors, useGradients, gradientStart, gradientEnd, isDisabled, }: IIconButton): React.JSX.Element;
+export default function IconButton({ icon, onPress, containerStyle, customHitSlop, isOutlined, gradientColors, useGradients, gradientStart, gradientEnd, isDisabled, }: IIconButton): React.JSX.Element;
 export {};

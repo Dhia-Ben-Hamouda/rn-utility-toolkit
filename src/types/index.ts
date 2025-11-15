@@ -246,6 +246,16 @@ export interface PickerRef {
   close: () => void;
 }
 
+export interface RatingProps {
+  containerStyle?: StyleProp<ViewStyle>;
+  onChange?: (newValue: number) => void;
+  isReadOnly?: boolean;
+  starSize?: number;
+  activeStarColor?: string;
+  inactiveStarColor?: string;
+  value: number;
+}
+
 //? organisms types / interfaces
 
 export interface AccordionProps {

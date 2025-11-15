@@ -7,8 +7,6 @@ import {
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 
-const DEFAULT_BUTTON_COLOR = "#333";
-
 interface IGradientCoordinate {
   x: number;
   y: number;
@@ -34,7 +32,6 @@ export default function IconButton({
   containerStyle,
   customHitSlop,
   isOutlined,
-  color = DEFAULT_BUTTON_COLOR,
   gradientColors = ["#000", "#777"],
   useGradients = false,
   gradientStart = { x: 0, y: 0 },
@@ -61,21 +58,18 @@ export default function IconButton({
   }
 
   return (
-    <>
-      <TouchableOpacity
-        disabled={isDisabled}
-        onPress={onPress}
-        hitSlop={customHitSlop}
-        style={[
-          styles.container,
-          containerStyle,
-          { backgroundColor: color, borderColor: color },
-          isOutlined && { borderWidth: 1, backgroundColor: "transparent" },
-        ]}
-      >
-        {icon}
-      </TouchableOpacity>
-    </>
+    <TouchableOpacity
+      disabled={isDisabled}
+      onPress={onPress}
+      hitSlop={customHitSlop}
+      style={[
+        styles.container,
+        isOutlined && { borderWidth: 1, backgroundColor: "transparent" },
+        containerStyle,
+      ]}
+    >
+      {icon}
+    </TouchableOpacity>
   );
 }
 

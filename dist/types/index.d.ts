@@ -217,6 +217,15 @@ export interface PickerRef {
     open: () => void;
     close: () => void;
 }
+export interface RatingProps {
+    containerStyle?: StyleProp<ViewStyle>;
+    onChange?: (newValue: number) => void;
+    isReadOnly?: boolean;
+    starSize?: number;
+    activeStarColor?: string;
+    inactiveStarColor?: string;
+    value: number;
+}
 export interface AccordionProps {
     title?: string;
     isDefaultExpanded?: boolean;

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Tabs = exports.Select = exports.ProgressBar = exports.Picker = exports.Modal = exports.Chip = void 0;
+exports.Tabs = exports.Select = exports.Rating = exports.ProgressBar = exports.Picker = exports.Modal = exports.Chip = void 0;
 var Chip_1 = require("./Chip");
 Object.defineProperty(exports, "Chip", { enumerable: true, get: function () { return __importDefault(Chip_1).default; } });
 var Modal_1 = require("./Modal");
@@ -12,6 +12,8 @@ var Picker_1 = require("./Picker");
 Object.defineProperty(exports, "Picker", { enumerable: true, get: function () { return __importDefault(Picker_1).default; } });
 var ProgressBar_1 = require("./ProgressBar");
 Object.defineProperty(exports, "ProgressBar", { enumerable: true, get: function () { return __importDefault(ProgressBar_1).default; } });
+var Rating_1 = require("./Rating");
+Object.defineProperty(exports, "Rating", { enumerable: true, get: function () { return __importDefault(Rating_1).default; } });
 var Select_1 = require("./Select");
 Object.defineProperty(exports, "Select", { enumerable: true, get: function () { return __importDefault(Select_1).default; } });
 var Tabs_1 = require("./Tabs");
