@@ -5,3 +5,4 @@ export { default as Switch } from "./Switch";
 export { default as Button } from "./Button";
 export { default as IconButton } from "./IconButton";
 export { default as Skeleton } from "./Skeleton";
+export { default as Expandable } from "./Expandable";

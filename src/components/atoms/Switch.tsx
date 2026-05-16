@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import {
+  Insets,
   Platform,
   Pressable,
   StyleProp,
@@ -16,6 +17,7 @@ import Animated, {
 
 const DEFAULT_ACTIVE_COLOR = "#333";
 const DEFAULT_INACTIVE_COLOR = "#ccc";
+const DEFAULT_SWITCH_HIT_SLOP = 25;
 
 interface ISwitch {
   thumbStyle?: StyleProp<ViewStyle>;
@@ -27,6 +29,7 @@ interface ISwitch {
   inactiveSwitchColor?: string;
   isDisabled?: boolean;
   disabledSwitchColor?: string;
+  customHitSlop?: number | Insets | null | undefined;
 }
 
 export default function Switch({
@@ -39,6 +42,7 @@ export default function Switch({
   inactiveSwitchColor = DEFAULT_INACTIVE_COLOR,
   isDisabled = false,
   disabledSwitchColor = DEFAULT_INACTIVE_COLOR,
+  customHitSlop = DEFAULT_SWITCH_HIT_SLOP,
 }: ISwitch) {
   const isToggled = useSharedValue(0);
 
@@ -88,7 +92,7 @@ export default function Switch({
       onPress={handleThumbPress}
     >
       <Animated.View
-        hitSlop={25}
+        hitSlop={customHitSlop}
         style={[styles.container, containerStyle, animatedContainerStyle]}
       >
         <Animated.View style={[styles.thumb, thumbStyle, animatedThumbStyle]} />

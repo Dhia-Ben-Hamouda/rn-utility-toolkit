@@ -41,7 +41,8 @@ const DEFAULT_ACTIVE_CHIP_BACKGROUND_COLOR = "#333";
 const DEFAULT_CHIP_BACKGROUND_COLOR = "#fff";
 const DEFAULT_ACTIVE_CHIP_TEXT_COLOR = "#fff";
 const DEFAULT_CHIP_TEXT_COLOR = "#333";
-function Chip({ value, activeValue, onChipPress, containerStyle, labelStyle, startPicture, activeChipBackgroundColor = DEFAULT_ACTIVE_CHIP_BACKGROUND_COLOR, chipBackgroundColor = DEFAULT_CHIP_BACKGROUND_COLOR, activeChipTextColor = DEFAULT_ACTIVE_CHIP_TEXT_COLOR, chipTextColor = DEFAULT_CHIP_TEXT_COLOR, }) {
+const DEFAULT_CHIP_HIT_SLOP = 5;
+function Chip({ value, activeValue = "", onChipPress, containerStyle, labelStyle, startIcon, endIcon, activeChipBackgroundColor = DEFAULT_ACTIVE_CHIP_BACKGROUND_COLOR, chipBackgroundColor = DEFAULT_CHIP_BACKGROUND_COLOR, activeChipTextColor = DEFAULT_ACTIVE_CHIP_TEXT_COLOR, chipTextColor = DEFAULT_CHIP_TEXT_COLOR, isReadyOnly = false, customHitSlop = DEFAULT_CHIP_HIT_SLOP, }) {
     const isEqaul = (0, react_native_reanimated_1.useSharedValue)(value === activeValue);
     const derivedIsEqaul = (0, react_native_reanimated_1.useDerivedValue)(() => isEqaul.value ? (0, react_native_reanimated_1.withTiming)(1) : (0, react_native_reanimated_1.withTiming)(0));
     (0, react_1.useEffect)(() => {
@@ -59,19 +60,20 @@ function Chip({ value, activeValue, onChipPress, containerStyle, labelStyle, sta
             color,
         };
     });
-    return (<react_native_1.TouchableOpacity hitSlop={{ bottom: 5, top: 5, left: 5, right: 5 }} onPress={() => {
+    return (<react_native_1.TouchableOpacity disabled={isReadyOnly} hitSlop={customHitSlop} onPress={() => {
             onChipPress && onChipPress(value);
         }}>
       <react_native_reanimated_1.default.View style={[styles.chip, containerStyle, animatedBackgroundColor]}>
-        {startPicture && (<react_native_1.Image resizeMode="contain" style={{ width: 16, height: 20 }} source={startPicture}/>)}
+        {startIcon}
         <react_native_reanimated_1.default.Text style={[styles.text, labelStyle, animatedTextColor]}>
           {value}
         </react_native_reanimated_1.default.Text>
+        {endIcon}
       </react_native_reanimated_1.default.View>
     </react_native_1.TouchableOpacity>);
 }
 const styles = react_native_1.StyleSheet.create({
-    chip: Object.assign({ backgroundColor: "#fff", paddingVertical: 8, paddingHorizontal: 16, borderRadius: 50, flexDirection: "row", alignItems: "center", gap: 8 }, react_native_1.Platform.select({
+    chip: Object.assign({ backgroundColor: "#fff", paddingVertical: 8, paddingHorizontal: 12, borderRadius: 50, flexDirection: "row", alignItems: "center", alignSelf: "flex-start", gap: 4 }, react_native_1.Platform.select({
         ios: {
             shadowOffset: {
                 width: 0,

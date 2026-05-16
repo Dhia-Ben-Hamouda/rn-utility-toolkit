@@ -6,22 +6,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ProgressBar;
 const react_1 = __importDefault(require("react"));
 const react_native_1 = require("react-native");
-function ProgressBar({ progress, barStyle, containerStyle, }) {
+const react_native_linear_gradient_1 = __importDefault(require("react-native-linear-gradient"));
+function ProgressBar({ progress, barStyle, containerStyle, gradientColors = ["#000", "#666"], useGradients = false, gradientStart = { x: 0, y: 0 }, gradientEnd = { x: 0, y: 1 }, }) {
     return (<react_native_1.View style={[styles.container, containerStyle]}>
-      <react_native_1.View style={[styles.bar, barStyle, { width: `${progress}%` }]}/>
+      {useGradients ? (<react_native_linear_gradient_1.default colors={gradientColors} start={gradientStart} end={gradientEnd} style={[styles.bar, barStyle, { width: `${progress}%` }]}></react_native_linear_gradient_1.default>) : (<react_native_1.View style={[styles.bar, barStyle, { width: `${progress}%` }]}/>)}
     </react_native_1.View>);
 }
 const styles = react_native_1.StyleSheet.create({
     container: {
         backgroundColor: "#d4d4d4",
         width: "100%",
-        height: 8,
         borderRadius: 50,
         position: "relative",
     },
     bar: {
         backgroundColor: "#333",
-        height: "100%",
         borderRadius: 50,
+        height: 8,
     },
 });

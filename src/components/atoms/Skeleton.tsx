@@ -1,5 +1,6 @@
-import React from "react";
+//@ts-ignore
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
+import React from "react";
 
 const DEFAULT_SPEED = 1250;
 const DEFAULT_BACKGROUND_COLOR = "#ccc";

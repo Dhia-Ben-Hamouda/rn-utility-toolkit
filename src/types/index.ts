@@ -3,6 +3,7 @@ import { PropsWithChildren, SetStateAction } from "react";
 import {
   FlatListProps,
   ImageSourcePropType,
+  Insets,
   StyleProp,
   TextStyle,
   ViewStyle,
@@ -82,6 +83,7 @@ export interface SwitchProps {
   inactiveSwitchColor?: string;
   isDisabled?: boolean;
   disabledSwitchColor?: string;
+  customHitSlop?: number | Insets | null | undefined;
 }
 
 export interface SkeletonProps {
@@ -101,15 +103,18 @@ export interface SkeletonProps {
 
 export interface ChipProps {
   value: string;
-  activeValue: string;
+  activeValue?: string;
   onChipPress?: (value: string) => void;
   containerStyle?: StyleProp<ViewStyle>;
   labelStyle?: StyleProp<TextStyle>;
-  startPicture?: ImageSourcePropType;
+  startIcon?: React.ReactNode;
+  endIcon?: React.ReactNode;
   activeChipBackgroundColor?: string;
   chipBackgroundColor?: string;
   activeChipTextColor?: string;
   chipTextColor?: string;
+  isReadyOnly?: boolean;
+  customHitSlop?: number | Insets | null | undefined;
 }
 
 export interface ModalProps extends PropsWithChildren {
@@ -123,6 +128,10 @@ export interface ProgressBarProps {
   progress: number;
   containerStyle?: StyleProp<ViewStyle>;
   barStyle?: StyleProp<ViewStyle>;
+  useGradients?: boolean;
+  gradientColors?: Array<string>;
+  gradientStart?: GradientCoordinate;
+  gradientEnd?: GradientCoordinate;
 }
 
 export interface SelectItem<T> {
@@ -293,6 +302,7 @@ export interface CarouselProps<T> {
   showDots?: boolean;
   onChange?: (newIndex: number) => void;
   dotOffsetMultiplier?: number;
+  dotsOnTop?: boolean;
 }
 
 export interface FlipCardProps {

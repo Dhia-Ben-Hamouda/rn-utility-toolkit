@@ -2,6 +2,7 @@ import React, { SetStateAction, useEffect } from "react";
 import {
   Image,
   ImageSourcePropType,
+  Insets,
   Platform,
   StyleProp,
   StyleSheet,
@@ -21,31 +22,38 @@ const DEFAULT_ACTIVE_CHIP_BACKGROUND_COLOR = "#333";
 const DEFAULT_CHIP_BACKGROUND_COLOR = "#fff";
 const DEFAULT_ACTIVE_CHIP_TEXT_COLOR = "#fff";
 const DEFAULT_CHIP_TEXT_COLOR = "#333";
+const DEFAULT_CHIP_HIT_SLOP = 5;
 
 interface IChip {
   value: string;
-  activeValue: string;
+  activeValue?: string;
   onChipPress?: (value: string) => void;
   containerStyle?: StyleProp<ViewStyle>;
   labelStyle?: StyleProp<TextStyle>;
-  startPicture?: ImageSourcePropType;
+  startIcon?: React.ReactNode;
+  endIcon?: React.ReactNode;
   activeChipBackgroundColor?: string;
   chipBackgroundColor?: string;
   activeChipTextColor?: string;
   chipTextColor?: string;
+  isReadyOnly?: boolean;
+  customHitSlop?: number | Insets | null | undefined;
 }
 
 export default function Chip({
   value,
-  activeValue,
+  activeValue = "",
   onChipPress,
   containerStyle,
   labelStyle,
-  startPicture,
+  startIcon,
+  endIcon,
   activeChipBackgroundColor = DEFAULT_ACTIVE_CHIP_BACKGROUND_COLOR,
   chipBackgroundColor = DEFAULT_CHIP_BACKGROUND_COLOR,
   activeChipTextColor = DEFAULT_ACTIVE_CHIP_TEXT_COLOR,
   chipTextColor = DEFAULT_CHIP_TEXT_COLOR,
+  isReadyOnly = false,
+  customHitSlop = DEFAULT_CHIP_HIT_SLOP,
 }: IChip) {
   const isEqaul = useSharedValue(value === activeValue);
   const derivedIsEqaul = useDerivedValue(() =>
@@ -82,7 +90,8 @@ export default function Chip({
 
   return (
     <TouchableOpacity
-      hitSlop={{ bottom: 5, top: 5, left: 5, right: 5 }}
+      disabled={isReadyOnly}
+      hitSlop={customHitSlop}
       onPress={() => {
         onChipPress && onChipPress(value);
       }}
@@ -90,16 +99,11 @@ export default function Chip({
       <Animated.View
         style={[styles.chip, containerStyle, animatedBackgroundColor]}
       >
-        {startPicture && (
-          <Image
-            resizeMode="contain"
-            style={{ width: 16, height: 20 }}
-            source={startPicture}
-          />
-        )}
+        {startIcon}
         <Animated.Text style={[styles.text, labelStyle, animatedTextColor]}>
           {value}
         </Animated.Text>
+        {endIcon}
       </Animated.View>
     </TouchableOpacity>
   );
@@ -109,11 +113,12 @@ const styles = StyleSheet.create({
   chip: {
     backgroundColor: "#fff",
     paddingVertical: 8,
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
     borderRadius: 50,
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    alignSelf: "flex-start",
+    gap: 4,
     ...Platform.select({
       ios: {
         shadowOffset: {

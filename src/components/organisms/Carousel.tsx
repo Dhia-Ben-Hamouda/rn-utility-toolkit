@@ -96,6 +96,7 @@ interface ICarousel<T> {
   showDots?: boolean;
   onChange?: (newIndex: number) => void;
   dotOffsetMultiplier?: number;
+  dotsOnTop?: boolean;
 }
 
 export default function Carousel<T>({
@@ -111,6 +112,7 @@ export default function Carousel<T>({
   showDots = true,
   onChange,
   dotOffsetMultiplier = SCREEN_WIDTH,
+  dotsOnTop = false,
 }: ICarousel<T>) {
   const offset = useSharedValue(0);
 
@@ -141,7 +143,13 @@ export default function Carousel<T>({
   });
 
   return (
-    <View style={[styles.wrapper, containerStyle]}>
+    <View
+      style={[
+        styles.wrapper,
+        containerStyle,
+        dotsOnTop && { flexDirection: "column-reverse" },
+      ]}
+    >
       <Animated.FlatList
         onScroll={onScroll}
         showsHorizontalScrollIndicator={false}

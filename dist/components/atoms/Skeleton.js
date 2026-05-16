@@ -15,8 +15,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Skeleton;
-const react_1 = __importDefault(require("react"));
+//@ts-ignore
 const react_native_skeleton_placeholder_1 = __importDefault(require("react-native-skeleton-placeholder"));
+const react_1 = __importDefault(require("react"));
 const DEFAULT_SPEED = 1250;
 const DEFAULT_BACKGROUND_COLOR = "#ccc";
 const DEFAULT_HIGHLIGHT_COLOR = "#aaa";

@@ -240,6 +240,7 @@ Groups of atoms combined together.
 ```tsx
 import React, { useState } from "react";
 import { Chip, type ChipProps } from "rn-utility-toolkit";
+import { CheckIcon } from "./icons";
 
 export default function App() {
   const [activeChip, setActiveChip] = useState("Chip 1");
@@ -251,11 +252,14 @@ export default function App() {
       onChipPress={(val) => setActiveChip(val)}
       containerStyle={{ margin: 8 }}
       labelStyle={{ fontSize: 16, fontWeight: "600" }}
-      startPicture={{ uri: "https://via.placeholder.com/16" }}
+      startIcon={<CheckIcon />}
+      endIcon={<CheckIcon />}
       activeChipBackgroundColor="#333"
       chipBackgroundColor="#e0e0e0"
       activeChipTextColor="#fff"
       chipTextColor="#333"
+      customHitSlop={25}
+      isReadOnly={true}
     />
   );
 }
@@ -300,6 +304,10 @@ export default function App() {
       progress={progress}
       containerStyle={{ marginTop: 20, height: 12, borderRadius: 6 }}
       barStyle={{ backgroundColor: "#333" }}
+      useGradients={true}
+      gradientColors={["#333", "#000"]}
+      gradientStart={{ x: 0, y: 0 }}
+      gradientEnd={{ x: 1, y: 0 }}
     />
   );
 }
@@ -508,7 +516,28 @@ export default function App() {
 
 - `Rating`
 
-coming soon
+![Rating Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/molecules/rating.gif)
+
+```tsx
+import React, { useState } from "react";
+import { Rating } from "rn-utility-toolkit";
+
+export default function App() {
+  const [rating, setRating] = useState(3);
+
+  return (
+    <Rating
+      value={rating}
+      onChange={(newValue) => setRating(newValue)}
+      starSize={48}
+      activeStarColor="#FFC107"
+      inactiveStarColor="#E0E0E0"
+      containerStyle={{ margin: 16 }}
+      isReadOnly={false}
+    />
+  );
+}
+```
 
 ### 🔹 Organisms
 
@@ -592,6 +621,7 @@ export default function App() {
       dotWidth={12}
       dotOffsetMultiplier={SCREEN_WIDTH}
       onChange={(index) => setCurrentIndex(index)}
+      dotsOnTop={false}
     />
   );
 }

@@ -64,7 +64,7 @@ function AnimatedDot({ index, offset, activeDotColor, dotColor, activeDotWidth, 
     });
     return <react_native_reanimated_1.default.View style={[styles.dot, dotStyle, animatedDotStyle]}/>;
 }
-function Carousel({ data = [], renderItem: customRenderItem, containerStyle, dotsContainerStyle, activeDotColor = DEFAULT_ACTIVE_DOT_COLOR, dotColor = DEFAULT_DOT_COLOR, activeDotWidth = DEFAULT_ACTIVE_DOT_WIDTH, dotWidth = DEFAULT_DOT_WIDTH, dotStyle, showDots = true, onChange, dotOffsetMultiplier = utils_1.SCREEN_WIDTH, }) {
+function Carousel({ data = [], renderItem: customRenderItem, containerStyle, dotsContainerStyle, activeDotColor = DEFAULT_ACTIVE_DOT_COLOR, dotColor = DEFAULT_DOT_COLOR, activeDotWidth = DEFAULT_ACTIVE_DOT_WIDTH, dotWidth = DEFAULT_DOT_WIDTH, dotStyle, showDots = true, onChange, dotOffsetMultiplier = utils_1.SCREEN_WIDTH, dotsOnTop = false, }) {
     const offset = (0, react_native_reanimated_1.useSharedValue)(0);
     const viewabilitConfigCallbackPairsRef = (0, react_1.useRef)([
         {
@@ -85,7 +85,11 @@ function Carousel({ data = [], renderItem: customRenderItem, containerStyle, dot
             }
         },
     });
-    return (<react_native_1.View style={[styles.wrapper, containerStyle]}>
+    return (<react_native_1.View style={[
+            styles.wrapper,
+            containerStyle,
+            dotsOnTop && { flexDirection: "column-reverse" },
+        ]}>
       <react_native_reanimated_1.default.FlatList onScroll={onScroll} showsHorizontalScrollIndicator={false} bounces={false} pagingEnabled horizontal data={data} renderItem={({ item, index }) => {
             return customRenderItem({
                 item,

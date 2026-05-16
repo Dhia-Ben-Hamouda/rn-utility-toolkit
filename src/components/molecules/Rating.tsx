@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Pressable,
   StyleProp,
@@ -9,7 +9,9 @@ import {
 import Animated, {
   interpolateColor,
   useAnimatedProps,
+  useAnimatedStyle,
   useSharedValue,
+  withSequence,
   withTiming,
 } from "react-native-reanimated";
 import Svg, { ClipPath, Defs, Path, Rect } from "react-native-svg";
@@ -39,12 +41,23 @@ function Star({
   activeStarColor,
   inactiveStarColor,
 }: IStar) {
-  const isStarActive = useSharedValue(0);
+  const isStarActive = useSharedValue(value <= activeValue ? 1 : 0);
+  const scale = useSharedValue(1);
+  const wasActive = useRef(value <= activeValue);
 
   useEffect(() => {
-    if (isReadOnly) return;
-    isStarActive.value = withTiming(value <= activeValue ? 1 : 0);
-  }, [value, activeValue, isReadOnly]);
+    const nextIsActive = value <= activeValue;
+
+    isStarActive.value = withTiming(nextIsActive ? 1 : 0, { duration: 180 });
+
+    if (wasActive.current !== nextIsActive) {
+      scale.value = withSequence(
+        withTiming(1.18, { duration: 120 }),
+        withTiming(1, { duration: 160 })
+      );
+      wasActive.current = nextIsActive;
+    }
+  }, [value, activeValue, isStarActive, scale]);
 
   const animatedProps = useAnimatedProps(() => {
     const fill = interpolateColor(
@@ -56,6 +69,12 @@ function Star({
     return { fill };
   });
 
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: scale.value }],
+    };
+  });
+
   const fillPercentage = Math.min(Math.max(activeValue - (value - 1), 0), 1);
   const fillWidth = fillPercentage * 640;
 
@@ -63,34 +82,36 @@ function Star({
     <Pressable
       disabled={isReadOnly}
       onPress={() => {
-        if (!isReadOnly) onChange && onChange(value);
+        if (!isReadOnly) onChange?.(value);
       }}
     >
-      <Svg width={starSize} height={starSize} viewBox="0 0 640 640">
-        {isReadOnly ? (
-          <>
-            <Path
+      <Animated.View style={animatedStyle}>
+        <Svg width={starSize} height={starSize} viewBox="0 0 640 640">
+          {isReadOnly ? (
+            <>
+              <Path
+                d="M341.5 45.1c-4.1-8-12.4-13.1-21.4-13.1-9 0-17.3 5.1-21.4 13.1l-73.6 144.2-159.9 25.4c-8.9 1.4-16.3 7.7-19.1 16.3-2.8 8.6-.5 18 5.8 24.4l114.4 114.5-25.2 159.9c-1.4 8.9 2.3 17.9 9.6 23.2 7.3 5.3 16.9 6.1 25 2l144.4-73.4L464.4 555c8 4.1 17.7 3.3 25-2 7.3-5.3 11-14.2 9.6-23.2l-25.3-159.9 114.4-114.5c6.4-6.4 8.6-15.8 5.8-24.4-2.8-8.6-10.1-14.9-19.1-16.3L415 189.3 341.5 45.1z"
+                fill={inactiveStarColor}
+              />
+              <Defs>
+                <ClipPath id={`clip-${value}`}>
+                  <Rect x="0" y="0" width={fillWidth} height="640" />
+                </ClipPath>
+              </Defs>
+              <Path
+                d="M341.5 45.1c-4.1-8-12.4-13.1-21.4-13.1-9 0-17.3 5.1-21.4 13.1l-73.6 144.2-159.9 25.4c-8.9 1.4-16.3 7.7-19.1 16.3-2.8 8.6-.5 18 5.8 24.4l114.4 114.5-25.2 159.9c-1.4 8.9 2.3 17.9 9.6 23.2 7.3 5.3 16.9 6.1 25 2l144.4-73.4L464.4 555c8 4.1 17.7 3.3 25-2 7.3-5.3 11-14.2 9.6-23.2l-25.3-159.9 114.4-114.5c6.4-6.4 8.6-15.8 5.8-24.4-2.8-8.6-10.1-14.9-19.1-16.3L415 189.3 341.5 45.1z"
+                fill={activeStarColor}
+                clipPath={`url(#clip-${value})`}
+              />
+            </>
+          ) : (
+            <AnimatedPath
+              animatedProps={animatedProps}
               d="M341.5 45.1c-4.1-8-12.4-13.1-21.4-13.1-9 0-17.3 5.1-21.4 13.1l-73.6 144.2-159.9 25.4c-8.9 1.4-16.3 7.7-19.1 16.3-2.8 8.6-.5 18 5.8 24.4l114.4 114.5-25.2 159.9c-1.4 8.9 2.3 17.9 9.6 23.2 7.3 5.3 16.9 6.1 25 2l144.4-73.4L464.4 555c8 4.1 17.7 3.3 25-2 7.3-5.3 11-14.2 9.6-23.2l-25.3-159.9 114.4-114.5c6.4-6.4 8.6-15.8 5.8-24.4-2.8-8.6-10.1-14.9-19.1-16.3L415 189.3 341.5 45.1z"
-              fill={inactiveStarColor}
             />
-            <Defs>
-              <ClipPath id={`clip-${value}`}>
-                <Rect x="0" y="0" width={fillWidth} height="640" />
-              </ClipPath>
-            </Defs>
-            <Path
-              d="M341.5 45.1c-4.1-8-12.4-13.1-21.4-13.1-9 0-17.3 5.1-21.4 13.1l-73.6 144.2-159.9 25.4c-8.9 1.4-16.3 7.7-19.1 16.3-2.8 8.6-.5 18 5.8 24.4l114.4 114.5-25.2 159.9c-1.4 8.9 2.3 17.9 9.6 23.2 7.3 5.3 16.9 6.1 25 2l144.4-73.4L464.4 555c8 4.1 17.7 3.3 25-2 7.3-5.3 11-14.2 9.6-23.2l-25.3-159.9 114.4-114.5c6.4-6.4 8.6-15.8 5.8-24.4-2.8-8.6-10.1-14.9-19.1-16.3L415 189.3 341.5 45.1z"
-              fill={activeStarColor}
-              clipPath={`url(#clip-${value})`}
-            />
-          </>
-        ) : (
-          <AnimatedPath
-            animatedProps={animatedProps}
-            d="M341.5 45.1c-4.1-8-12.4-13.1-21.4-13.1-9 0-17.3 5.1-21.4 13.1l-73.6 144.2-159.9 25.4c-8.9 1.4-16.3 7.7-19.1 16.3-2.8 8.6-.5 18 5.8 24.4l114.4 114.5-25.2 159.9c-1.4 8.9 2.3 17.9 9.6 23.2 7.3 5.3 16.9 6.1 25 2l144.4-73.4L464.4 555c8 4.1 17.7 3.3 25-2 7.3-5.3 11-14.2 9.6-23.2l-25.3-159.9 114.4-114.5c6.4-6.4 8.6-15.8 5.8-24.4-2.8-8.6-10.1-14.9-19.1-16.3L415 189.3 341.5 45.1z"
-          />
-        )}
-      </Svg>
+          )}
+        </Svg>
+      </Animated.View>
     </Pressable>
   );
 }

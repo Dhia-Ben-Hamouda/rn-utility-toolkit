@@ -18,6 +18,7 @@ interface ICarousel<T> {
     showDots?: boolean;
     onChange?: (newIndex: number) => void;
     dotOffsetMultiplier?: number;
+    dotsOnTop?: boolean;
 }
-export default function Carousel<T>({ data, renderItem: customRenderItem, containerStyle, dotsContainerStyle, activeDotColor, dotColor, activeDotWidth, dotWidth, dotStyle, showDots, onChange, dotOffsetMultiplier, }: ICarousel<T>): React.JSX.Element;
+export default function Carousel<T>({ data, renderItem: customRenderItem, containerStyle, dotsContainerStyle, activeDotColor, dotColor, activeDotWidth, dotWidth, dotStyle, showDots, onChange, dotOffsetMultiplier, dotsOnTop, }: ICarousel<T>): React.JSX.Element;
 export {};

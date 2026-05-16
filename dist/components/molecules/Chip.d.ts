@@ -1,16 +1,19 @@
 import React from "react";
-import { ImageSourcePropType, StyleProp, TextStyle, ViewStyle } from "react-native";
+import { Insets, StyleProp, TextStyle, ViewStyle } from "react-native";
 interface IChip {
     value: string;
-    activeValue: string;
+    activeValue?: string;
     onChipPress?: (value: string) => void;
     containerStyle?: StyleProp<ViewStyle>;
     labelStyle?: StyleProp<TextStyle>;
-    startPicture?: ImageSourcePropType;
+    startIcon?: React.ReactNode;
+    endIcon?: React.ReactNode;
     activeChipBackgroundColor?: string;
     chipBackgroundColor?: string;
     activeChipTextColor?: string;
     chipTextColor?: string;
+    isReadyOnly?: boolean;
+    customHitSlop?: number | Insets | null | undefined;
 }
-export default function Chip({ value, activeValue, onChipPress, containerStyle, labelStyle, startPicture, activeChipBackgroundColor, chipBackgroundColor, activeChipTextColor, chipTextColor, }: IChip): React.JSX.Element;
+export default function Chip({ value, activeValue, onChipPress, containerStyle, labelStyle, startIcon, endIcon, activeChipBackgroundColor, chipBackgroundColor, activeChipTextColor, chipTextColor, isReadyOnly, customHitSlop, }: IChip): React.JSX.Element;
 export {};
