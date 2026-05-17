@@ -6,3 +6,4 @@ export { default as Button } from "./Button";
 export { default as IconButton } from "./IconButton";
 export { default as Skeleton } from "./Skeleton";
 export { default as Expandable } from "./Expandable";
+export { default as TextGroup } from "./TextGroup";

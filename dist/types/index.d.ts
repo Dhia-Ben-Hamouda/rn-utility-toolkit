@@ -82,6 +82,15 @@ export interface SkeletonProps {
     angle?: number;
     shimmerWidth?: number;
 }
+export interface TextGroupProps {
+    title: string;
+    description: string;
+    end?: boolean;
+    horizontal?: boolean;
+    containerStyle?: StyleProp<ViewStyle>;
+    titleStyle?: StyleProp<TextStyle>;
+    descriptionStyle?: StyleProp<TextStyle>;
+}
 export interface ChipProps {
     value: string;
     activeValue?: string;
@@ -176,6 +185,26 @@ export interface TabsProps {
     gradientEnd?: GradientCoordinate;
     animationConfig?: WithTimingConfig;
 }
+export interface AccordionProps {
+    title?: string;
+    isDefaultExpanded?: boolean;
+    expansionDuration?: number;
+    arrowColor?: string;
+    arrowSize?: number;
+    customArrowIcon?: React.ReactNode;
+    customArrowRotationAngle?: number;
+    headerStyle?: StyleProp<ViewStyle>;
+    titleStyle?: StyleProp<TextStyle>;
+    containerStyle?: StyleProp<ViewStyle>;
+    contentContainerStyle?: StyleProp<ViewStyle>;
+    isArrowShown?: boolean;
+    isTitleShown?: boolean;
+    onAccordionOpened?: (contentHeight: number) => void;
+    onAccordionClosed?: (contentHeight: number) => void;
+    useOppositeArrowIcons?: boolean;
+    openArrowIcon?: React.ReactNode;
+    closeArrowIcon?: React.ReactNode;
+}
 export interface PickerItem<T> {
     label: string;
     subLabel?: string;
@@ -234,22 +263,19 @@ export interface RatingProps {
     inactiveStarColor?: string;
     value: number;
 }
-export interface AccordionProps {
-    title?: string;
-    isDefaultExpanded?: boolean;
-    expansionDuration?: number;
-    arrowColor?: string;
-    arrowSize?: number;
-    customArrowIcon?: React.ReactNode;
-    customArrowRotationAngle?: number;
-    headerStyle?: StyleProp<ViewStyle>;
-    titleStyle?: StyleProp<TextStyle>;
+export interface AccordionGroupItem extends Omit<AccordionProps, "isExpanded" | "onToggle"> {
+    key?: string;
+    content: React.ReactNode;
+}
+export interface AccordionGroupProps {
+    data: AccordionGroupItem[];
+    defaultOpenIndex?: number | null;
     containerStyle?: StyleProp<ViewStyle>;
-    contentContainerStyle?: StyleProp<ViewStyle>;
-    isArrowShown?: boolean;
-    isTitleShown?: boolean;
-    onAccordionOpened?: (contentHeight: number) => void;
-    onAccordionClosed?: (contentHeight: number) => void;
+    itemContainerStyle?: StyleProp<ViewStyle>;
+    separatorStyle?: StyleProp<ViewStyle>;
+    titleStyle?: StyleProp<TextStyle>;
+    headerStyle?: StyleProp<ViewStyle>;
+    allowMultiple?: boolean;
 }
 export interface CarouselProps<T> {
     data: Array<T>;

@@ -3,9 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Swipeable = exports.RangeSlider = exports.PinInput = exports.FlipCard = exports.DatePicker = exports.Carousel = exports.Accordion = void 0;
-var Accordion_1 = require("./Accordion");
-Object.defineProperty(exports, "Accordion", { enumerable: true, get: function () { return __importDefault(Accordion_1).default; } });
+exports.AccordionGroup = exports.Swipeable = exports.RangeSlider = exports.PinInput = exports.FlipCard = exports.DatePicker = exports.Carousel = void 0;
 var Carousel_1 = require("./Carousel");
 Object.defineProperty(exports, "Carousel", { enumerable: true, get: function () { return __importDefault(Carousel_1).default; } });
 var DatePicker_1 = require("./DatePicker");
@@ -18,3 +16,5 @@ var RangeSlider_1 = require("./RangeSlider");
 Object.defineProperty(exports, "RangeSlider", { enumerable: true, get: function () { return __importDefault(RangeSlider_1).default; } });
 var Swipeable_1 = require("./Swipeable");
 Object.defineProperty(exports, "Swipeable", { enumerable: true, get: function () { return __importDefault(Swipeable_1).default; } });
+var AccordionGroup_1 = require("./AccordionGroup");
+Object.defineProperty(exports, "AccordionGroup", { enumerable: true, get: function () { return __importDefault(AccordionGroup_1).default; } });

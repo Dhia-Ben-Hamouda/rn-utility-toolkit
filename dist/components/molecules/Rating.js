@@ -39,7 +39,7 @@ const react_native_1 = require("react-native");
 const react_native_reanimated_1 = __importStar(require("react-native-reanimated"));
 const react_native_svg_1 = __importStar(require("react-native-svg"));
 const DEFAULT_STAR_SIZE = 36;
-const DEFAULT_ACTIVE_STAR_COLOR = "#333333";
+const DEFAULT_ACTIVE_STAR_COLOR = "#FFC300";
 const DEFAULT_INACTIVE_STAR_COLOR = "#d8d8d8";
 const AnimatedPath = react_native_reanimated_1.default.createAnimatedComponent(react_native_svg_1.Path);
 function Star({ onChange, value, activeValue, isReadOnly, starSize, activeStarColor, inactiveStarColor, }) {

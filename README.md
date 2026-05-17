@@ -229,6 +229,26 @@ export default function App() {
 }
 ```
 
+- `TextGroup`
+
+![TextGroup Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/atoms/textgroup.png)
+
+```tsx
+import React from "react";
+import { View } from "react-native";
+import { TextGroup } from "rn-utility-toolkit";
+
+export default function App() {
+  return (
+    <View>
+      <TextGroup title="Date of birth" description="12/05/2001" />
+      <TextGroup title="Country" description="Tunisia" end />
+      <TextGroup title="Major" description="Architecture" horizontal />
+    </View>
+  );
+}
+```
+
 ### 🔹 Molecules
 
 Groups of atoms combined together.
@@ -539,18 +559,15 @@ export default function App() {
 }
 ```
 
-### 🔹 Organisms
-
-Complex components composed of atoms and molecules.
-
 - `Accordion`
 
-![Accordion Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/organisms/accordion.gif)
+![Accordion Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/molecules/accordion.gif)
 
 ```tsx
 import React from "react";
 import { Text } from "react-native";
 import { Accordion, type AccordionProps } from "rn-utility-toolkit";
+import { PlusIcon, MinusIcon } from "./icons";
 
 export default function App() {
   return (
@@ -574,9 +591,72 @@ export default function App() {
       onAccordionClosed={(height) =>
         console.log("Accordion closed, content height:", height)
       }
+      useOppositeArrowIcons={true}
+      closeArrowIcon={<MinusIcon />}
+      openArrowIcon={<PlusIcon />}
     >
       <Text>This is the accordion's content</Text>
     </Accordion>
+  );
+}
+```
+
+### 🔹 Organisms
+
+Complex components composed of atoms and molecules.
+
+- `Accordion Group`
+
+![Accordion Group Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/organisms/accordiongroup.gif)
+
+```tsx
+import React from "react";
+import { View, Text } from "react-native";
+import {
+  AccordionGroup,
+  type AccordionGroupProps,
+  type AccordionGroupItem,
+} from "rn-utility-toolkit";
+
+export default function App() {
+  const accordionData: AccordionGroupItem[] = [
+    {
+      key: "item1",
+      title: "Shipping Information",
+      content: (
+        <View style={styles.content}>
+          <Text>Free shipping on orders over $50.</Text>
+          <Text>Delivery within 3-5 business days.</Text>
+        </View>
+      ),
+      // Individual style overrides
+      containerStyle: {
+        borderLeftWidth: 3,
+      },
+      headerStyle: {
+        backgroundColor: "#f8f9fa",
+      },
+      titleStyle: {
+        fontWeight: "600",
+        fontSize: 16,
+      },
+      contentContainerStyle: {
+        backgroundColor: "#ffffff",
+      },
+    },
+  ];
+
+  return (
+    <AccordionGroup
+      data={accordionData}
+      defaultOpenIndex={0} // First item open by default
+      allowMultiple={true} // Allow multiple items open at once
+      containerStyle={styles.groupContainer}
+      itemContainerStyle={styles.itemContainer}
+      separatorStyle={styles.separator}
+      titleStyle={styles.groupTitle}
+      headerStyle={styles.groupHeader}
+    />
   );
 }
 ```

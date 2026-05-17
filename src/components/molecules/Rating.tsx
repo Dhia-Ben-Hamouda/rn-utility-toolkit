@@ -17,7 +17,7 @@ import Animated, {
 import Svg, { ClipPath, Defs, Path, Rect } from "react-native-svg";
 
 const DEFAULT_STAR_SIZE = 36;
-const DEFAULT_ACTIVE_STAR_COLOR = "#333333";
+const DEFAULT_ACTIVE_STAR_COLOR = "#FFC300";
 const DEFAULT_INACTIVE_STAR_COLOR = "#d8d8d8";
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);

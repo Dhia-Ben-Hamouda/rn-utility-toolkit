@@ -71,8 +71,12 @@ function getDistanceInKm(start, end) {
     const latitudeSin = Math.sin(deltaLatitude / 2);
     const longitudeSin = Math.sin(deltaLongitude / 2);
     const haversineFormula = latitudeSin * latitudeSin +
-        Math.cos(startLatitudeRad) * Math.cos(endLatitudeRad) * longitudeSin * longitudeSin;
-    const centralAngle = 2 * Math.atan2(Math.sqrt(haversineFormula), Math.sqrt(1 - haversineFormula));
+        Math.cos(startLatitudeRad) *
+            Math.cos(endLatitudeRad) *
+            longitudeSin *
+            longitudeSin;
+    const centralAngle = 2 *
+        Math.atan2(Math.sqrt(haversineFormula), Math.sqrt(1 - haversineFormula));
     const distanceInKm = EARTH_RADIUS_KM * centralAngle;
     return distanceInKm;
 }

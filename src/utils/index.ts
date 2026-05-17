@@ -55,7 +55,7 @@ export function capitalize(value: string = "") {
 export function formatAmountByCurrency(
   amount: number,
   currency?: string,
-  isCurrencyLeftPositioned?: boolean,
+  isCurrencyLeftPositioned?: boolean
 ) {
   const formattedAmount = new Intl.NumberFormat("fr-FR", {
     maximumFractionDigits: 0,
@@ -70,7 +70,10 @@ function degreestoRadians(degrees: number): number {
   return (degrees * Math.PI) / 180;
 }
 
-export function getDistanceInKm(start:MapCoordinate, end:MapCoordinate): number {
+export function getDistanceInKm(
+  start: MapCoordinate,
+  end: MapCoordinate
+): number {
   const EARTH_RADIUS_KM = 6371;
 
   // Convert latitude and longitude differences to radians
@@ -86,9 +89,14 @@ export function getDistanceInKm(start:MapCoordinate, end:MapCoordinate): number 
 
   const haversineFormula =
     latitudeSin * latitudeSin +
-    Math.cos(startLatitudeRad) * Math.cos(endLatitudeRad) * longitudeSin * longitudeSin;
+    Math.cos(startLatitudeRad) *
+      Math.cos(endLatitudeRad) *
+      longitudeSin *
+      longitudeSin;
 
-  const centralAngle = 2 * Math.atan2(Math.sqrt(haversineFormula), Math.sqrt(1 - haversineFormula));
+  const centralAngle =
+    2 *
+    Math.atan2(Math.sqrt(haversineFormula), Math.sqrt(1 - haversineFormula));
 
   const distanceInKm = EARTH_RADIUS_KM * centralAngle;
 
