@@ -1,6 +1,7 @@
 import { BottomSheetModalProps } from "@gorhom/bottom-sheet";
 import { PropsWithChildren, SetStateAction } from "react";
 import {
+  DimensionValue,
   FlatListProps,
   ImageSourcePropType,
   ImageStyle,
@@ -88,16 +89,15 @@ export interface SwitchProps {
 }
 
 export interface SkeletonProps {
-  width: number;
+  width: DimensionValue;
   height: number;
   borderRadius?: number;
   backgroundColor?: string;
   highlightColor?: string;
   speed?: number;
-  direction?: "left" | "right";
-  enabled?: boolean;
-  angle?: number;
   shimmerWidth?: number;
+  enabled?: boolean;
+  containerStyle?: StyleProp<ViewStyle>;
 }
 
 export interface TextGroupProps {

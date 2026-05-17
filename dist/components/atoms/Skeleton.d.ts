@@ -1,15 +1,15 @@
 import React from "react";
+import { DimensionValue, StyleProp, ViewStyle } from "react-native";
 interface ISkeleton {
-    width: number;
+    width: DimensionValue;
     height: number;
     borderRadius?: number;
     backgroundColor?: string;
     highlightColor?: string;
     speed?: number;
-    direction?: "left" | "right";
-    enabled?: boolean;
-    angle?: number;
     shimmerWidth?: number;
+    enabled?: boolean;
+    containerStyle?: StyleProp<ViewStyle>;
 }
-export default function Skeleton({ width, height, speed, backgroundColor, highlightColor, ...rest }: ISkeleton): React.JSX.Element;
+export default function Skeleton({ width, height, borderRadius, backgroundColor, highlightColor, speed, shimmerWidth, enabled, containerStyle, }: ISkeleton): React.JSX.Element;
 export {};

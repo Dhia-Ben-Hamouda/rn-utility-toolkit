@@ -1,6 +1,6 @@
 import { BottomSheetModalProps } from "@gorhom/bottom-sheet";
 import { PropsWithChildren, SetStateAction } from "react";
-import { FlatListProps, ImageSourcePropType, ImageStyle, Insets, StyleProp, TextStyle, ViewStyle } from "react-native";
+import { DimensionValue, FlatListProps, ImageSourcePropType, ImageStyle, Insets, StyleProp, TextStyle, ViewStyle } from "react-native";
 import { SharedValue, WithTimingConfig } from "react-native-reanimated";
 export interface ButtonProps {
     containerStyle?: StyleProp<ViewStyle>;
@@ -71,16 +71,15 @@ export interface SwitchProps {
     customHitSlop?: number | Insets | null | undefined;
 }
 export interface SkeletonProps {
-    width: number;
+    width: DimensionValue;
     height: number;
     borderRadius?: number;
     backgroundColor?: string;
     highlightColor?: string;
     speed?: number;
-    direction?: "left" | "right";
-    enabled?: boolean;
-    angle?: number;
     shimmerWidth?: number;
+    enabled?: boolean;
+    containerStyle?: StyleProp<ViewStyle>;
 }
 export interface TextGroupProps {
     title: string;

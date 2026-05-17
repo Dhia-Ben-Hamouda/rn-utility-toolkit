@@ -2719,10 +2719,6 @@ react-native-reanimated@^3.0.0:
     invariant "^2.2.4"
     react-native-is-edge-to-edge "1.1.7"
 
-react-native-skeleton-placeholder@Dhia-Ben-Hamouda/react-native-skeleton-placeholder:
-  version "5.2.4"
-  resolved "https://codeload.github.com/Dhia-Ben-Hamouda/react-native-skeleton-placeholder/tar.gz/5b6fa632c74279221fb719bc33a743493ace8880"
-
 react-native-svg@^15.0.0:
   version "15.13.0"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-15.13.0.tgz#5244b03ff6fa4c8ac7c8586d73cf8d1f4f665236"
