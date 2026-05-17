@@ -1,6 +1,6 @@
 import { BottomSheetModalProps } from "@gorhom/bottom-sheet";
 import { PropsWithChildren, SetStateAction } from "react";
-import { DimensionValue, FlatListProps, ImageSourcePropType, ImageStyle, Insets, StyleProp, TextStyle, ViewStyle } from "react-native";
+import { DimensionValue, FlatListProps, ImageSourcePropType, ImageStyle, Insets, StyleProp, TextInputProps, TextStyle, ViewStyle } from "react-native";
 import { SharedValue, WithTimingConfig } from "react-native-reanimated";
 export interface ButtonProps {
     containerStyle?: StyleProp<ViewStyle>;
@@ -132,6 +132,22 @@ export interface ModalProps extends PropsWithChildren {
     setIsOpen?: React.Dispatch<SetStateAction<boolean>>;
     overlayStyle?: StyleProp<ViewStyle>;
     containerStyle?: StyleProp<ViewStyle>;
+}
+export interface TextFieldProps extends Omit<TextInputProps, "value" | "onChange"> {
+    value: string;
+    onChange: (newValue: string) => void;
+    labelStyle?: StyleProp<TextStyle>;
+    containerStyle?: StyleProp<ViewStyle>;
+    inputContainerStyle?: StyleProp<ViewStyle>;
+    isRequired?: boolean;
+    startIcon?: React.ReactNode;
+    endIcon?: React.ReactNode;
+    isError?: boolean;
+    errorMessage?: string;
+    isPasswordField?: boolean;
+    label?: string;
+    showPasswordIcon?: React.ReactNode;
+    hidePasswordIcon?: React.ReactNode;
 }
 export interface ProgressBarProps {
     progress: number;

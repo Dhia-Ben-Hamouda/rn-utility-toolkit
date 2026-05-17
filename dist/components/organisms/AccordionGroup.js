@@ -66,7 +66,6 @@ function AccordionGroup({ data, defaultOpenIndex = null, containerStyle, itemCon
     return (<react_native_1.View style={[styles.groupContainer, containerStyle]}>
       {data === null || data === void 0 ? void 0 : data.map((item, index) => {
             const { key, content, containerStyle: accordionContainerStyle, headerStyle: accordionHeaderStyle, titleStyle: accordionTitleStyle } = item, accordionProps = __rest(item, ["key", "content", "containerStyle", "headerStyle", "titleStyle"]);
-            const showSeparator = index < (data === null || data === void 0 ? void 0 : data.length) - 1 && !isItemOpen(index);
             return (<react_native_1.View key={key !== null && key !== void 0 ? key : String(index)} style={itemContainerStyle}>
             <Accordion_1.default {...accordionProps} isExpanded={isItemOpen(index)} onToggle={(next) => handleToggle(index, next)} useOppositeArrowIcons containerStyle={[styles.itemContainer, accordionContainerStyle]} headerStyle={[styles.header, headerStyle, accordionHeaderStyle]} titleStyle={[styles.title, titleStyle, accordionTitleStyle]} contentContainerStyle={[
                     styles.contentContainer,
@@ -74,8 +73,6 @@ function AccordionGroup({ data, defaultOpenIndex = null, containerStyle, itemCon
                 ]}>
               {content}
             </Accordion_1.default>
-
-            {showSeparator ? (<react_native_1.View style={[styles.separator, separatorStyle]}/>) : null}
           </react_native_1.View>);
         })}
     </react_native_1.View>);

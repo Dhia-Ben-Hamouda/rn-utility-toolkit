@@ -397,6 +397,52 @@ export default function App() {
 }
 ```
 
+- `TextField`
+
+```tsx
+import React, { useState } from "react";
+import { View, Text } from "react-native";
+import { TextField, type TextFieldProps } from "rn-utility-toolkit";
+import { UserIcon, EyeIcon } from "./icons";
+
+export default function App() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  return (
+    <View>
+      <TextField
+        value={email}
+        onChange={setEmail}
+        label="Email Address"
+        labelStyle={{ fontSize: 14, fontWeight: "600", color: "#333" }}
+        containerStyle={{ marginVertical: 10 }}
+        inputContainerStyle={{
+          backgroundColor: "#fff",
+          borderRadius: 12,
+          borderWidth: 1,
+          borderColor: "#ddd",
+          paddingHorizontal: 16,
+          paddingVertical: 12,
+        }}
+        isRequired={true}
+        startIcon={<UserIcon />}
+        endIcon={<UserIcon />}
+        isError={true}
+        errorMessage="Please enter a valid email address"
+      />
+      <TextField
+        value={password}
+        onChange={setPassword}
+        isPasswordField={true}
+        showPasswordIcon={<EyeIcon />}
+        hidePasswordIcon={<EyeIcon />}
+      />
+    </View>
+  );
+}
+```
+
 - `Select`
 
 check out the full documentation here 👉 https://www.npmjs.com/package/rn-custom-select-dropdown
@@ -665,6 +711,14 @@ export default function App() {
 }
 ```
 
+- `File Picker`
+
+coming soon
+
+- `Avatar Picker`
+
+coming soon
+
 ### 🔹 Organisms
 
 Complex components composed of atoms and molecules.
@@ -871,7 +925,7 @@ export default function App() {
 ```tsx
 import React from "react";
 import { Text, View } from "react-native";
-import Swipeable from "rn-utility-toolkit";
+import { Swipeable, type SwipeableProps } from "rn-utility-toolkit";
 import { StarIcon } from "./icons";
 
 export default function App() {

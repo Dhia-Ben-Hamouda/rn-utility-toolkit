@@ -45,14 +45,16 @@ const DEFAULT_BACKGROUND_COLOR = "#d9d9d9";
 const DEFAULT_TEXT_COLOR = "#333";
 const DEFAULT_GRADIENT_COLORS = ["#333", "#999"];
 const getInitials = (name) => {
-    var _a, _b;
+    var _a, _b, _c;
     if (!(name === null || name === void 0 ? void 0 : name.trim()))
         return "?";
     const parts = (_b = (_a = name === null || name === void 0 ? void 0 : name.trim()) === null || _a === void 0 ? void 0 : _a.split(" ")) === null || _b === void 0 ? void 0 : _b.filter(Boolean);
     if ((parts === null || parts === void 0 ? void 0 : parts.length) === 1) {
         return parts[0].slice(0, 2).toUpperCase();
     }
-    return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+    const firstName = parts[0];
+    const lastName = parts[(parts === null || parts === void 0 ? void 0 : parts.length) - 1];
+    return (_c = `${firstName[0]}${lastName[0]}`) === null || _c === void 0 ? void 0 : _c.toUpperCase();
 };
 function Avatar({ picture, name = "", size = DEFAULT_SIZE, containerStyle, imageStyle, textStyle, backgroundColor = DEFAULT_BACKGROUND_COLOR, textColor = DEFAULT_TEXT_COLOR, borderRadius, onPress, useGradients = false, gradientColors = DEFAULT_GRADIENT_COLORS, gradientStart = { x: 0, y: 0 }, gradientEnd = { x: 1, y: 1 }, }) {
     const initials = (0, react_1.useMemo)(() => getInitials(name), [name]);

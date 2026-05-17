@@ -66,8 +66,6 @@ export default function AccordionGroup({
           ...accordionProps
         } = item;
 
-        const showSeparator = index < data?.length - 1 && !isItemOpen(index);
-
         return (
           <View key={key ?? String(index)} style={itemContainerStyle}>
             <Accordion
@@ -85,10 +83,6 @@ export default function AccordionGroup({
             >
               {content}
             </Accordion>
-
-            {showSeparator ? (
-              <View style={[styles.separator, separatorStyle]} />
-            ) : null}
           </View>
         );
       })}

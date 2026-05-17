@@ -46,7 +46,7 @@ function capitalize(value = "") {
     var _a, _b;
     if (!value)
         return "";
-    return ((_a = value.charAt(0)) === null || _a === void 0 ? void 0 : _a.toUpperCase()) + ((_b = value.slice(1)) === null || _b === void 0 ? void 0 : _b.toLowerCase());
+    return ((_a = value === null || value === void 0 ? void 0 : value.charAt(0)) === null || _a === void 0 ? void 0 : _a.toUpperCase()) + ((_b = value === null || value === void 0 ? void 0 : value.slice(1)) === null || _b === void 0 ? void 0 : _b.toLowerCase());
 }
 function formatAmountByCurrency(amount, currency, isCurrencyLeftPositioned) {
     var _a, _b;

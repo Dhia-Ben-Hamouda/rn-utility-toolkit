@@ -7,6 +7,7 @@ import {
   ImageStyle,
   Insets,
   StyleProp,
+  TextInputProps,
   TextStyle,
   ViewStyle,
 } from "react-native";
@@ -157,6 +158,24 @@ export interface ModalProps extends PropsWithChildren {
   setIsOpen?: React.Dispatch<SetStateAction<boolean>>;
   overlayStyle?: StyleProp<ViewStyle>;
   containerStyle?: StyleProp<ViewStyle>;
+}
+
+export interface TextFieldProps
+  extends Omit<TextInputProps, "value" | "onChange"> {
+  value: string;
+  onChange: (newValue: string) => void;
+  labelStyle?: StyleProp<TextStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
+  inputContainerStyle?: StyleProp<ViewStyle>;
+  isRequired?: boolean;
+  startIcon?: React.ReactNode;
+  endIcon?: React.ReactNode;
+  isError?: boolean;
+  errorMessage?: string;
+  isPasswordField?: boolean;
+  label?: string;
+  showPasswordIcon?: React.ReactNode;
+  hidePasswordIcon?: React.ReactNode;
 }
 
 export interface ProgressBarProps {

@@ -6,3 +6,4 @@ export { default as Rating } from "./Rating";
 export { default as Select } from "./Select";
 export { default as Tabs } from "./Tabs";
 export { default as Accordion } from "./Accordion";
+export { default as TextField } from "./TextField";
