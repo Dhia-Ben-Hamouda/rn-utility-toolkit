@@ -1,7 +1,5 @@
-import React, { SetStateAction, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
-  Image,
-  ImageSourcePropType,
   Insets,
   Platform,
   StyleProp,
@@ -22,7 +20,8 @@ const DEFAULT_ACTIVE_CHIP_BACKGROUND_COLOR = "#333";
 const DEFAULT_CHIP_BACKGROUND_COLOR = "#fff";
 const DEFAULT_ACTIVE_CHIP_TEXT_COLOR = "#fff";
 const DEFAULT_CHIP_TEXT_COLOR = "#333";
-const DEFAULT_CHIP_HIT_SLOP = 5;
+const DEFAULT_ACTIVE_ICON_COLOR = "#fff";
+const DEFAULT_ICON_COLOR = "#333";
 
 interface IChip {
   value: string;
@@ -36,6 +35,8 @@ interface IChip {
   chipBackgroundColor?: string;
   activeChipTextColor?: string;
   chipTextColor?: string;
+  activeIconColor?: string;
+  iconColor?: string;
   isReadyOnly?: boolean;
   customHitSlop?: number | Insets | null | undefined;
 }
@@ -52,21 +53,25 @@ export default function Chip({
   chipBackgroundColor = DEFAULT_CHIP_BACKGROUND_COLOR,
   activeChipTextColor = DEFAULT_ACTIVE_CHIP_TEXT_COLOR,
   chipTextColor = DEFAULT_CHIP_TEXT_COLOR,
+  activeIconColor = DEFAULT_ACTIVE_ICON_COLOR,
+  iconColor = DEFAULT_ICON_COLOR,
   isReadyOnly = false,
-  customHitSlop = DEFAULT_CHIP_HIT_SLOP,
+  customHitSlop = { bottom: 5, top: 5, left: 5, right: 5 },
 }: IChip) {
-  const isEqaul = useSharedValue(value === activeValue);
-  const derivedIsEqaul = useDerivedValue(() =>
-    isEqaul.value ? withTiming(1) : withTiming(0)
+  const isEqual = useSharedValue(value === activeValue);
+  const derivedIsEqual = useDerivedValue(() =>
+    isEqual.value ? withTiming(1) : withTiming(0)
   );
 
+  const isActive = value === activeValue;
+
   useEffect(() => {
-    isEqaul.value = value === activeValue;
-  }, [activeValue, isEqaul, value]);
+    isEqual.value = value === activeValue;
+  }, [activeValue, isEqual, value]);
 
   const animatedBackgroundColor = useAnimatedStyle(() => {
     const backgroundColor = interpolateColor(
-      derivedIsEqaul.value,
+      derivedIsEqual.value,
       [0, 1],
       [chipBackgroundColor, activeChipBackgroundColor]
     );
@@ -78,7 +83,7 @@ export default function Chip({
 
   const animatedTextColor = useAnimatedStyle(() => {
     const color = interpolateColor(
-      derivedIsEqaul.value,
+      derivedIsEqual.value,
       [0, 1],
       [chipTextColor, activeChipTextColor]
     );
@@ -88,22 +93,36 @@ export default function Chip({
     };
   });
 
+  const resolvedIconColor = isActive ? activeIconColor : iconColor;
+
+  const renderIcon = (icon?: React.ReactNode) => {
+    if (!React.isValidElement(icon)) {
+      return icon;
+    }
+
+    return React.cloneElement(icon as React.ReactElement<any>, {
+      fill: resolvedIconColor,
+      stroke: resolvedIconColor,
+      color: resolvedIconColor,
+    });
+  };
+
   return (
     <TouchableOpacity
       disabled={isReadyOnly}
       hitSlop={customHitSlop}
       onPress={() => {
-        onChipPress && onChipPress(value);
+        onChipPress?.(value);
       }}
     >
       <Animated.View
         style={[styles.chip, containerStyle, animatedBackgroundColor]}
       >
-        {startIcon}
+        {renderIcon(startIcon)}
         <Animated.Text style={[styles.text, labelStyle, animatedTextColor]}>
           {value}
         </Animated.Text>
-        {endIcon}
+        {renderIcon(endIcon)}
       </Animated.View>
     </TouchableOpacity>
   );
@@ -119,19 +138,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "flex-start",
     gap: 4,
-    ...Platform.select({
-      ios: {
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.05,
-        shadowRadius: 10,
-      },
-      android: {
-        elevation: 2,
-      },
-    }),
+    borderWidth: 1,
+    borderColor: "rgba(0,0,0,.1)",
   },
   text: {},
 });

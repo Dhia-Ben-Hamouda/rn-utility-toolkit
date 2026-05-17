@@ -3,6 +3,7 @@ import { PropsWithChildren, SetStateAction } from "react";
 import {
   FlatListProps,
   ImageSourcePropType,
+  ImageStyle,
   Insets,
   StyleProp,
   TextStyle,
@@ -109,6 +110,23 @@ export interface TextGroupProps {
   descriptionStyle?: StyleProp<TextStyle>;
 }
 
+export interface AvatarProps {
+  picture?: ImageSourcePropType;
+  name?: string;
+  size?: number;
+  containerStyle?: StyleProp<ViewStyle>;
+  imageStyle?: ImageStyle;
+  textStyle?: StyleProp<TextStyle>;
+  backgroundColor?: string;
+  textColor?: string;
+  borderRadius?: number;
+  onPress?: () => void;
+  useGradients?: boolean;
+  gradientColors?: string[];
+  gradientStart?: GradientCoordinate;
+  gradientEnd?: GradientCoordinate;
+}
+
 //? Molecules types / interfaces
 
 export interface ChipProps {
@@ -123,6 +141,8 @@ export interface ChipProps {
   chipBackgroundColor?: string;
   activeChipTextColor?: string;
   chipTextColor?: string;
+  activeIconColor?: string;
+  iconColor?: string;
   isReadyOnly?: boolean;
   customHitSlop?: number | Insets | null | undefined;
 }

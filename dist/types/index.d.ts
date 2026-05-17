@@ -1,6 +1,6 @@
 import { BottomSheetModalProps } from "@gorhom/bottom-sheet";
 import { PropsWithChildren, SetStateAction } from "react";
-import { FlatListProps, ImageSourcePropType, Insets, StyleProp, TextStyle, ViewStyle } from "react-native";
+import { FlatListProps, ImageSourcePropType, ImageStyle, Insets, StyleProp, TextStyle, ViewStyle } from "react-native";
 import { SharedValue, WithTimingConfig } from "react-native-reanimated";
 export interface ButtonProps {
     containerStyle?: StyleProp<ViewStyle>;
@@ -91,6 +91,22 @@ export interface TextGroupProps {
     titleStyle?: StyleProp<TextStyle>;
     descriptionStyle?: StyleProp<TextStyle>;
 }
+export interface AvatarProps {
+    picture?: ImageSourcePropType;
+    name?: string;
+    size?: number;
+    containerStyle?: StyleProp<ViewStyle>;
+    imageStyle?: ImageStyle;
+    textStyle?: StyleProp<TextStyle>;
+    backgroundColor?: string;
+    textColor?: string;
+    borderRadius?: number;
+    onPress?: () => void;
+    useGradients?: boolean;
+    gradientColors?: string[];
+    gradientStart?: GradientCoordinate;
+    gradientEnd?: GradientCoordinate;
+}
 export interface ChipProps {
     value: string;
     activeValue?: string;
@@ -103,6 +119,8 @@ export interface ChipProps {
     chipBackgroundColor?: string;
     activeChipTextColor?: string;
     chipTextColor?: string;
+    activeIconColor?: string;
+    iconColor?: string;
     isReadyOnly?: boolean;
     customHitSlop?: number | Insets | null | undefined;
 }

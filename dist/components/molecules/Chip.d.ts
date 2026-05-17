@@ -12,8 +12,10 @@ interface IChip {
     chipBackgroundColor?: string;
     activeChipTextColor?: string;
     chipTextColor?: string;
+    activeIconColor?: string;
+    iconColor?: string;
     isReadyOnly?: boolean;
     customHitSlop?: number | Insets | null | undefined;
 }
-export default function Chip({ value, activeValue, onChipPress, containerStyle, labelStyle, startIcon, endIcon, activeChipBackgroundColor, chipBackgroundColor, activeChipTextColor, chipTextColor, isReadyOnly, customHitSlop, }: IChip): React.JSX.Element;
+export default function Chip({ value, activeValue, onChipPress, containerStyle, labelStyle, startIcon, endIcon, activeChipBackgroundColor, chipBackgroundColor, activeChipTextColor, chipTextColor, activeIconColor, iconColor, isReadyOnly, customHitSlop, }: IChip): React.JSX.Element;
 export {};

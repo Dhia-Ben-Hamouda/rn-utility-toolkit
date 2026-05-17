@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TextGroup = exports.Expandable = exports.Skeleton = exports.IconButton = exports.Button = exports.Switch = exports.RadioButton = exports.Divider = exports.Checkbox = void 0;
+exports.Avatar = exports.TextGroup = exports.Expandable = exports.Skeleton = exports.IconButton = exports.Button = exports.Switch = exports.RadioButton = exports.Divider = exports.Checkbox = void 0;
 var Checkbox_1 = require("./Checkbox");
 Object.defineProperty(exports, "Checkbox", { enumerable: true, get: function () { return __importDefault(Checkbox_1).default; } });
 var Divider_1 = require("./Divider");
@@ -22,3 +22,5 @@ var Expandable_1 = require("./Expandable");
 Object.defineProperty(exports, "Expandable", { enumerable: true, get: function () { return __importDefault(Expandable_1).default; } });
 var TextGroup_1 = require("./TextGroup");
 Object.defineProperty(exports, "TextGroup", { enumerable: true, get: function () { return __importDefault(TextGroup_1).default; } });
+var Avatar_1 = require("./Avatar");
+Object.defineProperty(exports, "Avatar", { enumerable: true, get: function () { return __importDefault(Avatar_1).default; } });

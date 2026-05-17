@@ -40,7 +40,7 @@ const react_native_reanimated_1 = __importStar(require("react-native-reanimated"
 const react_native_svg_1 = __importStar(require("react-native-svg"));
 const DEFAULT_EXPANSION_DURATION = 400;
 const DEFAULT_ARROW_SIZE = 12;
-const DEFAULT_ARROW_COLOR = "#fff";
+const DEFAULT_ARROW_COLOR = "#000";
 const DEFAULT_ARROW_ROTATION_ANGLE = -180;
 function AngleDown({ size, color }) {
     return (<react_native_svg_1.default width={size} height={size} viewBox="0 0 448 512">
@@ -57,7 +57,7 @@ function MinusIcon({ size, color }) {
       <react_native_svg_1.Path fill={color} d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z"/>
     </react_native_svg_1.default>);
 }
-function Accordion({ title = "Title", children, isDefaultExpanded = true, isExpanded: controlledExpanded, onToggle, expansionDuration = DEFAULT_EXPANSION_DURATION, arrowColor = DEFAULT_ARROW_COLOR, arrowSize = DEFAULT_ARROW_SIZE, customArrowIcon, customArrowRotationAngle = DEFAULT_ARROW_ROTATION_ANGLE, isArrowShown = true, isTitleShown = true, headerStyle, containerStyle, titleStyle, contentContainerStyle, onAccordionClosed, onAccordionOpened, useOppositeArrowIcons = false, closeArrowIcon, openArrowIcon, }) {
+function Accordion({ title = "Title", children, isDefaultExpanded = true, isExpanded: controlledExpanded, onToggle, expansionDuration = DEFAULT_EXPANSION_DURATION, arrowColor = DEFAULT_ARROW_COLOR, arrowSize = DEFAULT_ARROW_SIZE, customArrowIcon, customArrowRotationAngle = DEFAULT_ARROW_ROTATION_ANGLE, isArrowShown = true, isTitleShown = true, headerStyle, containerStyle, titleStyle, contentContainerStyle, onAccordionClosed, onAccordionOpened, useOppositeArrowIcons = true, closeArrowIcon, openArrowIcon, }) {
     const isControlled = controlledExpanded !== undefined;
     const [internalExpanded, setInternalExpanded] = (0, react_1.useState)(isDefaultExpanded);
     const isExpanded = isControlled ? controlledExpanded : internalExpanded;
@@ -149,12 +149,14 @@ const styles = react_native_1.StyleSheet.create({
     container: {
         borderRadius: 8,
         overflow: "hidden",
+        borderWidth: 1,
+        borderColor: "rgba(0,0,0,0.1)",
     },
     title: {
-        color: "#fff",
+        color: "#000",
     },
     header: {
-        backgroundColor: "#333",
+        backgroundColor: "#fff",
         paddingHorizontal: 16,
         paddingVertical: 12,
         flexDirection: "row",

@@ -41,50 +41,62 @@ const DEFAULT_ACTIVE_CHIP_BACKGROUND_COLOR = "#333";
 const DEFAULT_CHIP_BACKGROUND_COLOR = "#fff";
 const DEFAULT_ACTIVE_CHIP_TEXT_COLOR = "#fff";
 const DEFAULT_CHIP_TEXT_COLOR = "#333";
-const DEFAULT_CHIP_HIT_SLOP = 5;
-function Chip({ value, activeValue = "", onChipPress, containerStyle, labelStyle, startIcon, endIcon, activeChipBackgroundColor = DEFAULT_ACTIVE_CHIP_BACKGROUND_COLOR, chipBackgroundColor = DEFAULT_CHIP_BACKGROUND_COLOR, activeChipTextColor = DEFAULT_ACTIVE_CHIP_TEXT_COLOR, chipTextColor = DEFAULT_CHIP_TEXT_COLOR, isReadyOnly = false, customHitSlop = DEFAULT_CHIP_HIT_SLOP, }) {
-    const isEqaul = (0, react_native_reanimated_1.useSharedValue)(value === activeValue);
-    const derivedIsEqaul = (0, react_native_reanimated_1.useDerivedValue)(() => isEqaul.value ? (0, react_native_reanimated_1.withTiming)(1) : (0, react_native_reanimated_1.withTiming)(0));
+const DEFAULT_ACTIVE_ICON_COLOR = "#fff";
+const DEFAULT_ICON_COLOR = "#333";
+function Chip({ value, activeValue = "", onChipPress, containerStyle, labelStyle, startIcon, endIcon, activeChipBackgroundColor = DEFAULT_ACTIVE_CHIP_BACKGROUND_COLOR, chipBackgroundColor = DEFAULT_CHIP_BACKGROUND_COLOR, activeChipTextColor = DEFAULT_ACTIVE_CHIP_TEXT_COLOR, chipTextColor = DEFAULT_CHIP_TEXT_COLOR, activeIconColor = DEFAULT_ACTIVE_ICON_COLOR, iconColor = DEFAULT_ICON_COLOR, isReadyOnly = false, customHitSlop = { bottom: 5, top: 5, left: 5, right: 5 }, }) {
+    const isEqual = (0, react_native_reanimated_1.useSharedValue)(value === activeValue);
+    const derivedIsEqual = (0, react_native_reanimated_1.useDerivedValue)(() => isEqual.value ? (0, react_native_reanimated_1.withTiming)(1) : (0, react_native_reanimated_1.withTiming)(0));
+    const isActive = value === activeValue;
     (0, react_1.useEffect)(() => {
-        isEqaul.value = value === activeValue;
-    }, [activeValue, isEqaul, value]);
+        isEqual.value = value === activeValue;
+    }, [activeValue, isEqual, value]);
     const animatedBackgroundColor = (0, react_native_reanimated_1.useAnimatedStyle)(() => {
-        const backgroundColor = (0, react_native_reanimated_1.interpolateColor)(derivedIsEqaul.value, [0, 1], [chipBackgroundColor, activeChipBackgroundColor]);
+        const backgroundColor = (0, react_native_reanimated_1.interpolateColor)(derivedIsEqual.value, [0, 1], [chipBackgroundColor, activeChipBackgroundColor]);
         return {
             backgroundColor,
         };
     });
     const animatedTextColor = (0, react_native_reanimated_1.useAnimatedStyle)(() => {
-        const color = (0, react_native_reanimated_1.interpolateColor)(derivedIsEqaul.value, [0, 1], [chipTextColor, activeChipTextColor]);
+        const color = (0, react_native_reanimated_1.interpolateColor)(derivedIsEqual.value, [0, 1], [chipTextColor, activeChipTextColor]);
         return {
             color,
         };
     });
+    const resolvedIconColor = isActive ? activeIconColor : iconColor;
+    const renderIcon = (icon) => {
+        if (!react_1.default.isValidElement(icon)) {
+            return icon;
+        }
+        return react_1.default.cloneElement(icon, {
+            fill: resolvedIconColor,
+            stroke: resolvedIconColor,
+            color: resolvedIconColor,
+        });
+    };
     return (<react_native_1.TouchableOpacity disabled={isReadyOnly} hitSlop={customHitSlop} onPress={() => {
-            onChipPress && onChipPress(value);
+            onChipPress === null || onChipPress === void 0 ? void 0 : onChipPress(value);
         }}>
       <react_native_reanimated_1.default.View style={[styles.chip, containerStyle, animatedBackgroundColor]}>
-        {startIcon}
+        {renderIcon(startIcon)}
         <react_native_reanimated_1.default.Text style={[styles.text, labelStyle, animatedTextColor]}>
           {value}
         </react_native_reanimated_1.default.Text>
-        {endIcon}
+        {renderIcon(endIcon)}
       </react_native_reanimated_1.default.View>
     </react_native_1.TouchableOpacity>);
 }
 const styles = react_native_1.StyleSheet.create({
-    chip: Object.assign({ backgroundColor: "#fff", paddingVertical: 8, paddingHorizontal: 12, borderRadius: 50, flexDirection: "row", alignItems: "center", alignSelf: "flex-start", gap: 4 }, react_native_1.Platform.select({
-        ios: {
-            shadowOffset: {
-                width: 0,
-                height: 2,
-            },
-            shadowOpacity: 0.05,
-            shadowRadius: 10,
-        },
-        android: {
-            elevation: 2,
-        },
-    })),
+    chip: {
+        backgroundColor: "#fff",
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        borderRadius: 50,
+        flexDirection: "row",
+        alignItems: "center",
+        alignSelf: "flex-start",
+        gap: 4,
+        borderWidth: 1,
+        borderColor: "rgba(0,0,0,.1)",
+    },
     text: {},
 });

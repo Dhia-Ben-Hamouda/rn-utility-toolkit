@@ -22,7 +22,7 @@ import Svg, { Path } from "react-native-svg";
 
 const DEFAULT_EXPANSION_DURATION = 400;
 const DEFAULT_ARROW_SIZE = 12;
-const DEFAULT_ARROW_COLOR = "#fff";
+const DEFAULT_ARROW_COLOR = "#000";
 const DEFAULT_ARROW_ROTATION_ANGLE = -180;
 
 function AngleDown({ size, color }: { size: number; color: string }) {
@@ -100,7 +100,7 @@ export default function Accordion({
   contentContainerStyle,
   onAccordionClosed,
   onAccordionOpened,
-  useOppositeArrowIcons = false,
+  useOppositeArrowIcons = true,
   closeArrowIcon,
   openArrowIcon,
 }: PropsWithChildren<IAccordion>) {
@@ -244,12 +244,14 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 8,
     overflow: "hidden",
+    borderWidth: 1,
+    borderColor: "rgba(0,0,0,0.1)",
   },
   title: {
-    color: "#fff",
+    color: "#000",
   },
   header: {
-    backgroundColor: "#333",
+    backgroundColor: "#fff",
     paddingHorizontal: 16,
     paddingVertical: 12,
     flexDirection: "row",

@@ -249,6 +249,36 @@ export default function App() {
 }
 ```
 
+- `Avatar`
+
+![Avatar Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/atoms/avatar.png)
+
+```tsx
+import React from "react";
+import { Avatar } from "rn-utility-toolkit";
+
+export default function App() {
+  return (
+    <Avatar
+      picture={require("./profile.jpg")}
+      name="Dhia Ben Hamouda"
+      backgroundColor="green"
+      textColor="white"
+      useGradients
+      gradientColors={["#333", "#000"]}
+      gradientStart={{ x: 0, y: 0 }}
+      gradientEnd={{ x: 1, y: 0 }}
+      size={42}
+      onPress={() => {}}
+      borderRadius={12}
+      textStyle={{
+        fontSize: 12,
+      }}
+    />
+  );
+}
+```
+
 ### 🔹 Molecules
 
 Groups of atoms combined together.
@@ -280,6 +310,8 @@ export default function App() {
       chipTextColor="#333"
       customHitSlop={25}
       isReadOnly={true}
+      iconColor="#fff"
+      activeIconColor="green"
     />
   );
 }

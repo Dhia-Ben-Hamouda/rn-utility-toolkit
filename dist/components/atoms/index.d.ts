@@ -7,3 +7,4 @@ export { default as IconButton } from "./IconButton";
 export { default as Skeleton } from "./Skeleton";
 export { default as Expandable } from "./Expandable";
 export { default as TextGroup } from "./TextGroup";
+export { default as Avatar } from "./Avatar";
