@@ -127,6 +127,11 @@ export interface AvatarProps {
   gradientEnd?: GradientCoordinate;
 }
 
+export interface ExpandableProps extends PropsWithChildren {
+  isOpen: SharedValue<number>;
+  contentContainerStyle?: StyleProp<ViewStyle>;
+}
+
 //? Molecules types / interfaces
 
 export interface ChipProps {

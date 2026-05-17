@@ -279,6 +279,38 @@ export default function App() {
 }
 ```
 
+- `Expandable`
+
+![Expandable Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/atoms/expandable.gif)
+
+```tsx
+import React from "react";
+import { View } from "react-native";
+import { Expandable, type ExpandableProps } from "rn-utility-toolkit";
+
+export default function App() {
+  const isOpen = useSharedValue(0);
+
+  return (
+    <View>
+      <Text
+        onPress={() => {
+          isOpen.value = withTiming(isOpen.value ? 0 : 1);
+        }}
+      >
+        toggle expandable section
+      </Text>
+      <Expandable isOpen={isOpen}>
+        <Text>nested content</Text>
+        <Text>nested content</Text>
+        <Text>nested content</Text>
+        <Text>nested content</Text>
+      </Expandable>
+    </View>
+  );
+}
+```
+
 ### 🔹 Molecules
 
 Groups of atoms combined together.

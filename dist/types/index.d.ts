@@ -107,6 +107,10 @@ export interface AvatarProps {
     gradientStart?: GradientCoordinate;
     gradientEnd?: GradientCoordinate;
 }
+export interface ExpandableProps extends PropsWithChildren {
+    isOpen: SharedValue<number>;
+    contentContainerStyle?: StyleProp<ViewStyle>;
+}
 export interface ChipProps {
     value: string;
     activeValue?: string;
