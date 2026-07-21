@@ -1,6 +1,6 @@
 {
   "name": "rn-utility-toolkit",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -16,6 +16,7 @@
     "react-native-reanimated": ">=3.0.0",
     "react-native-worklets": ">=0.5.0",
     "react-native-svg": ">=15.0.0",
+    "react-native-image-crop-picker": ">=0.51.1",
     "typescript": ">=5.0.0"
   },
   "devDependencies": {
@@ -23,6 +24,7 @@
     "@types/react": "^18.0.0",
     "react": "^18.0.0",
     "react-native": "^0.78.0",
+    "react-native-image-crop-picker": "^0.51.1",
     "react-native-gesture-handler": "^2.0.0",
     "react-native-linear-gradient": "^2.8.0",
     "react-native-reanimated": "^3.0.0",
