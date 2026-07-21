@@ -399,6 +399,8 @@ export default function App() {
 
 - `TextField`
 
+![Progress Bar Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/molecules/textfield.png)
+
 ```tsx
 import React, { useState } from "react";
 import { View, Text } from "react-native";

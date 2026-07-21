@@ -54,8 +54,8 @@ function formatAmountByCurrency(amount, currency, isCurrencyLeftPositioned) {
         maximumFractionDigits: 0,
     }).format(amount);
     return isCurrencyLeftPositioned
-        ? (_a = `${currency} ${formattedAmount}`) === null || _a === void 0 ? void 0 : _a.trim()
-        : (_b = `${formattedAmount} ${currency}`) === null || _b === void 0 ? void 0 : _b.trim();
+        ? (_a = `${currency || ""} ${formattedAmount}`) === null || _a === void 0 ? void 0 : _a.trim()
+        : (_b = `${formattedAmount} ${currency || ""}`) === null || _b === void 0 ? void 0 : _b.trim();
 }
 function degreestoRadians(degrees) {
     return (degrees * Math.PI) / 180;

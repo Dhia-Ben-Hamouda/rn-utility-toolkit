@@ -62,8 +62,8 @@ export function formatAmountByCurrency(
   }).format(amount);
 
   return isCurrencyLeftPositioned
-    ? `${currency} ${formattedAmount}`?.trim()
-    : `${formattedAmount} ${currency}`?.trim();
+    ? `${currency || ""} ${formattedAmount}`?.trim()
+    : `${formattedAmount} ${currency || ""}`?.trim();
 }
 
 function degreestoRadians(degrees: number): number {
