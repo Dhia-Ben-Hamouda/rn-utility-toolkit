@@ -1,5 +1,5 @@
 import { BottomSheetModalProps } from "@gorhom/bottom-sheet";
-import { PropsWithChildren, SetStateAction } from "react";
+import { PropsWithChildren, ReactNode, SetStateAction } from "react";
 import { DimensionValue, FlatListProps, ImageSourcePropType, ImageStyle, Insets, StyleProp, TextInputProps, TextStyle, ViewStyle } from "react-native";
 import { SharedValue, WithTimingConfig } from "react-native-reanimated";
 export interface ButtonProps {
@@ -299,6 +299,20 @@ export interface RatingProps {
     activeStarColor?: string;
     inactiveStarColor?: string;
     value: number;
+}
+export interface AvatarPickerValue {
+    uri: string;
+    filename?: string;
+    mime?: string;
+}
+export interface AvatarPickerProps {
+    value: AvatarPickerValue | null;
+    onChange?: (newValue: AvatarPickerValue) => void;
+    size?: number;
+    customAvatar?: ImageSourcePropType;
+    customEditIcon?: ReactNode;
+    avatarStyle?: ImageStyle;
+    editContainerStyle?: StyleProp<ViewStyle>;
 }
 export interface AccordionGroupItem extends Omit<AccordionProps, "isExpanded" | "onToggle"> {
     key?: string;

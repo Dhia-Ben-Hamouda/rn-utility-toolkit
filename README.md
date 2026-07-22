@@ -652,7 +652,7 @@ export default function App() {
 
 ```tsx
 import React, { useState } from "react";
-import { Rating } from "rn-utility-toolkit";
+import { Rating, type RatingProps } from "rn-utility-toolkit";
 
 export default function App() {
   const [rating, setRating] = useState(3);
@@ -713,11 +713,38 @@ export default function App() {
 }
 ```
 
-- `File Picker`
-
-coming soon
-
 - `Avatar Picker`
+
+![Avatar Picker Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/molecules/avatarpicker.gif)
+
+```tsx
+import React, { useState } from "react";
+import {
+  AvatarPicker,
+  type AvatarPickerProps,
+  type AvatarPickerValue,
+} from "rn-utility-toolkit";
+import defaultAvatar from "./assets";
+import EditIcon from "./assets";
+
+export default function App() {
+  const [avatar, setAvatar] = useState<AvatarPickerValue>(null);
+
+  return (
+    <AvatarPicker
+      value={avatar}
+      onChange={(newValue) => setAvatar(newValue)}
+      size={125}
+      customEditIcon={<EditIcon />}
+      customAvatar={defaultAvatar}
+      avatarStyle={{ borderRadius: 25 }}
+      editContainerStyle={{ backgroundColor: "green" }}
+    />
+  );
+}
+```
+
+- `File Picker`
 
 coming soon
 
@@ -749,7 +776,6 @@ export default function App() {
           <Text>Delivery within 3-5 business days.</Text>
         </View>
       ),
-      // Individual style overrides
       containerStyle: {
         borderLeftWidth: 3,
       },

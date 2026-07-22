@@ -1,14 +1,13 @@
 import React, { ReactNode } from "react";
 import { ImageSourcePropType, ImageStyle, StyleProp, ViewStyle } from "react-native";
-export type AvatarValue = ImageSourcePropType | null | undefined;
-interface ICropPickerValue {
-    filename: string;
+interface IAvatarPickerValue {
     uri: string;
-    mime: string;
+    filename?: string;
+    mime?: string;
 }
 interface IAvatarPicker {
-    value: AvatarValue;
-    onChange?: (newValue: ICropPickerValue) => void;
+    value: IAvatarPickerValue | null;
+    onChange?: (newValue: IAvatarPickerValue) => void;
     size?: number;
     customAvatar?: ImageSourcePropType;
     customEditIcon?: ReactNode;

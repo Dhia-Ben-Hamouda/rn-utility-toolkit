@@ -32,6 +32,15 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -48,12 +57,13 @@ const Pen = (props) => (<react_native_svg_1.default width={10} height={10} viewB
 const DEFAULT_AVATAR_SIZE = 125;
 function AvatarPicker({ customEditIcon = <Pen />, value, onChange = () => { }, size = DEFAULT_AVATAR_SIZE, customAvatar = avatar_png_1.default, avatarStyle, editContainerStyle, }) {
     const [currentValue, setCurrentValue] = (0, react_1.useState)(null);
-    const handleUpdate = () => {
-        react_native_image_crop_picker_1.default.openPicker({
-            width: 250,
-            height: 250,
-            cropping: true,
-        }).then((image) => {
+    const handleUpdate = () => __awaiter(this, void 0, void 0, function* () {
+        try {
+            const image = yield react_native_image_crop_picker_1.default.openPicker({
+                width: 250,
+                height: 250,
+                cropping: true,
+            });
             const newValue = {
                 filename: image === null || image === void 0 ? void 0 : image.filename,
                 mime: image === null || image === void 0 ? void 0 : image.mime,
@@ -61,8 +71,13 @@ function AvatarPicker({ customEditIcon = <Pen />, value, onChange = () => { }, s
             };
             setCurrentValue(newValue);
             onChange && onChange(newValue);
-        });
-    };
+        }
+        catch (error) {
+            if ((error === null || error === void 0 ? void 0 : error.code) === "E_PICKER_CANCELLED") {
+                return;
+            }
+        }
+    });
     return (<react_native_1.View style={[styles.container, { width: size, height: size }]}>
       {!currentValue && !value && (<react_native_1.Image resizeMode="cover" style={[
                 styles.avatarContainer,

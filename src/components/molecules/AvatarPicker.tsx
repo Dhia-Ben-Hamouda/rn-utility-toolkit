@@ -31,17 +31,15 @@ const Pen = (props: any) => (
 
 const DEFAULT_AVATAR_SIZE = 125;
 
-export type AvatarValue = ImageSourcePropType | null | undefined;
-
-interface ICropPickerValue {
-  filename: string;
+interface IAvatarPickerValue {
   uri: string;
-  mime: string;
+  filename?: string;
+  mime?: string;
 }
 
 interface IAvatarPicker {
-  value: AvatarValue;
-  onChange?: (newValue: ICropPickerValue) => void;
+  value: IAvatarPickerValue | null;
+  onChange?: (newValue: IAvatarPickerValue) => void;
   size?: number;
   customAvatar?: ImageSourcePropType;
   customEditIcon?: ReactNode;
@@ -58,16 +56,18 @@ export default function AvatarPicker({
   avatarStyle,
   editContainerStyle,
 }: IAvatarPicker) {
-  const [currentValue, setCurrentValue] = useState<ICropPickerValue | null>(
+  const [currentValue, setCurrentValue] = useState<IAvatarPickerValue | null>(
     null
   );
 
-  const handleUpdate = () => {
-    ImagePicker.openPicker({
-      width: 250,
-      height: 250,
-      cropping: true,
-    }).then((image) => {
+  const handleUpdate = async () => {
+    try {
+      const image = await ImagePicker.openPicker({
+        width: 250,
+        height: 250,
+        cropping: true,
+      });
+
       const newValue = {
         filename: image?.filename as string,
         mime: image?.mime,
@@ -76,7 +76,11 @@ export default function AvatarPicker({
 
       setCurrentValue(newValue);
       onChange && onChange(newValue);
-    });
+    } catch (error: any) {
+      if (error?.code === "E_PICKER_CANCELLED") {
+        return;
+      }
+    }
   };
 
   return (
