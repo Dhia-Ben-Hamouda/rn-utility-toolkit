@@ -29,8 +29,28 @@ function Check({ size = 20, color }: { size: number; color: string }) {
   );
 }
 
+function Minus({ size = 20, color }: { size: number; color: string }) {
+  const height = size * 0.18;
+
+  return (
+    <Svg width={size * 0.6} height={size * 0.6} viewBox="0 0 24 24">
+      <Path
+        fill={color}
+        d={`
+          M4 ${12 - height / 2}
+          H20
+          a${height / 2} ${height / 2} 0 0 1 0 ${height}
+          H4
+          a${height / 2} ${height / 2} 0 0 1 0 -${height}
+        `}
+      />
+    </Svg>
+  );
+}
+
 interface ICheckbox {
   isChecked: boolean;
+  isIndeterminate?: boolean;
   onChange: (value: boolean) => void;
   size?: number;
   label?: string;
@@ -44,6 +64,7 @@ interface ICheckbox {
 
 export default function Checkbox({
   isChecked,
+  isIndeterminate = false,
   onChange,
   size = 20,
   label,
@@ -58,8 +79,10 @@ export default function Checkbox({
   const animatedIsChecked = useSharedValue(0);
 
   useEffect(() => {
-    animatedIsChecked.value = withTiming(isChecked ? 1 : 0, { duration: 200 });
-  }, [isChecked]);
+    animatedIsChecked.value = withTiming(isChecked || isIndeterminate ? 1 : 0, {
+      duration: 200,
+    });
+  }, [isChecked, isIndeterminate]);
 
   const toggle = () => {
     scale.value = 1.2;
@@ -96,7 +119,12 @@ export default function Checkbox({
       <View style={[styles.container, containerStyle]}>
         <Animated.View style={[styles.checkbox, boxStyle, animatedStyle]}>
           <Animated.View style={iconStyle}>
-            {customCheckIcon ?? <Check color={checkColor} size={size} />}
+            {customCheckIcon ??
+              (isIndeterminate ? (
+                <Minus color={checkColor} size={size} />
+              ) : (
+                <Check color={checkColor} size={size} />
+              ))}
           </Animated.View>
         </Animated.View>
         {label && <Text style={[styles.label, labelStyle]}>{label}</Text>}

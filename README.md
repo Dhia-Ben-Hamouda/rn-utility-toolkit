@@ -13,9 +13,9 @@ yarn add rn-utility-toolkit
 Then install the required peer dependencies:
 
 ```bash
-npm install react-native-reanimated react-native-gesture-handler react-native-svg react-native-linear-gradient @react-native-masked-view/masked-view
+npm install react-native-reanimated react-native-gesture-handler react-native-svg react-native-linear-gradient react-native-image-crop-picker @react-native-masked-view/masked-view
 # or
-yarn add react-native-reanimated react-native-gesture-handler react-native-svg react-native-linear-gradient @react-native-masked-view/masked-view
+yarn add react-native-reanimated react-native-gesture-handler react-native-svg react-native-linear-gradient react-native-image-crop-picker @react-native-masked-view/masked-view
 ```
 
 ## 🚀 Components
@@ -88,6 +88,7 @@ export default function App() {
       containerStyle={{ marginBottom: 16 }}
       boxStyle={{ borderRadius: 6 }}
       labelStyle={{ fontSize: 18, color: "#333" }}
+      isIndeterminate={false}
     />
   );
 }
@@ -236,14 +237,21 @@ export default function App() {
 ```tsx
 import React from "react";
 import { View } from "react-native";
-import { TextGroup } from "rn-utility-toolkit";
+import { TextGroup, type TextGroupProps } from "rn-utility-toolkit";
 
 export default function App() {
   return (
     <View>
       <TextGroup title="Date of birth" description="12/05/2001" />
       <TextGroup title="Country" description="Tunisia" end />
-      <TextGroup title="Major" description="Architecture" horizontal />
+      <TextGroup
+        title="Major"
+        description="Architecture"
+        horizontal
+        containerStyle={{ padding: 4 }}
+        titleStyle={{ fontSize: 12 }}
+        descriptionStyle={{ fontSize: 10 }}
+      />
     </View>
   );
 }
@@ -255,7 +263,7 @@ export default function App() {
 
 ```tsx
 import React from "react";
-import { Avatar } from "rn-utility-toolkit";
+import { Avatar, type AvatarProps } from "rn-utility-toolkit";
 
 export default function App() {
   return (
@@ -354,7 +362,7 @@ export default function App() {
 ```tsx
 import React, { useState } from "react";
 import { Text } from "react-native";
-import { Modal } from "rn-utility-toolkit";
+import { Modal, type ModalProps } from "rn-utility-toolkit";
 
 export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -378,7 +386,7 @@ export default function App() {
 
 ```tsx
 import React, { useState } from "react";
-import { ProgressBar } from "rn-utility-toolkit";
+import { ProgressBar, type ProgressBarProps } from "rn-utility-toolkit";
 
 export default function App() {
   const [progress, setProgress] = useState(30);
@@ -399,7 +407,7 @@ export default function App() {
 
 - `TextField`
 
-![Progress Bar Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/molecules/textfield.png)
+![TextField Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/molecules/textfield.png)
 
 ```tsx
 import React, { useState } from "react";
@@ -439,6 +447,66 @@ export default function App() {
         isPasswordField={true}
         showPasswordIcon={<EyeIcon />}
         hidePasswordIcon={<EyeIcon />}
+      />
+    </View>
+  );
+}
+```
+
+- `CurrencyField`
+
+![CurrencyField Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/molecules/currencyfield.png)
+
+```tsx
+import React, { useState } from "react";
+import { View } from "react-native";
+import { CurrencyField, type CurrencyFieldProps } from "rn-utility-toolkit";
+import { DollarIcon } from "./icons";
+
+export default function App() {
+  const [amount, setAmount] = useState("");
+  const [salary, setSalary] = useState("3500");
+
+  return (
+    <View>
+      <CurrencyField
+        value={amount}
+        onChange={setAmount}
+        label="Amount"
+        labelStyle={{
+          fontSize: 14,
+          fontWeight: "600",
+          color: "#333",
+        }}
+        containerStyle={{
+          marginVertical: 10,
+        }}
+        inputContainerStyle={{
+          backgroundColor: "#fff",
+          borderRadius: 12,
+          borderWidth: 1,
+          borderColor: "#ddd",
+          paddingHorizontal: 16,
+          paddingVertical: 12,
+        }}
+        isRequired={true}
+        startIcon={<DollarIcon />}
+        currency="USD"
+        currencyStyle={{
+          color: "#666",
+          fontWeight: "600",
+        }}
+        placeholder="Enter amount"
+        isError={true}
+        errorMessage="Amount is required"
+      />
+
+      <CurrencyField
+        value={salary}
+        onChange={setSalary}
+        label="Monthly Salary"
+        currency="€"
+        placeholder="0.00"
       />
     </View>
   );
@@ -795,7 +863,7 @@ export default function App() {
   return (
     <AccordionGroup
       data={accordionData}
-      defaultOpenIndex={0} // First item open by default
+      defaultOpenIndex={0}
       allowMultiple={true} // Allow multiple items open at once
       containerStyle={styles.groupContainer}
       itemContainerStyle={styles.itemContainer}

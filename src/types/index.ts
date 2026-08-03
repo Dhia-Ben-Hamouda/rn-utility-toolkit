@@ -35,6 +35,7 @@ export interface ButtonProps {
 
 export interface CheckboxProps {
   isChecked: boolean;
+  isIndeterminate?: boolean;
   onChange: (value: boolean) => void;
   size?: number;
   label?: string;
@@ -176,6 +177,22 @@ export interface TextFieldProps
   label?: string;
   showPasswordIcon?: React.ReactNode;
   hidePasswordIcon?: React.ReactNode;
+}
+
+export interface CurrencyFieldProps
+  extends Omit<TextInputProps, "value" | "onChange"> {
+  value: string;
+  onChange: (newValue: string) => void;
+  labelStyle?: StyleProp<TextStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
+  inputContainerStyle?: StyleProp<ViewStyle>;
+  isRequired?: boolean;
+  startIcon?: React.ReactNode;
+  isError?: boolean;
+  errorMessage?: string;
+  label?: string;
+  currency?: string;
+  currencyStyle?: StyleProp<TextStyle>;
 }
 
 export interface ProgressBarProps {

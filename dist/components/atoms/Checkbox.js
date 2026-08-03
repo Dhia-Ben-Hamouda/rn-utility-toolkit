@@ -43,12 +43,26 @@ function Check({ size = 20, color }) {
       <react_native_svg_1.Path fill={color} d="M173.9 439.4l-166.4-166.4c-10-10-10-26.2 0-36.2l36.2-36.2c10-10 26.2-10 36.2 0L192 312.7 432.1 72.6c10-10 26.2-10 36.2 0l36.2 36.2c10 10 10 26.2 0 36.2l-294.4 294.4c-10 10-26.2 10-36.2 0z"/>
     </react_native_svg_1.default>);
 }
-function Checkbox({ isChecked, onChange, size = 20, label, color = "#333", checkColor = "#fff", customCheckIcon, containerStyle, boxStyle, labelStyle, }) {
+function Minus({ size = 20, color }) {
+    const height = size * 0.18;
+    return (<react_native_svg_1.default width={size * 0.6} height={size * 0.6} viewBox="0 0 24 24">
+      <react_native_svg_1.Path fill={color} d={`
+          M4 ${12 - height / 2}
+          H20
+          a${height / 2} ${height / 2} 0 0 1 0 ${height}
+          H4
+          a${height / 2} ${height / 2} 0 0 1 0 -${height}
+        `}/>
+    </react_native_svg_1.default>);
+}
+function Checkbox({ isChecked, isIndeterminate = false, onChange, size = 20, label, color = "#333", checkColor = "#fff", customCheckIcon, containerStyle, boxStyle, labelStyle, }) {
     const scale = (0, react_native_reanimated_1.useSharedValue)(1);
     const animatedIsChecked = (0, react_native_reanimated_1.useSharedValue)(0);
     (0, react_1.useEffect)(() => {
-        animatedIsChecked.value = (0, react_native_reanimated_1.withTiming)(isChecked ? 1 : 0, { duration: 200 });
-    }, [isChecked]);
+        animatedIsChecked.value = (0, react_native_reanimated_1.withTiming)(isChecked || isIndeterminate ? 1 : 0, {
+            duration: 200,
+        });
+    }, [isChecked, isIndeterminate]);
     const toggle = () => {
         scale.value = 1.2;
         scale.value = (0, react_native_reanimated_1.withSpring)(1, { damping: 40 });
@@ -74,7 +88,7 @@ function Checkbox({ isChecked, onChange, size = 20, label, color = "#333", check
       <react_native_1.View style={[styles.container, containerStyle]}>
         <react_native_reanimated_1.default.View style={[styles.checkbox, boxStyle, animatedStyle]}>
           <react_native_reanimated_1.default.View style={iconStyle}>
-            {customCheckIcon !== null && customCheckIcon !== void 0 ? customCheckIcon : <Check color={checkColor} size={size}/>}
+            {customCheckIcon !== null && customCheckIcon !== void 0 ? customCheckIcon : (isIndeterminate ? (<Minus color={checkColor} size={size}/>) : (<Check color={checkColor} size={size}/>))}
           </react_native_reanimated_1.default.View>
         </react_native_reanimated_1.default.View>
         {label && <react_native_1.Text style={[styles.label, labelStyle]}>{label}</react_native_1.Text>}
