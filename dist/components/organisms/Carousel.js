@@ -33,7 +33,6 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = Carousel;
 const react_1 = __importStar(require("react"));
 const react_native_1 = require("react-native");
 const react_native_reanimated_1 = __importStar(require("react-native-reanimated"));
@@ -64,8 +63,23 @@ function AnimatedDot({ index, offset, activeDotColor, dotColor, activeDotWidth, 
     });
     return <react_native_reanimated_1.default.View style={[styles.dot, dotStyle, animatedDotStyle]}/>;
 }
-function Carousel({ data = [], renderItem: customRenderItem, containerStyle, dotsContainerStyle, activeDotColor = DEFAULT_ACTIVE_DOT_COLOR, dotColor = DEFAULT_DOT_COLOR, activeDotWidth = DEFAULT_ACTIVE_DOT_WIDTH, dotWidth = DEFAULT_DOT_WIDTH, dotStyle, showDots = true, onChange, dotOffsetMultiplier = utils_1.SCREEN_WIDTH, dotsOnTop = false, }) {
+function CarouselComponent({ data = [], renderItem: customRenderItem, containerStyle, dotsContainerStyle, activeDotColor = DEFAULT_ACTIVE_DOT_COLOR, dotColor = DEFAULT_DOT_COLOR, activeDotWidth = DEFAULT_ACTIVE_DOT_WIDTH, dotWidth = DEFAULT_DOT_WIDTH, dotStyle, showDots = true, onChange, dotOffsetMultiplier = utils_1.SCREEN_WIDTH, dotsOnTop = false, }, ref) {
     const offset = (0, react_native_reanimated_1.useSharedValue)(0);
+    const listRef = (0, react_1.useRef)(null);
+    (0, react_1.useImperativeHandle)(ref, () => ({
+        goToNextSlide: (index) => {
+            var _a;
+            (_a = listRef.current) === null || _a === void 0 ? void 0 : _a.scrollToIndex({ index, animated: true });
+        },
+        goToPreviousSlide: (index) => {
+            var _a;
+            (_a = listRef.current) === null || _a === void 0 ? void 0 : _a.scrollToIndex({ index, animated: true });
+        },
+        skipSlides: (index) => {
+            var _a;
+            (_a = listRef.current) === null || _a === void 0 ? void 0 : _a.scrollToIndex({ index, animated: true });
+        },
+    }), [data.length, dotOffsetMultiplier, offset]);
     const viewabilitConfigCallbackPairsRef = (0, react_1.useRef)([
         {
             onViewableItemsChanged,
@@ -76,7 +90,9 @@ function Carousel({ data = [], renderItem: customRenderItem, containerStyle, dot
     ]);
     function onViewableItemsChanged({ viewableItems, }) {
         var _a, _b;
-        onChange && onChange((_b = (_a = viewableItems[0]) === null || _a === void 0 ? void 0 : _a.index) !== null && _b !== void 0 ? _b : 0);
+        if ((_a = viewableItems[0]) === null || _a === void 0 ? void 0 : _a.index) {
+            onChange && onChange((_b = viewableItems[0]) === null || _b === void 0 ? void 0 : _b.index);
+        }
     }
     const onScroll = (0, react_native_reanimated_1.useAnimatedScrollHandler)({
         onScroll: (event) => {
@@ -90,7 +106,7 @@ function Carousel({ data = [], renderItem: customRenderItem, containerStyle, dot
             containerStyle,
             dotsOnTop && { flexDirection: "column-reverse" },
         ]}>
-      <react_native_reanimated_1.default.FlatList onScroll={onScroll} showsHorizontalScrollIndicator={false} bounces={false} pagingEnabled horizontal data={data} renderItem={({ item, index }) => {
+      <react_native_reanimated_1.default.FlatList ref={listRef} onScroll={onScroll} showsHorizontalScrollIndicator={false} bounces={false} pagingEnabled horizontal data={data} renderItem={({ item, index }) => {
             return customRenderItem({
                 item,
                 index,
@@ -102,6 +118,8 @@ function Carousel({ data = [], renderItem: customRenderItem, containerStyle, dot
         </react_native_1.View>)}
     </react_native_1.View>);
 }
+const Carousel = react_1.default.forwardRef(CarouselComponent);
+exports.default = Carousel;
 const styles = react_native_1.StyleSheet.create({
     wrapper: {
         gap: 12,

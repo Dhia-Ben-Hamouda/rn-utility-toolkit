@@ -392,6 +392,12 @@ export interface AccordionGroupProps {
   allowMultiple?: boolean;
 }
 
+export interface CarouselRef {
+  goToNextSlide: (index: number) => void;
+  goToPreviousSlide: (index: number) => void;
+  skipSlides: (index: number) => void;
+}
+
 export interface CarouselProps<T> {
   data: Array<T>;
   renderItem: (payload: {

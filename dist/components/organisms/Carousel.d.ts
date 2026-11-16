@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleProp, ViewStyle } from "react-native";
 import { SharedValue } from "react-native-reanimated";
+import type { CarouselRef } from "../../types";
 interface ICarousel<T> {
     data: Array<T>;
     renderItem: (payload: {
@@ -20,5 +21,5 @@ interface ICarousel<T> {
     dotOffsetMultiplier?: number;
     dotsOnTop?: boolean;
 }
-export default function Carousel<T>({ data, renderItem: customRenderItem, containerStyle, dotsContainerStyle, activeDotColor, dotColor, activeDotWidth, dotWidth, dotStyle, showDots, onChange, dotOffsetMultiplier, dotsOnTop, }: ICarousel<T>): React.JSX.Element;
-export {};
+declare const Carousel: <T>(props: ICarousel<T> & React.RefAttributes<CarouselRef>) => React.ReactElement;
+export default Carousel;

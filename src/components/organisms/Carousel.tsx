@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { ForwardedRef, useImperativeHandle, useRef } from "react";
 import {
   StyleProp,
   StyleSheet,
@@ -17,6 +17,7 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import { SCREEN_WIDTH } from "../../utils";
+import type { CarouselRef } from "../../types";
 
 const DEFAULT_ACTIVE_DOT_COLOR = "#000";
 const DEFAULT_DOT_COLOR = "#ccc";
@@ -99,22 +100,42 @@ interface ICarousel<T> {
   dotsOnTop?: boolean;
 }
 
-export default function Carousel<T>({
-  data = [],
-  renderItem: customRenderItem,
-  containerStyle,
-  dotsContainerStyle,
-  activeDotColor = DEFAULT_ACTIVE_DOT_COLOR,
-  dotColor = DEFAULT_DOT_COLOR,
-  activeDotWidth = DEFAULT_ACTIVE_DOT_WIDTH,
-  dotWidth = DEFAULT_DOT_WIDTH,
-  dotStyle,
-  showDots = true,
-  onChange,
-  dotOffsetMultiplier = SCREEN_WIDTH,
-  dotsOnTop = false,
-}: ICarousel<T>) {
+function CarouselComponent<T>(
+  {
+    data = [],
+    renderItem: customRenderItem,
+    containerStyle,
+    dotsContainerStyle,
+    activeDotColor = DEFAULT_ACTIVE_DOT_COLOR,
+    dotColor = DEFAULT_DOT_COLOR,
+    activeDotWidth = DEFAULT_ACTIVE_DOT_WIDTH,
+    dotWidth = DEFAULT_DOT_WIDTH,
+    dotStyle,
+    showDots = true,
+    onChange,
+    dotOffsetMultiplier = SCREEN_WIDTH,
+    dotsOnTop = false,
+  }: ICarousel<T>,
+  ref: ForwardedRef<CarouselRef>
+) {
   const offset = useSharedValue(0);
+  const listRef = useRef<Animated.FlatList<T>>(null);
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      goToNextSlide: (index: number) => {
+        listRef.current?.scrollToIndex({ index, animated: true });
+      },
+      goToPreviousSlide: (index: number) => {
+        listRef.current?.scrollToIndex({ index, animated: true });
+      },
+      skipSlides: () => {
+        listRef.current?.scrollToEnd({ animated: true });
+      },
+    }),
+    [data.length, dotOffsetMultiplier, offset]
+  );
 
   const viewabilitConfigCallbackPairsRef =
     useRef<ViewabilityConfigCallbackPairs>([
@@ -131,7 +152,9 @@ export default function Carousel<T>({
   }: {
     viewableItems: Array<ViewToken>;
   }) {
-    onChange && onChange(viewableItems[0]?.index ?? 0);
+    if (viewableItems[0]?.index) {
+      onChange && onChange(viewableItems[0]?.index);
+    }
   }
 
   const onScroll = useAnimatedScrollHandler({
@@ -151,6 +174,7 @@ export default function Carousel<T>({
       ]}
     >
       <Animated.FlatList
+        ref={listRef}
         onScroll={onScroll}
         showsHorizontalScrollIndicator={false}
         bounces={false}
@@ -188,6 +212,12 @@ export default function Carousel<T>({
     </View>
   );
 }
+
+const Carousel = React.forwardRef(CarouselComponent) as <T>(
+  props: ICarousel<T> & React.RefAttributes<CarouselRef>
+) => React.ReactElement;
+
+export default Carousel;
 
 const styles = StyleSheet.create({
   wrapper: {

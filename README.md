@@ -880,7 +880,7 @@ export default function App() {
 ![Carousel Preview](https://github.com/Dhia-Ben-Hamouda/rn-utility-toolkit/blob/main/src/assets/organisms/carousel.gif)
 
 ```tsx
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Text, View } from "react-native";
 import { Carousel, SCREEN_WIDTH, type CarouselProps } from "rn-utility-toolkit";
 
@@ -892,31 +892,40 @@ const data = [
 
 export default function App() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const carouselRef = useRef<React.ElementRef<typeof Carousel>>(null);
 
   return (
-    <Carousel
-      data={data}
-      renderItem={({ item, index, offset }) => (
-        <View
-          style={
-            { backgroundColor: item.color, width: SCREEN_WIDTH - 32 },
-          }
-        >
-          <Text>{item.title}</Text>
-        </View>
-      )}
-      containerStyle={{ paddingHorizontal: 16 }}
-      dotsContainerStyle={{ marginVertical: 12 }}
-      dotStyle={{ borderRadius: 4 }}
-      showDots={true}
-      activeDotColor="#000"
-      dotColor="#ccc"
-      activeDotWidth={24}
-      dotWidth={12}
-      dotOffsetMultiplier={SCREEN_WIDTH}
-      onChange={(index) => setCurrentIndex(index)}
-      dotsOnTop={false}
-    />
+    <>
+      <View style={{ flexDirection: "row", gap: 12 }}>
+        <Text onPress={() => carouselRef.current?.goToPreviousSlide(Math.max(0, currentIndex - 1))}>Previous</Text>
+        <Text onPress={() => carouselRef.current?.goToNextSlide(Math.min(data.length - 1, currentIndex + 1))}>Next</Text>
+        <Text onPress={() => carouselRef.current?.skipSlides()}>End</Text>
+      </View>
+      <Carousel
+        ref={carouselRef}
+        data={data}
+        renderItem={({ item, index, offset }) => (
+          <View
+            style={
+              { backgroundColor: item.color, width: SCREEN_WIDTH - 32 }
+            }
+          >
+            <Text>{item.title}</Text>
+          </View>
+        )}
+        containerStyle={{ paddingHorizontal: 16 }}
+        dotsContainerStyle={{ marginVertical: 12 }}
+        dotStyle={{ borderRadius: 4 }}
+        showDots={true}
+        activeDotColor="#000"
+        dotColor="#ccc"
+        activeDotWidth={24}
+        dotWidth={12}
+        dotOffsetMultiplier={SCREEN_WIDTH}
+        onChange={(index) => setCurrentIndex(index)}
+        dotsOnTop={false}
+      />
+    </>
   );
 }
 ```
