@@ -75,9 +75,9 @@ function CarouselComponent({ data = [], renderItem: customRenderItem, containerS
             var _a;
             (_a = listRef.current) === null || _a === void 0 ? void 0 : _a.scrollToIndex({ index, animated: true });
         },
-        skipSlides: (index) => {
+        skipSlides: () => {
             var _a;
-            (_a = listRef.current) === null || _a === void 0 ? void 0 : _a.scrollToIndex({ index, animated: true });
+            (_a = listRef.current) === null || _a === void 0 ? void 0 : _a.scrollToEnd({ animated: true });
         },
     }), [data.length, dotOffsetMultiplier, offset]);
     const viewabilitConfigCallbackPairsRef = (0, react_1.useRef)([
