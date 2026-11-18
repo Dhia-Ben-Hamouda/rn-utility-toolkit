@@ -152,7 +152,10 @@ function CarouselComponent<T>(
   }: {
     viewableItems: Array<ViewToken>;
   }) {
-    if (viewableItems[0]?.index) {
+    if (
+      viewableItems[0]?.index !== null &&
+      viewableItems[0]?.index !== undefined
+    ) {
       onChange && onChange(viewableItems[0]?.index);
     }
   }

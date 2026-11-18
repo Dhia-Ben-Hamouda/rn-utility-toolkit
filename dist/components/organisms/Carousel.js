@@ -89,9 +89,10 @@ function CarouselComponent({ data = [], renderItem: customRenderItem, containerS
         },
     ]);
     function onViewableItemsChanged({ viewableItems, }) {
-        var _a, _b;
-        if ((_a = viewableItems[0]) === null || _a === void 0 ? void 0 : _a.index) {
-            onChange && onChange((_b = viewableItems[0]) === null || _b === void 0 ? void 0 : _b.index);
+        var _a, _b, _c;
+        if (((_a = viewableItems[0]) === null || _a === void 0 ? void 0 : _a.index) !== null &&
+            ((_b = viewableItems[0]) === null || _b === void 0 ? void 0 : _b.index) !== undefined) {
+            onChange && onChange((_c = viewableItems[0]) === null || _c === void 0 ? void 0 : _c.index);
         }
     }
     const onScroll = (0, react_native_reanimated_1.useAnimatedScrollHandler)({
